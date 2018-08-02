@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="flexgrow"></div>
+  <div>Entra con il tuo account e gioca</div>
+  <div class="box">
+    <form (ngSubmit)="onSubmit()">
+      <input id="username" placeholder="username" required [(ngModel)]="model.id" name="id" />
+      <input id="password" placeholder="password" type="password" required [(ngModel)]="model.password" name="password" />
+      <button type="submit" class="button">Entra</button>
+    </form>
+  </div>
+  <div class="flexgrow"></div>
+</div>
+
+<div class="footer-container">
+  Copyright 2018 SeaDuels
+  <br />All rights reserved
+</div>

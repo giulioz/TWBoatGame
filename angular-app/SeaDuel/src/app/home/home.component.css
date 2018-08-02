@@ -1,22 +1,32 @@
+a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
 /* Splash */
 
-.home-splash-container {
+.splash-container {
     background-color: #2C356C;
     color: #FFFFFF;
     text-align: center;
     padding-bottom: 10vh;
 }
 
-.home-splash-container .material-icons {
+.splash-container .material-icons {
     font-size: 17pt;
 }
 
-.home-splash-container .top-bar .centering {
-    padding-right: 8px;
+.splash-container .top-bar .centering {
     height: 1em;
+    display: flex;
+    align-items: center;
 }
 
-.home-splash-container .top-bar {
+.splash-container .top-bar .centering span {
+    padding-left: 8px;
+}
+
+.splash-container .top-bar {
     text-align: right;
     padding-top: 5vh;
     padding-bottom: 13vh;
@@ -26,11 +36,11 @@
     align-items: center;
 }
 
-.home-splash-container .top-bar .spacer {
+.splash-container .top-bar .spacer {
     flex-grow: 1;
 }
 
-.home-splash-container .logo {
+.splash-container .logo {
     background-color: #FFFFFF;
     width: 25vw;
     height: 28vh;
@@ -38,19 +48,19 @@
     margin-bottom: 2vh;
 }
 
-.home-splash-container .title {
+.splash-container .title {
     font-size: 80pt;
     margin-top: 0;
     margin-bottom: 2vh;
 }
 
-.home-splash-container .subtitle {
+.splash-container .subtitle {
     font-size: 28pt;
     margin-top: 0;
     margin-bottom: 4vh;
 }
 
-.home-splash-container .button {
+.splash-container .button {
     font-size: 25pt;
     padding-left: 40px;
     padding-right: 40px;
@@ -61,7 +71,7 @@
 
 /* Description */
 
-.home-description-container {
+.description-container {
     background-color: #245686;
     color: #FFFFFF;
     text-align: center;
@@ -72,7 +82,7 @@
     font-size: 20pt;
 }
 
-.home-description-container .text {
+.description-container .text {
     max-width: 800px;
     margin: auto;
     padding-bottom: 1vh;
@@ -80,14 +90,14 @@
     padding-right: 2vw;
 }
 
-.home-description-container .title {
+.description-container .title {
     font-size: 40pt;
     padding-bottom: 2vh;
 }
 
 /* Carousel */
 
-.home-carousel-container {
+.carousel-container {
     background-color: #193696;
     color: #FFFFFF;
     text-align: center;
@@ -97,19 +107,19 @@
     padding-right: 20vw;
 }
 
-.home-carousel-container .title {
+.carousel-container .title {
     font-size: 33pt;
     padding-bottom: 5vh;
 }
 
-.home-carousel-container .carousel {
+.carousel-container .carousel {
     background-color: #FFFFFF;
     height: 44vh;
 }
 
 /* Register */
 
-.home-register-container {
+.register-container {
     background-color: #2C356C;
     color: #FFFFFF;
     text-align: center;
@@ -120,63 +130,14 @@
     font-size: 20pt;
 }
 
-.home-register-container .title {
+.register-container .title {
     font-size: 33pt;
     padding-bottom: 5vh;
 }
 
-.home-register-container .box {
-    background-color: #8086A7;
-    border-radius: 10px;
-    max-width: 440px;
-    width: 100%;
-    margin: auto;
-    padding-left: 22px;
-    padding-right: 22px;
-    padding-top: 22px;
-    padding-bottom: 22px;
-    margin-bottom: 22px;
-}
-
-.home-register-container input {
-    border: 1px solid #A6AAC4;
-    border-radius: 3px;
-    height: 32px;
-    width: 100%;
-    max-width: 300px;
-    margin: auto;
-    display: block;
-    margin-bottom: 22px;
-}
-
-.home-register-container input::placeholder {
-    color: #9599B5;
-    font-style: italic;
-    padding-left: 10px;
-    font-size: 11pt;
-}
-
-.home-register-container .button {
-    font-size: 13pt;
-    padding-left: 50px;
-    padding-right: 50px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-
-.home-register-container .disclamier {
-    margin-top: 2vh;
-    margin-bottom: 2vh;
-    font-size: 9pt;
-}
-
-.home-register-container a {
-    color: #FFFFFF;
-}
-
 /* Footer */
 
-.home-footer-container {
+.footer-container {
     background-color: #FFFFFF;
     text-align: center;
     padding-top: 5vh;

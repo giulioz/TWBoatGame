@@ -1,0 +1,10 @@
+<form (ngSubmit)="onSubmit()">
+  <div class="box">
+    <input id="username" placeholder="username" required [(ngModel)]="model.id" name="id" />
+    <input id="password" placeholder="password" type="password" required [(ngModel)]="model.password" name="password" />
+    <input id="email" placeholder="email" type="email" required [(ngModel)]="model.email" name="email" />
+    <button type="submit" class="button" >Registrati</button>
+    <div class="disclamier">Registrandoti accetti i
+      <a href="#">termini e le condizioni di servizio</a>.</div>
+  </div>
+</form>

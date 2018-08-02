@@ -1,10 +1,9 @@
-<div class="home-splash-container">
+<div class="splash-container">
   <div class="top-bar">
     <div class="spacer"></div>
-    <a class="centering">
-      <i class="material-icons">exit_to_app</i>
+    <a class="centering" routerLink="/login">
+      <i class="material-icons">exit_to_app</i><span>Accedi...</span>
     </a>
-    <a> Accedi...</a>
   </div>
 
   <div class="logo"></div>
@@ -14,31 +13,25 @@
   <a class="button" href="#" [ngx-scroll-to]="'register'" [ngx-scroll-to-duration]="2000" [ngx-scroll-to-easing]="'easeInOutQuint'">Registrati ora</a>
 </div>
 
-<div class="home-description-container">
+<div class="description-container">
   <div class="title">Emozionanti battaglie navali</div>
   <div class="text">Intense e divertenti battaglie ti aspettano su SeaDuel, il miglior simulatore di battaglie navali online.
     <br />Fatti catturare dall’azione e dalla sua grafica mozzafiato.</div>
     <div class="text">Gioca subito a SeaDuel! È gratis!</div>
 </div>
 
-<div class="home-carousel-container">
+<div class="carousel-container">
   <div class="title">Un’ampia flotta a tua disposizione</div>
   <div class="carousel"></div>
 </div>
 
-<div id="register" class="home-register-container">
+<div id="register" class="register-container">
   <div>Che cosa aspetti?</div>
   <div class="title">Registrati subito e gioca!</div>
-  <div class="box">
-    <input id="username" placeholder="username" />
-    <input id="password" placeholder="password" type="password" />
-    <input id="email" placeholder="email" type="email" />
-    <a class="button" href="#" routerLink="ingame">Registrati</a>
-    <div class="disclamier">Registrandoti accetti i <a href="#">termini e le condizioni di servizio</a>.</div>
-  </div>
+  <app-register-form></app-register-form>
 </div>
 
-<div class="home-footer-container">
+<div class="footer-container">
     Copyright 2018 SeaDuels
     <br />All rights reserved
 </div>
