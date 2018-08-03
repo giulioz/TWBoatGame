@@ -14,6 +14,8 @@ import { LoginComponent } from './login/login.component';
 import { AuthService } from "./services/auth.service";
 import { RegistrationService } from "./services/registration.service";
 import { FooterComponent } from './footer/footer.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { SidebarTabComponent } from './sidebar-tab/sidebar-tab.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { FooterComponent } from './footer/footer.component';
     IngameComponent,
     RegisterFormComponent,
     LoginComponent,
-    FooterComponent
+    FooterComponent,
+    SidebarComponent,
+    SidebarTabComponent
   ],
   imports: [BrowserModule, AppRoutingModule, ScrollToModule.forRoot(), FormsModule],
   providers: [AuthService, RegistrationService],

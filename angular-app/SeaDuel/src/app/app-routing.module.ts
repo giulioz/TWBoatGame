@@ -16,7 +16,7 @@ const routes: Routes = [
   {
     path: 'ingame',
     component: IngameComponent
-  }
+  },
 ];
 
 @NgModule({

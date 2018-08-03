@@ -64,3 +64,9 @@ input::placeholder {
   padding-top: 5px;
   padding-bottom: 5px;
 }
+
+.column {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}

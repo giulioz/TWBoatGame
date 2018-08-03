@@ -1,0 +1,14 @@
+<div class="root">
+  <div class="header" (click)="onSelect()">
+    <div class="material-icons icon">
+      {{icon}}
+    </div>
+    <div class="text">{{text}}</div>
+    <div class="material-icons chevron">
+      {{open ? "keyboard_arrow_up" : "keyboard_arrow_down"}}
+    </div>
+  </div>
+  <div *ngIf="open">
+    <ng-content></ng-content>
+  </div>
+</div>
