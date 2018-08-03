@@ -1,8 +1,8 @@
 <form (ngSubmit)="onSubmit()">
   <div class="box">
-    <input id="username" placeholder="username" required [(ngModel)]="model.id" name="id" />
-    <input id="password" placeholder="password" type="password" required [(ngModel)]="model.password" name="password" />
-    <input id="email" placeholder="email" type="email" required [(ngModel)]="model.email" name="email" />
+    <div class="row"><input id="username" placeholder="username" required [(ngModel)]="model.id" name="id" /></div>
+    <div class="row"><input id="password" placeholder="password" type="password" required [(ngModel)]="model.password" name="password" /></div>
+    <div class="row"><input id="email" placeholder="email" type="email" required [(ngModel)]="model.email" name="email" /></div>
     <button type="submit" class="button" >Registrati</button>
     <div class="disclamier">Registrandoti accetti i
       <a href="#">termini e le condizioni di servizio</a>.</div>

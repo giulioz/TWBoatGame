@@ -125,9 +125,14 @@ a {
     text-align: center;
     padding-top: 8vh;
     padding-bottom: 8vh;
-    padding-left: 20vw;
-    padding-right: 20vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
     font-size: 20pt;
+    display: flex;
+}
+
+.flexgrow {
+    flex-grow: 1;
 }
 
 .register-container .title {
