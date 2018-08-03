@@ -1,5 +1,5 @@
 {
-	public: {
+	public_info: {
 		username: 'giulioz',
 		user_permission: 'admin'/'mod'/'user',
 		won: 12,
@@ -9,7 +9,7 @@
 		friends: ['dio', 'porco', 'cane'] # hidden
 	},
 
-	private: {
+	login_info: {
 		password_hash: d41d8cd98f00b204e9800998ecf8427e,
 		email: 'giulioz@mail.com'
 	}
