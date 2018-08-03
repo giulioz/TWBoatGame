@@ -1,42 +1,41 @@
-<div class="splash-container">
-  <div class="top-bar">
-    <div class="spacer"></div>
-    <a class="centering" routerLink="/login">
-      <i class="material-icons">exit_to_app</i>
-      <span>Accedi...</span>
-    </a>
+<div class="column">
+  <div class="splash-container">
+    <div class="top-bar">
+      <div class="spacer"></div>
+      <a class="centering" routerLink="/login">
+        <i class="material-icons">exit_to_app</i>
+        <span>Accedi...</span>
+      </a>
+    </div>
+
+    <div class="logo"></div>
+    <p class="title">SeaDuel</p>
+    <p class="subtitle">Sfida i tuoi amici in battaglie navali, diventa un campione!
+      <br />Unisciti ora per giocare, è gratis!</p>
+    <a class="button" href="#" [ngx-scroll-to]="'register'" [ngx-scroll-to-duration]="2000" [ngx-scroll-to-easing]="'easeInOutQuint'">Registrati ora</a>
   </div>
 
-  <div class="logo"></div>
-  <p class="title">SeaDuel</p>
-  <p class="subtitle">Sfida i tuoi amici in battaglie navali, diventa un campione!
-    <br />Unisciti ora per giocare, è gratis!</p>
-  <a class="button" href="#" [ngx-scroll-to]="'register'" [ngx-scroll-to-duration]="2000" [ngx-scroll-to-easing]="'easeInOutQuint'">Registrati ora</a>
-</div>
-
-<div class="description-container">
-  <div class="title">Emozionanti battaglie navali</div>
-  <div class="text">Intense e divertenti battaglie ti aspettano su SeaDuel, il miglior simulatore di battaglie navali online.
-    <br />Fatti catturare dall’azione e dalla sua grafica mozzafiato.</div>
-  <div class="text">Gioca subito a SeaDuel! È gratis!</div>
-</div>
-
-<div class="carousel-container">
-  <div class="title">Un’ampia flotta a tua disposizione</div>
-  <div class="carousel"></div>
-</div>
-
-<div id="register" class="register-container">
-  <div class="flexgrow"></div>
-  <div>
-    <div>Che cosa aspetti?</div>
-    <div class="title">Registrati subito e gioca!</div>
-    <app-register-form></app-register-form>
+  <div class="description-container">
+    <div class="title">Emozionanti battaglie navali</div>
+    <div class="text">Intense e divertenti battaglie ti aspettano su SeaDuel, il miglior simulatore di battaglie navali online.
+      <br />Fatti catturare dall’azione e dalla sua grafica mozzafiato.</div>
+    <div class="text">Gioca subito a SeaDuel! È gratis!</div>
   </div>
-  <div class="flexgrow"></div>
-</div>
 
-<div class="footer-container">
-  Copyright 2018 SeaDuels
-  <br />All rights reserved
+  <div class="carousel-container">
+    <div class="title">Un’ampia flotta a tua disposizione</div>
+    <div class="carousel"></div>
+  </div>
+
+  <div id="register" class="register-container">
+    <div class="flexgrow"></div>
+    <div>
+      <div>Che cosa aspetti?</div>
+      <div class="title">Registrati subito e gioca!</div>
+      <app-register-form></app-register-form>
+    </div>
+    <div class="flexgrow"></div>
+  </div>
+
+  <app-footer></app-footer>
 </div>

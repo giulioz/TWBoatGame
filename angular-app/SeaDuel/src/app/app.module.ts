@@ -13,6 +13,7 @@ import { LoginComponent } from './login/login.component';
 
 import { AuthService } from "./services/auth.service";
 import { RegistrationService } from "./services/registration.service";
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { RegistrationService } from "./services/registration.service";
     HomeComponent,
     IngameComponent,
     RegisterFormComponent,
-    LoginComponent
+    LoginComponent,
+    FooterComponent
   ],
   imports: [BrowserModule, AppRoutingModule, ScrollToModule.forRoot(), FormsModule],
   providers: [AuthService, RegistrationService],

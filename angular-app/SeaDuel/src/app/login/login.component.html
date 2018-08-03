@@ -1,21 +1,24 @@
-<div class="container">
-  <div class="flexgrow"></div>
-  <div class="title">Entra con il tuo account e gioca</div>
-  <div class="container-row">
+<div class="column">
+  <div class="container">
     <div class="flexgrow"></div>
-    <div class="box flexgrow">
-      <form (ngSubmit)="onSubmit()">
-        <div class="row"><input id="username" placeholder="username" required [(ngModel)]="model.id" name="id" /></div>
-        <div class="row"><input id="password" placeholder="password" type="password" required [(ngModel)]="model.password" name="password" /></div>
-        <button type="submit" class="button">Entra</button>
-      </form>
+    <div class="title">Entra con il tuo account e gioca</div>
+    <div class="container-row">
+      <div class="flexgrow"></div>
+      <div class="box flexgrow">
+        <form (ngSubmit)="onSubmit()">
+          <div class="row">
+            <input id="username" placeholder="username" required [(ngModel)]="model.id" name="id" />
+          </div>
+          <div class="row">
+            <input id="password" placeholder="password" type="password" required [(ngModel)]="model.password" name="password" />
+          </div>
+          <button type="submit" class="button">Entra</button>
+        </form>
+      </div>
+      <div class="flexgrow"></div>
     </div>
     <div class="flexgrow"></div>
   </div>
-  <div class="flexgrow"></div>
-</div>
 
-<div class="footer-container">
-  Copyright 2018 SeaDuels
-  <br />All rights reserved
+  <app-footer></app-footer>
 </div>

@@ -139,12 +139,3 @@ a {
     font-size: 33pt;
     padding-bottom: 5vh;
 }
-
-/* Footer */
-
-.footer-container {
-    background-color: #FFFFFF;
-    text-align: center;
-    padding-top: 5vh;
-    padding-bottom: 6vh;
-}
