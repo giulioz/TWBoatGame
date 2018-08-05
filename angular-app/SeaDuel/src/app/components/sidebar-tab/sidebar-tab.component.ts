@@ -18,7 +18,5 @@ export class SidebarTabComponent implements OnInit {
     this.select.emit();
   }
 
-  ngOnInit() {
-    console.log(this);
-  }
+  ngOnInit() {}
 }

@@ -47,7 +47,7 @@
 
 .body-container {
   display: flex;
-  background: #A6AAC4;
+  background: rgb(105, 112, 155);
   color: #2c356c;
   flex-grow: 1;
   margin-left: 32px;

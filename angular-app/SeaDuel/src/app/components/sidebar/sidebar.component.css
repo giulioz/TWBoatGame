@@ -1,6 +1,6 @@
 .container {
-    width: 288px;
-    border-left: 3px solid #BEC0CE;
+    width: 256px;
+    border-left: 3px solid rgb(133, 138, 175);
     display: flex;
     flex-direction: column;
     padding: 32px;

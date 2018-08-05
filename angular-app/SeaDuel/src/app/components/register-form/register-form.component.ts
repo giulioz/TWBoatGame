@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 
-import { User } from "../models/user";
+import { User, UserState, UserType } from "../../models/user";
 
 @Component({
   selector: "app-register-form",
@@ -8,7 +8,7 @@ import { User } from "../models/user";
   styleUrls: ["./register-form.component.css"]
 })
 export class RegisterFormComponent implements OnInit {
-  model = new User("", "", "", "user");
+  model = new User("", "", "");
 
   onSubmit() {
     console.log(this.model);

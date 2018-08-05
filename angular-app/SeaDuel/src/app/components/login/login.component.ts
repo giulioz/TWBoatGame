@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { User } from "../models/user";
+import { User, UserState, UserType } from "../../models/user";
 
 @Component({
   selector: 'app-login',
@@ -9,7 +9,7 @@ import { User } from "../models/user";
 })
 export class LoginComponent implements OnInit {
 
-  model = new User("", "", "", "user");
+  model = new User("", "", "");
 
   onSubmit() {
     console.log(this.model);

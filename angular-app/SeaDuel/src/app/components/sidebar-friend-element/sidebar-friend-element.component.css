@@ -1,0 +1,24 @@
+.root {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.icon {
+  font-size: 26px;
+  margin-left: 8px;
+  margin-right: 10px;
+}
+
+.badge {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  position: relative;
+  left: -20px;
+  bottom: -8px;
+}
+
+.username {
+  font-size: 20px;
+}

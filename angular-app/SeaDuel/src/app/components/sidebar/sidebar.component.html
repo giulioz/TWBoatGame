@@ -1,0 +1,12 @@
+<div class="container">
+  <app-sidebar-tab text="Partite" icon="explore" (select)="openGames()" #gamesTab>
+    Test
+  </app-sidebar-tab>
+  <app-sidebar-tab text="Amici" icon="people" (select)="openFriends()" #friendsTab>
+    <app-sidebar-friend-search></app-sidebar-friend-search>
+    <app-sidebar-friend-element *ngFor="let friend of friends" [user]="friend"></app-sidebar-friend-element>
+  </app-sidebar-tab>
+  <app-sidebar-tab text="Classifica" icon="timeline" (select)="openScore()" #scoreTab>
+    Test
+  </app-sidebar-tab>
+</div>
