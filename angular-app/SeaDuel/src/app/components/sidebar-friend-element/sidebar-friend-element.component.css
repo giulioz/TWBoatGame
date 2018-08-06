@@ -1,7 +1,21 @@
-.root {
+.outer {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-left: -32px;
+  margin-right: -32px;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+.outer:hover {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background: rgba(128, 133, 168, 0.7);
+}
+
+.inner {
   display: flex;
   align-items: center;
-  margin-top: 10px;
 }
 
 .icon {
@@ -21,4 +35,24 @@
 
 .username {
   font-size: 20px;
+  flex-grow: 1;
+}
+
+.unread {
+  width: 14px;
+  height: 14px;
+  border-radius: 7px;
+  background: #00B1FF;
+  margin-right: 16px;
+}
+
+.selected {
+  background: #ffffff;
+  color: rgb(105, 112, 155);
+}
+
+.selected:hover {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background: #ffffff;
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, Input } from "@angular/core";
+import { Router } from "@angular/router";
 
-import { User } from "../../models/user";
+import { UserStore } from "../../state/user-store";
 
 @Component({
   selector: "app-sidebar",
@@ -12,7 +13,9 @@ export class SidebarComponent implements OnInit {
   @ViewChild("friendsTab") friendsTab;
   @ViewChild("scoreTab") scoreTab;
 
-  @Input() friends: User[];
+  @Input() selectedUser: string;
+
+  constructor(private router: Router, private userStore: UserStore) {}
 
   // ************************************
   //  Collapse
@@ -35,5 +38,17 @@ export class SidebarComponent implements OnInit {
     this.gamesTab.open = false;
   };
 
-  ngOnInit() {}
+  // ************************************
+  //  Friend bar
+
+  selectFriend = (friendId: string) => {
+    this.router.navigate(["/user/" + friendId]);
+  };
+
+  // ************************************
+  //  Init
+
+  ngOnInit() {
+    this.gamesTab.open = true;
+  }
 }

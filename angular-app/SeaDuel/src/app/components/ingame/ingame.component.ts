@@ -1,7 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { DateTime } from "luxon";
-
-import { User, UserType, UserState } from "../../models/user";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-ingame",
@@ -9,50 +7,13 @@ import { User, UserType, UserState } from "../../models/user";
   styleUrls: ["./ingame.component.css"]
 })
 export class IngameComponent implements OnInit {
-  testUsers: User[] = [
-    new User(
-      "giulioz",
-      "",
-      "",
-      UserType.User,
-      UserState.Online,
-      [],
-      [],
-      [],
-      12,
-      3,
-      15,
-      DateTime.local()
-    ),
-    new User(
-      "AlessioMarotta",
-      "",
-      "",
-      UserType.User,
-      UserState.Offline,
-      [],
-      [],
-      [],
-      12,
-      3,
-      15,
-      DateTime.local()
-    ),
-    new User(
-      "Sunnix",
-      "",
-      "",
-      UserType.User,
-      UserState.Playing,
-      [],
-      [],
-      [],
-      12,
-      3,
-      15,
-      DateTime.local()
-    )
-  ];
+  selectedUser: string;
+
+  constructor(private router: Router, private route: ActivatedRoute) {
+    this.route.params.subscribe(params => {
+      this.selectedUser = params.id;
+    });
+  }
 
   ngOnInit() {}
 }
