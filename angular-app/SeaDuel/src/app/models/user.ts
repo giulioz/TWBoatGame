@@ -21,13 +21,22 @@ export class User {
     public email: string,
     public password: string,
     public role: UserType = UserType.User,
+    public registrationDate: DateTime = null,
     public state: UserState = UserState.None,
-    public friends: User[] = [],
-    public conversation: Message[] = [],
-    public games: Game[] = [],
+    public friends: string[] = [],
+
+    // Chat
+    public conversation: string[] = [],
+    public hasUnreadMessages: boolean = false,
+
+    // Games
+    public games: string[] = [],
+    public hasUnreadGames: boolean = false,
+
+    // Stats
     public wonGames: number = 0,
     public lostGames: number = 0,
     public playedGames: number = 0,
-    public registrationDate: DateTime = null
+    public position: number = 0
   ) {}
 }

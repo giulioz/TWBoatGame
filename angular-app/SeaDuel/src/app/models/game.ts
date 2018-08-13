@@ -11,6 +11,7 @@ export enum GameState {
 
 export class Game {
   constructor(
+    public gameId: string,
     public initiatorId: string,
     public opponentId: string,
     public state: GameState,

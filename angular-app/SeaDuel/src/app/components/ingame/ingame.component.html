@@ -18,14 +18,14 @@
         <div class="body-container">
             <div class="main">
                 <div class="column spacer">
-                    <app-account-header></app-account-header>
-                    <app-chat></app-chat>
+                    <app-account-header [user]="selectedUser"></app-account-header>
+                    <app-chat class="spacer"></app-chat>
                 </div>
                 <div class="column">
-                    <app-game-area></app-game-area>
+                    <app-game-area class="spacer"></app-game-area>
                 </div>
             </div>
-            <app-sidebar class="sidebar" [selectedUser]="selectedUser"></app-sidebar>
+            <app-sidebar class="sidebar" [selectedUser]="selectedUserId"></app-sidebar>
         </div>
     </div>
 </div>

@@ -1,0 +1,6 @@
+.root {
+  background: #ffffff;
+  margin-left: 10px;
+  margin-top: 10px;
+  flex-grow: 1;
+}

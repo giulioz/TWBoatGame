@@ -19,63 +19,82 @@ export class UserStore {
   }
 
   loadInitialData() {
-    this._currentUser.next(
-      new User(
-        "giulioz",
-        "mail.zausa.giulio@gmail.com",
-        "",
-        UserType.User,
-        UserState.Online,
-        [
-          new User(
-            "testUser",
-            "",
-            "",
-            UserType.User,
-            UserState.Online,
-            [],
-            [new Message("testUser", "giulioz", "Hey Ciao!", DateTime.local(), false)],
-            [],
-            12,
-            3,
-            15,
-            DateTime.local()
-          ),
-          new User(
-            "AlessioMarotta",
-            "",
-            "",
-            UserType.User,
-            UserState.Offline,
-            [],
-            [],
-            [],
-            12,
-            3,
-            15,
-            DateTime.local()
-          ),
-          new User(
-            "Sunnix",
-            "",
-            "",
-            UserType.User,
-            UserState.Playing,
-            [],
-            [],
-            [],
-            12,
-            3,
-            15,
-            DateTime.local()
-          )
-        ],
-        [],
-        [],
-        13,
-        0,
-        13
-      )
-    );
+    // this._currentUser.next(
+    //   new User(
+    //     "giulioz",
+    //     "mail.zausa.giulio@gmail.com",
+    //     "",
+    //     UserType.User,
+    //     DateTime.local(),
+    //     UserState.Online,
+    //     [
+    //       new User(
+    //         "testUser",
+    //         "",
+    //         "",
+    //         UserType.User,
+    //         DateTime.local(),
+    //         UserState.Online,
+    //         [],
+    //         [
+    //           new Message(
+    //             "testUser",
+    //             "giulioz",
+    //             "Hey Ciao!",
+    //             DateTime.local(),
+    //             false
+    //           )
+    //         ],
+    //         true,
+    //         [],
+    //         false,
+    //         12,
+    //         3,
+    //         15,
+    //         12
+    //       ),
+    //       new User(
+    //         "AlessioMarotta",
+    //         "",
+    //         "",
+    //         UserType.User,
+    //         DateTime.local(),
+    //         UserState.Offline,
+    //         [],
+    //         [],
+    //         false,
+    //         [],
+    //         false,
+    //         12,
+    //         3,
+    //         15,
+    //         3
+    //       ),
+    //       new User(
+    //         "Sunnix",
+    //         "",
+    //         "",
+    //         UserType.User,
+    //         DateTime.local(),
+    //         UserState.Playing,
+    //         [],
+    //         [],
+    //         false,
+    //         [],
+    //         false,
+    //         12,
+    //         3,
+    //         15,
+    //         5
+    //       )
+    //     ],
+    //     [],true,
+    //     [],false,
+    //     13,
+    //     0,
+    //     4,
+    //     13
+    //   )
+    // );
   }
 }

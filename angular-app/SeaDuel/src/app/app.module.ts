@@ -21,9 +21,9 @@ import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import { SidebarTabComponent } from "./components/sidebar-tab/sidebar-tab.component";
 import { SidebarFriendElementComponent } from "./components/sidebar-friend-element/sidebar-friend-element.component";
 import { SidebarFriendSearchComponent } from "./components/sidebar-friend-search/sidebar-friend-search.component";
-import { AccountHeaderComponent } from './components/account-header/account-header.component';
-import { ChatComponent } from './components/chat/chat.component';
-import { GameAreaComponent } from './components/game-area/game-area.component';
+import { AccountHeaderComponent } from "./components/account-header/account-header.component";
+import { ChatComponent } from "./components/chat/chat.component";
+import { GameAreaComponent } from "./components/game-area/game-area.component";
 
 // Services
 import { AuthService } from "./services/auth.service";
@@ -32,6 +32,7 @@ import { AuthGuard } from "./services/auth-guard.service";
 import { NoAuthGuard } from "./services/noauth-guard.service";
 import { UserStore } from "./state/user-store";
 import { JwtInterceptor } from "./utils/jwt-interceptor";
+import { UsersService } from "./services/users.service";
 
 // Pipes
 import { UserstatusColorPipe } from "./pipes/userstatus-color.pipe";
@@ -66,7 +67,8 @@ import { UserstatusColorPipe } from "./pipes/userstatus-color.pipe";
     AuthGuard,
     NoAuthGuard,
     UserStore,
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    UsersService
   ],
   bootstrap: [AppComponent]
 })

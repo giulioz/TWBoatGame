@@ -2,4 +2,17 @@
   <div class="material-icons account">
     account_circle
   </div>
+  <div class="username">{{user.id}}</div>
+  <div class="badge spacer">{{"(" + user.position + "°)"}}</div>
+  <div class="stats">
+    <div>
+      <strong>partite vinte: </strong>{{user.wonGames}}
+    </div>
+    <div>
+      <strong>partite perse: </strong>{{user.lostGames}}
+    </div>
+    <div>
+      <strong>partite giocate: </strong>{{user.playedGames}}
+    </div>
+  </div>
 </div>

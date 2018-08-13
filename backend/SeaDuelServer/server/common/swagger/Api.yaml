@@ -5,8 +5,10 @@ info:
   description: SeaDuelServer
 basePath: /api/v1
 tags:
-  - name: Examples
-    description: Simple example endpoints
+  - name: Authentication
+    description: Login and registration
+  - name: Users
+    description: Users info
 
 consumes:
   - application/json
@@ -14,18 +16,137 @@ produces:
   - application/json
 
 definitions:
-  ExampleBody:
+  User:
     type: object
-    title: example
-    required:
-      - name
+    title: User
     properties:
-      name:
+      id:
         type: string
-        description: The example name
+        description: "Username"
+      email:
+        type: string
+        format: "email"
+      password:
+        type: string
+      role:
+        type: string
+        enum: 
+          - user
+          - administrator
+      registrationDate:
+        type: string
+        format: "date-time"
+      hasUnreadMessages:
+        type: boolean
+      hasUnreadGames:
+        type: boolean
+      state:
+        type: string
+        enum: 
+          - offline
+          - online
+          - playing
+          - none
+      wonGames:
+        type: number
+      lostGames:
+        type: number
+        description: "Lost or withdrawn"
+      playedGames:
+        type: number
+      position:
+        type: number
+        description: "Position in ranking"
+
+  Game:
+    type: object
+    title: Game
+    properties:
+      gameId:
+        type: string
+      initiatorId:
+        type: string
+        description: "UserId of who started the game"
+      opponentId:
+        type: string
+        description: "UserId of who accepted the game, -1 if to open match"
+      state:
+        type: string
+        enum:
+          - WaitingForResponse
+          - Rejected
+          - BoatsPositioning
+          - InitiatorTurn
+          - OpponentTurn
+          - Ended
+      winnerId:
+        type: string
+        description: "UserId of the winner, -1 if still playing"
+      initiatorBoard:
+        type: object
+        description: "GameBoard type"
+      opponentBoard:
+        type: object
+        description: "GameBoard type"
+
+  GameBoard:
+    type: object
+    title: GameBoard
+    properties:
+      boardData:
+        type: array
+        description: "Array of GameBoardElement"
+      width:
+        type: number
+      height:
+        type: number
+
+  GameBoardElement:
+    type: object
+    title: GameBoardElement
+    properties:
+      type:
+        type: string
+        enum:
+          - Empty
+          - Destroyer
+          - Submarine
+          - Battleship
+          - AircraftCarrier
+    checked:
+      type: boolean
+        
+  Message:
+    type: object
+    title: Message
+    properties:
+      messageId:
+        type: string
+      senderId:
+        type: string
+      recipientId:
+        type: string
+      content:
+        type: string
+      time:
+        type: date-time
+
+  Event:
+    type: object
+    title: Event
+    properties:
+      type:
+        type: string
+        enum:
+          - IncomingMessage
+          - IncomingGameRequest
+          - GameStateChanged
+          - GameBoardChanged
+    data:
+      type: object
 
 paths:
-  /examples:
+  /users:
     get:
       tags:
         - Examples
@@ -43,7 +164,7 @@ paths:
           description: number of items to skip
           required: true
           schema: 
-            $ref: "#/definitions/ExampleBody"
+            $ref: "#/definitions/User"
       responses:
         200:
           description: Returns all examples
