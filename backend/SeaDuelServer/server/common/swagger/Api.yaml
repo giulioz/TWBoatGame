@@ -28,9 +28,10 @@ definitions:
         format: "email"
       password:
         type: string
+        format: "password"
       role:
         type: string
-        enum: 
+        enum:
           - user
           - administrator
       registrationDate:
@@ -42,7 +43,7 @@ definitions:
         type: boolean
       state:
         type: string
-        enum: 
+        enum:
           - offline
           - online
           - playing
@@ -57,6 +58,30 @@ definitions:
       position:
         type: number
         description: "Position in ranking"
+
+  GameBoard:
+    type: object
+    title: GameBoard
+    properties:
+      width:
+        type: number
+      height:
+        type: number
+      boardData:
+        type: array
+        items:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - Empty
+                - Destroyer
+                - Submarine
+                - Battleship
+                - AircraftCarrier
+            checked:
+              type: boolean
 
   Game:
     type: object
@@ -83,39 +108,10 @@ definitions:
         type: string
         description: "UserId of the winner, -1 if still playing"
       initiatorBoard:
-        type: object
-        description: "GameBoard type"
+        $ref: "#/definitions/GameBoard"
       opponentBoard:
-        type: object
-        description: "GameBoard type"
+        $ref: "#/definitions/GameBoard"
 
-  GameBoard:
-    type: object
-    title: GameBoard
-    properties:
-      boardData:
-        type: array
-        description: "Array of GameBoardElement"
-      width:
-        type: number
-      height:
-        type: number
-
-  GameBoardElement:
-    type: object
-    title: GameBoardElement
-    properties:
-      type:
-        type: string
-        enum:
-          - Empty
-          - Destroyer
-          - Submarine
-          - Battleship
-          - AircraftCarrier
-    checked:
-      type: boolean
-        
   Message:
     type: object
     title: Message
@@ -129,7 +125,8 @@ definitions:
       content:
         type: string
       time:
-        type: date-time
+        type: string
+        format: "date-time"
 
   Event:
     type: object
@@ -142,8 +139,8 @@ definitions:
           - IncomingGameRequest
           - GameStateChanged
           - GameBoardChanged
-    data:
-      type: object
+      data:
+        type: object
 
 paths:
   /users:
@@ -153,7 +150,7 @@ paths:
       description: Fetch all examples
       responses:
         200:
-          description: Returns all examples
+          description: Returns all examplesZ
     post:
       tags:
         - Examples
@@ -163,7 +160,7 @@ paths:
           in: body
           description: number of items to skip
           required: true
-          schema: 
+          schema:
             $ref: "#/definitions/User"
       responses:
         200:
@@ -183,4 +180,4 @@ paths:
         200:
           description: Return the example with the specified id
         404:
-          description: Example not 
+          description: Example not
