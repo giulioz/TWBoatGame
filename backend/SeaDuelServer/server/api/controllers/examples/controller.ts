@@ -1,4 +1,4 @@
-import ExamplesService from '../../services/examples.service';
+import ExamplesService from '../../services/users.service';
 import { Request, Response } from 'express';
 
 export class Controller {

@@ -9,7 +9,7 @@ import { UserStore } from "../../state/user-store";
   styleUrls: ["./sidebar.component.css"]
 })
 export class SidebarComponent implements OnInit {
-  @ViewChild("gamesTab") gamesTab;
+  @ViewChild("waitingTab") waitingTab;
   @ViewChild("friendsTab") friendsTab;
   @ViewChild("scoreTab") scoreTab;
 
@@ -21,7 +21,7 @@ export class SidebarComponent implements OnInit {
   //  Collapse
 
   openGames = () => {
-    this.gamesTab.open = !this.gamesTab.open;
+    this.waitingTab.open = !this.waitingTab.open;
     this.scoreTab.open = false;
     this.friendsTab.open = false;
   };
@@ -29,13 +29,13 @@ export class SidebarComponent implements OnInit {
   openFriends = () => {
     this.friendsTab.open = !this.friendsTab.open;
     this.scoreTab.open = false;
-    this.gamesTab.open = false;
+    this.waitingTab.open = false;
   };
 
   openScore = () => {
     this.scoreTab.open = !this.scoreTab.open;
     this.friendsTab.open = false;
-    this.gamesTab.open = false;
+    this.waitingTab.open = false;
   };
 
   // ************************************
@@ -49,6 +49,6 @@ export class SidebarComponent implements OnInit {
   //  Init
 
   ngOnInit() {
-    this.gamesTab.open = true;
+    this.waitingTab.open = true;
   }
 }

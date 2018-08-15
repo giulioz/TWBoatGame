@@ -27,11 +27,11 @@ export class User {
 
     // Chat
     public conversation: string[] = [],
-    public hasUnreadMessages: boolean = false,
+    // public hasUnreadMessages: boolean = false,
 
     // Games
     public games: string[] = [],
-    public hasUnreadGames: boolean = false,
+    // public hasUnreadGames: boolean = false,
 
     // Stats
     public wonGames: number = 0,
