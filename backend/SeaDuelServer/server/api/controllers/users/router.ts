@@ -21,5 +21,7 @@ export default (
     .Router()
     .post("/", controller.create)
     .get("/byId/:id", controller.byId)
-    .put("/byId/:id", controller.update);
+    .put("/byId/:id", controller.update)
+    .get("/byId/:id/messages", controller.getMessages)
+    .post("/byId/:id/messages", controller.postMessage);
 };

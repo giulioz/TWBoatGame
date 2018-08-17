@@ -15,18 +15,17 @@ const lastActivityOnlineThreshold = Duration.fromObject({ minutes: 10 }).as(
 const kd = (u: User) => u.wonGames / (u.wonGames + u.lostGames);
 
 const state = (u: User): "offline" | "online" | "playing" => {
-  const lastActivityTime = DateTime.local()
-    .minus(DateTime.fromRFC2822(u.lastActivity))
-    .toMillis();
+  const lastActivityTime =
+    DateTime.local().toMillis() - DateTime.fromISO(u.lastActivity).toMillis();
   const isOnline = lastActivityTime < lastActivityOnlineThreshold;
-  const isPlaying = false;
+  const isPlaying = false; // TODO: check with gamesService
   return isOnline ? (isPlaying ? "playing" : "online") : "offline";
 };
 
-function calculateUsersStats(users: User[]): User[] {
+function calculateUsersStats(users: User[]) {
   return users
     .sort((a, b) => kd(a) - kd(b))
-    .map((u, i) => new UserModel({ ...u, position: i, state: state(u) }));
+    .map((u, i) => ({ ...(u as any)._doc, position: i, state: state(u) }));
 }
 
 export class UsersService {
@@ -40,13 +39,13 @@ export class UsersService {
 
   async byId(id: string): Promise<User> {
     const users = await this.all();
-    const user = calculateUsersStats(users).filter(u => u.id === id)[0];
+    const user = users.filter(u => u.id === id)[0];
     if (user) return user;
     else throw Errors.UserNotFound;
   }
 
   async create(id: string, email: string, password: string): Promise<User> {
-    const query = UserModel.count({ id, email });
+    const query = UserModel.countDocuments({ $or: [{ id }, { email }] });
     const exists = (await query.exec()) > 0;
     if (exists) {
       throw Errors.UserExists;
@@ -57,35 +56,33 @@ export class UsersService {
       email,
       password: hashPassword(password),
       role: "user",
-      registrationDate: DateTime.local().toRFC2822(),
+      registrationDate: DateTime.local().toISO(),
       state: "offline",
       wonGames: 0,
       lostGames: 0,
       position: NaN,
-      lastActivity: DateTime.local().toRFC2822()
+      lastActivity: DateTime.local().toISO()
     });
 
-    await userToSave.save();
-
-    return userToSave;
+    return userToSave.save();
   }
 
-  async update(user: User): Promise<void> {
+  async update(id: string, user: User): Promise<void> {
     if (user.password !== "") {
       user.password = hashPassword(user.password);
     } else {
       delete user.password;
     }
-    const updateQuery = UserModel.updateOne({ id: user.id }, { ...user });
-    await updateQuery.exec();
+    const updateQuery = UserModel.updateOne({ id }, user);
+    return updateQuery.exec();
   }
 
   async touchLastActivity(id: string): Promise<void> {
     const updateQuery = UserModel.updateOne(
       { id },
-      { lastActivity: DateTime.local().toRFC2822() }
+      { lastActivity: DateTime.local().toISO() }
     );
-    await updateQuery.exec();
+    return updateQuery.exec();
   }
 }
 

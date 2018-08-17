@@ -1,31 +1,32 @@
 import { DateTime } from "luxon";
 import { Message, MessageModel } from "./db.service";
 
-// TODO: persistance
-const messages: Message[] = [];
-
 export class MessagesService {
   async all(): Promise<Message[]> {
-    return messages;
+    const query = MessageModel.find();
+    return query.exec();
   }
 
   async conversation(a: string, b: string): Promise<Message[]> {
-    const fromA = messages.filter(m => m.senderId === a && m.recipientId === b);
-    const fromB = messages.filter(m => m.senderId === b && m.recipientId === a);
-    return [...fromA, ...fromB].sort(
-      (a, b) => DateTime.fromRFC2822(a.time).toMillis() - DateTime.fromRFC2822(b.time).toMillis()
+    const query = MessageModel.find({
+      $or: [{ senderId: a, recipientId: b }, { senderId: b, recipientId: a }]
+    });
+    const messages = await query.exec();
+    return messages.sort(
+      (a, b) =>
+        DateTime.fromISO(a.time).toMillis() -
+        DateTime.fromISO(b.time).toMillis()
     );
   }
 
   async conversationSetRead(a: string, b: string): Promise<void> {
-    messages.forEach(m => {
-      if (
-        (m.senderId === a && m.recipientId === b) ||
-        (m.senderId === b && m.recipientId === a)
-      ) {
-        m.readt = true;
-      }
-    });
+    const query = MessageModel.update(
+      {
+        $or: [{ senderId: a, recipientId: b }, { senderId: b, recipientId: a }]
+      },
+      { readt: true }
+    );
+    return query.exec();
   }
 
   async send(
@@ -33,16 +34,13 @@ export class MessagesService {
     recipientId: string,
     content: string
   ): Promise<Message> {
-    const message: Message = new MessageModel({
+    return new MessageModel({
       senderId,
       recipientId,
       content,
-      time: DateTime.local().toRFC2822(),
+      time: DateTime.local().toISO(),
       readt: false
-    });
-
-    messages.push(message);
-    return message;
+    }).save();
   }
 }
 

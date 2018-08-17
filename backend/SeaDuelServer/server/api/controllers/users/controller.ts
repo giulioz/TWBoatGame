@@ -3,13 +3,10 @@ import UsersService, {
 } from "../../services/users.service";
 import MessagesService from "../../services/messages.service";
 import GamesService from "../../services/games.service";
-import AuthService, {
-  isSameUser,
-  adminAuthCheck,
-  userAuthCheck
-} from "../../services/auth.service";
+import AuthService, { authCheck } from "../../services/auth.service";
 
 import { Request, Response } from "express";
+import l from "../../../common/logger";
 
 export class Controller {
   constructor(
@@ -23,19 +20,16 @@ export class Controller {
     let user;
     try {
       user = await this.usersService.byId(req.params.id);
-      console.log(user);
     } catch {
       res.status(404).end();
       return;
     }
 
-    if (
-      (await isSameUser(this.authService, req, req.params.id)) ||
-      (await adminAuthCheck(this.authService, req))
-    ) {
+    const auth = await authCheck(this.authService, req);
+    if (auth.id === req.params.id || auth.role === "administrator") {
       user.password = "";
       res.json(user);
-    } else if (await userAuthCheck(this.authService, req)) {
+    } else if (auth) {
       user.password = "";
       user.email = "";
 
@@ -58,14 +52,54 @@ export class Controller {
       if (err === UsersServiceErrors.UserExists) {
         res.status(409).end();
       } else {
+        l.error(err);
         res.status(500).end();
       }
     }
   };
 
   update = async (req: Request, res: Response): Promise<void> => {
-    await this.usersService.update(req.body.name);
-    res.status(200).end();
+    const user = await authCheck(this.authService, req);
+    if (user.role === "administrator") {
+      await this.usersService.update(req.params.id, req.body);
+      res.status(200).end();
+    } else if (user.id === req.params.id) {
+      delete req.body.id;
+      delete req.body.role;
+      delete req.body.registrationDate;
+      delete req.body.state;
+      delete req.body.wonGames;
+      delete req.body.lostGames;
+      delete req.body.position;
+      delete req.body.lastActivity;
+      await this.usersService.update(req.params.id, req.body);
+      res.status(200).end();
+    } else {
+      res.status(403).end();
+    }
+  };
+
+  getMessages = async (req: Request, res: Response): Promise<void> => {
+    const user = await authCheck(this.authService, req);
+    if (user) {
+      const conversation = await this.messagesService.conversation(
+        user.id,
+        req.params.id
+      );
+      res.json(conversation);
+    } else {
+      res.status(403).end();
+    }
+  };
+
+  postMessage = async (req: Request, res: Response): Promise<void> => {
+    const user = await authCheck(this.authService, req);
+    if (user) {
+      await this.messagesService.send(user.id, req.params.id, req.body.content);
+      res.send(200).end();
+    } else {
+      res.status(403).end();
+    }
   };
 }
 export default Controller;

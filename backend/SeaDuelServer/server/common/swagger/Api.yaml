@@ -257,6 +257,7 @@ paths:
           description: "The id of the user to update"
           type: string
         - name: body
+          in: body
           required: true
           description: "The fields to update, leave password empty to not edit"
           schema:
@@ -308,7 +309,11 @@ paths:
           in: body
           required: true
           description: "The body of the message to send"
-          type: string
+          schema:
+            type: object
+            properties:
+              content:
+                type: string
       description: "Sends a message to the user"
       responses:
         200:

@@ -6,8 +6,7 @@ import UsersService from "./api/services/users.service";
 import MessagesService from "./api/services/messages.service";
 import GamesService from "./api/services/games.service";
 import AuthService from "./api/services/auth.service";
-import DbService, { UserModel } from "./api/services/db.service";
-import { DateTime } from "luxon";
+import DbService from "./api/services/db.service";
 
 const dbService = new DbService();
 dbService.connectDb(process.env.DB_URL);

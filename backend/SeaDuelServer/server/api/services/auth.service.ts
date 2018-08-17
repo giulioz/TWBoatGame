@@ -29,30 +29,11 @@ function genAuthToken(user: User) : AuthToken {
   }
 }
 
-export async function isSameUser(authService: AuthService, req: Request, userId: string) {
+export async function authCheck(authService: AuthService, req: Request) {
   try {
-    const authToken = await authService.checkToken(req.headers.authorization);
-    return authToken.id === userId;
+    return await authService.checkToken(req.headers.authorization);
   } catch {
-    return false;
-  }
-}
-
-export async function userAuthCheck(authService: AuthService, req: Request) {
-  try {
-    const authToken = await authService.checkToken(req.headers.authorization);
-    return authToken.role === "user";
-  } catch {
-    return false;
-  }
-}
-
-export async function adminAuthCheck(authService: AuthService, req: Request) {
-  try {
-    const authToken = await authService.checkToken(req.headers.authorization);
-    return authToken.role === "administrator";
-  } catch {
-    return false;
+    return null;
   }
 }
 
@@ -79,7 +60,12 @@ export class AuthService {
 
   async checkToken(token: string): Promise<AuthToken> {
     try {
-      return verify(token.split(" ")[1], secret) as AuthToken;
+      const auth = verify(token.split(" ")[1], secret) as AuthToken;
+
+      // for online / offline detection
+      this.usersService.touchLastActivity(auth.id);
+
+      return auth;
     } catch (err) {
       throw "Invalid Token";
     }
