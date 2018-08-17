@@ -6,14 +6,14 @@ export enum BoardElementType {
   AircraftCarrier
 }
 
-export interface IBoardElement {
+export interface BoardElement {
   type: BoardElementType;
   checked: boolean;
 }
 
 export class GameBoard {
   constructor(
-    public boardData: IBoardElement[][],
+    public boardData: BoardElement[][],
     public width: number = 10,
     public height: number = 10
   ) {}

@@ -6,7 +6,7 @@ info:
 basePath: /api/v1
 securityDefinitions:
   Bearer:
-    type: apiKey
+    type: string
     name: Authorization
     in: header
     description: |
@@ -75,6 +75,10 @@ definitions:
       position:
         type: number
         description: "Position in ranking"
+      lastActivity:
+        type: string
+        format: "date-time"
+        description: "Last http request made by user, for online check"
 
   GameBoard:
     type: object
@@ -95,6 +99,7 @@ definitions:
                 type: string
                 enum:
                   - Empty
+                  - Hidden
                   - Destroyer
                   - Submarine
                   - Battleship
@@ -106,12 +111,9 @@ definitions:
     type: object
     title: Game
     properties:
-      gameId:
-        type: string
       state:
         type: string
         enum:
-          - NoGame
           - WaitingForResponse
           - Rejected
           - BoatsPositioning
@@ -169,6 +171,26 @@ paths:
           $ref: "#/securityDefinitions/Bearer"
         403:
           description: "Invalid credentials"
+  /auth/checkToken:
+    post:
+      tags:
+        - Authentication
+      parameters:
+        - name: body
+          in: body
+          required: true
+          description: "Auth token"
+          schema:
+            type: object
+            properties:
+              token:
+                $ref: "#/securityDefinitions/Bearer"
+      description: "Checks a token validity"
+      responses:
+        200:
+          description: "Token is valid"
+        403:
+          description: "Invalid credentials"
 
   /users:
     post:
@@ -180,10 +202,20 @@ paths:
           required: true
           description: "The user to create"
           schema:
-            $ref: "#/definitions/User"
+            type: object
+            properties:
+              id:
+                type: string
+                description: "Username"
+              email:
+                type: string
+                format: "email"
+              password:
+                type: string
+                format: "password"
       description: "Create a new user"
       responses:
-        200:
+        201:
           description: "User created successfully"
         400:
           description: "Invalid user format or request"
@@ -226,7 +258,7 @@ paths:
           type: string
         - name: body
           required: true
-          description: "The fields to update"
+          description: "The fields to update, leave password empty to not edit"
           schema:
             $ref: "#/definitions/User"
       description: "Update user info"
