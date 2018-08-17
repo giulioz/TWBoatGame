@@ -2,7 +2,7 @@ import { createHash } from "crypto";
 import { verify, sign } from "jsonwebtoken";
 import { UsersService } from "./users.service";
 import { DateTime } from "luxon";
-import { Request, Response } from "express";
+import { Request } from "express";
 import { User } from "./db.service";
 
 const secret = process.env.SECRET;

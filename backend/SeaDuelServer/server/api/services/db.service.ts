@@ -96,6 +96,6 @@ export const MessageModel = new Message().getModelForClass(Message);
 
 export default class DbService {
   async connectDb(url: string) {
-    connect(url);
+    await connect(url);
   }
 }

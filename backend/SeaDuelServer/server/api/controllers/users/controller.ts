@@ -64,12 +64,8 @@ export class Controller {
   };
 
   update = async (req: Request, res: Response): Promise<void> => {
-    this.usersService.update(req.body.name).then(r =>
-      res
-        .status(201)
-        .location(`/api/v1/users/${r.id}`)
-        .json(r)
-    );
+    await this.usersService.update(req.body.name);
+    res.status(200).end();
   };
 }
 export default Controller;

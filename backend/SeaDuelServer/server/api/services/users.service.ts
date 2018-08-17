@@ -32,39 +32,27 @@ function calculateUsersStats(users: User[]): User[] {
 export class UsersService {
   constructor(private gamesService: GamesService) {}
 
-  // TODO: persistance
-  users: User[] = [
-    new UserModel({
-      id: "giulioz",
-      email: "none",
-      password:
-        "873d570a0c7f121bd0dd9b2f274156bf694ebc07561d17b94b8cd726db3b37c2",
-      role: "user",
-      registrationDate: DateTime.local().toRFC2822(),
-      wonGames: 0,
-      lostGames: 0,
-      lastActivity: DateTime.local().toRFC2822(),
-      position: NaN,
-      state: "offline"
-    })
-  ];
-
   async all(): Promise<User[]> {
-    return calculateUsersStats(this.users);
+    const query = UserModel.find();
+    const users = await query.exec();
+    return calculateUsersStats(users);
   }
 
   async byId(id: string): Promise<User> {
-    const user = calculateUsersStats(this.users).filter(u => u.id === id)[0];
+    const users = await this.all();
+    const user = calculateUsersStats(users).filter(u => u.id === id)[0];
     if (user) return user;
     else throw Errors.UserNotFound;
   }
 
   async create(id: string, email: string, password: string): Promise<User> {
-    if (this.users.filter(u => u.id === id || u.email === email)) {
+    const query = UserModel.count({ id, email });
+    const exists = (await query.exec()) > 0;
+    if (exists) {
       throw Errors.UserExists;
     }
 
-    const userToSave: User = new UserModel({
+    const userToSave = new UserModel({
       id,
       email,
       password: hashPassword(password),
@@ -77,30 +65,27 @@ export class UsersService {
       lastActivity: DateTime.local().toRFC2822()
     });
 
-    this.users.push(userToSave);
+    await userToSave.save();
+
     return userToSave;
   }
 
-  async update(user: User): Promise<User> {
-    const found = calculateUsersStats(this.users).filter(
-      u => u.id === user.id
-    )[0];
-    if (!found) {
-      throw Errors.UserNotFound;
-    }
-
-    const userToSave = new UserModel({ ...found, ...user, position: NaN });
-
+  async update(user: User): Promise<void> {
     if (user.password !== "") {
-      userToSave.password = hashPassword(user.password);
+      user.password = hashPassword(user.password);
+    } else {
+      delete user.password;
     }
-
-    return userToSave;
+    const updateQuery = UserModel.updateOne({ id: user.id }, { ...user });
+    await updateQuery.exec();
   }
 
   async touchLastActivity(id: string): Promise<void> {
-    this.users.find(u => u.id === id).lastActivity = DateTime.local().toRFC2822();
-    return Promise.resolve();
+    const updateQuery = UserModel.updateOne(
+      { id },
+      { lastActivity: DateTime.local().toRFC2822() }
+    );
+    await updateQuery.exec();
   }
 }
 
