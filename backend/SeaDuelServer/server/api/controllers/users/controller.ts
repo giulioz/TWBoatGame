@@ -3,7 +3,11 @@ import UsersService, {
 } from "../../services/users.service";
 import MessagesService from "../../services/messages.service";
 import GamesService from "../../services/games.service";
-import AuthService from "../../services/auth.service";
+import AuthService, {
+  isSameUser,
+  adminAuthCheck,
+  userAuthCheck
+} from "../../services/auth.service";
 
 import { Request, Response } from "express";
 
@@ -16,9 +20,31 @@ export class Controller {
   ) {}
 
   byId = async (req: Request, res: Response): Promise<void> => {
-    const user = await this.usersService.byId(req.params.id);
-    if (user) res.json(user);
-    else res.status(404).end();
+    if (
+      await isSameUser(this.authService, req, req.params.id) ||
+      await adminAuthCheck(this.authService, req)
+    ) {
+      try {
+        const user = await this.usersService.byId(req.params.id);
+        user.password = "";
+
+        res.json(user);
+      } catch {
+        res.status(404).end();
+      }
+    } else if (await userAuthCheck(this.authService, req)) {
+      try {
+        const user = await this.usersService.byId(req.params.id);
+        user.password = "";
+        user.email = "";
+
+        res.json(user);
+      } catch {
+        res.status(404).end();
+      }
+    } else {
+      res.status(403).end();
+    }
   };
 
   create = async (req: Request, res: Response): Promise<void> => {

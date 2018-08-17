@@ -6,7 +6,7 @@ info:
 basePath: /api/v1
 securityDefinitions:
   Bearer:
-    type: string
+    type: apiKey
     name: Authorization
     in: header
     description: |
@@ -184,7 +184,7 @@ paths:
             type: object
             properties:
               token:
-                $ref: "#/securityDefinitions/Bearer"
+                type: string
       description: "Checks a token validity"
       responses:
         200:

@@ -2,6 +2,7 @@ import { createHash } from "crypto";
 import { verify, sign } from "jsonwebtoken";
 import { UsersService, User } from "./users.service";
 import { DateTime } from "luxon";
+import { Request, Response } from "express";
 
 const secret = process.env.SECRET;
 
@@ -27,16 +28,31 @@ function genAuthToken(user: User) : AuthToken {
   }
 }
 
-export async function sameAuthCheck(authService: AuthService, req: Request) {
-
+export async function isSameUser(authService: AuthService, req: Request, userId: string) {
+  try {
+    const authToken = await authService.checkToken(req.headers.authorization);
+    return authToken.id === userId;
+  } catch {
+    return false;
+  }
 }
 
 export async function userAuthCheck(authService: AuthService, req: Request) {
-
+  try {
+    const authToken = await authService.checkToken(req.headers.authorization);
+    return authToken.role === "user";
+  } catch {
+    return false;
+  }
 }
 
 export async function adminAuthCheck(authService: AuthService, req: Request) {
-  
+  try {
+    const authToken = await authService.checkToken(req.headers.authorization);
+    return authToken.role === "administrator";
+  } catch {
+    return false;
+  }
 }
 
 export class AuthService {
@@ -54,15 +70,15 @@ export class AuthService {
     }
 
     if (user.password === hash.digest("hex")) {
-      return sign(genAuthToken(user), secret);
+      return "Bearer " + sign(genAuthToken(user), secret);
     } else {
       throw "Invalid Credentials";
     }
   }
 
-  async checkToken(token: string): Promise<void> {
+  async checkToken(token: string): Promise<AuthToken> {
     try {
-      verify(token, secret);
+      return verify(token.split(" ")[1], secret) as AuthToken;
     } catch (err) {
       throw "Invalid Token";
     }
