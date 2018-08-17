@@ -8,13 +8,13 @@ export enum Errors {
   UserExists
 }
 
-const lastActivityOnlineThreshold = Duration.fromObject({ minutes: 10 }).as(
+const lastActivityOnlineThreshold = Duration.fromObject({ minutes: parseInt(process.env.OFFLINE_MINUTES) }).as(
   "milliseconds"
 );
 
 const kd = (u: User) => u.wonGames / (u.wonGames + u.lostGames);
 
-const state = (u: User): "offline" | "online" | "playing" => {
+const state = (u: User, gamesService: GamesService): "offline" | "online" | "playing" => {
   const lastActivityTime =
     DateTime.local().toMillis() - DateTime.fromISO(u.lastActivity).toMillis();
   const isOnline = lastActivityTime < lastActivityOnlineThreshold;
@@ -22,10 +22,10 @@ const state = (u: User): "offline" | "online" | "playing" => {
   return isOnline ? (isPlaying ? "playing" : "online") : "offline";
 };
 
-function calculateUsersStats(users: User[]) {
+function calculateUsersStats(users: User[], gamesService: GamesService) {
   return users
     .sort((a, b) => kd(a) - kd(b))
-    .map((u, i) => ({ ...(u as any)._doc, position: i, state: state(u) }));
+    .map((u, i) => ({ ...(u as any)._doc, position: i, state: state(u, gamesService) }));
 }
 
 export class UsersService {
@@ -34,7 +34,7 @@ export class UsersService {
   async all(): Promise<User[]> {
     const query = UserModel.find();
     const users = await query.exec();
-    return calculateUsersStats(users);
+    return calculateUsersStats(users, this.gamesService);
   }
 
   async byId(id: string): Promise<User> {

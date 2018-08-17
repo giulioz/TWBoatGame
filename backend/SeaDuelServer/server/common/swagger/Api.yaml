@@ -127,6 +127,16 @@ definitions:
         $ref: "#/definitions/GameBoard"
       opponentBoard:
         $ref: "#/definitions/GameBoard"
+      playerReady:
+        type: boolean
+        description: "If the player has positioned his boats"
+      opponentReady:
+        type: boolean
+        description: "If the opponent has positioned his boats"
+      startTime:
+        type: string
+        format: "date-time"
+        description: "Time when the game first started"
 
   Message:
     type: object
@@ -168,7 +178,8 @@ paths:
       responses:
         200:
           description: "Logged in"
-          $ref: "#/securityDefinitions/Bearer"
+          schema:
+            type: string
         403:
           description: "Invalid credentials"
   /auth/checkToken:
@@ -240,7 +251,8 @@ paths:
       responses:
         200:
           description: "Return the user with the specified id"
-          $ref: "#/definitions/User"
+          schema:
+            $ref: "#/definitions/User"
         404:
           description: "User id not found"
         403:
@@ -287,9 +299,10 @@ paths:
       responses:
         200:
           description: "Return the messages"
-          type: array
-          items:
-            $ref: "#/definitions/Message"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Message"
         404:
           description: "User id not found"
         403:
@@ -318,7 +331,8 @@ paths:
       responses:
         200:
           description: "Message sent successfully, returns the message"
-          $ref: "#/definitions/Message"
+          schema:
+            $ref: "#/definitions/Message"
         404:
           description: "Invalid user id"
 
@@ -338,7 +352,8 @@ paths:
       responses:
         200:
           description: "Return the game"
-          $ref: "#/definitions/Game"
+          schema:
+            $ref: "#/definitions/Game"
         404:
           description: "User id not found"
         403:
@@ -358,7 +373,8 @@ paths:
       responses:
         200:
           description: "Game request sent successfully, returns the game"
-          $ref: "#/definitions/Game"
+          schema:
+            $ref: "#/definitions/Game"
         404:
           description: "User id not found"
         403:
@@ -384,7 +400,8 @@ paths:
       responses:
         200:
           description: "Game updated successfully, returns updated the game"
-          $ref: "#/definitions/Game"
+          schema:
+            $ref: "#/definitions/Game"
         400:
           description: "Invalid game update"
         404:

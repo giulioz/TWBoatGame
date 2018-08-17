@@ -86,6 +86,10 @@ export class Game extends Typegoose {
   @prop({ ref: GameBoard })
   opponentBoard: Ref<GameBoard>;
   @prop()
+  playerReady: boolean;
+  @prop()
+  opponentReady: boolean;
+  @prop()
   startTime: string;
 }
 

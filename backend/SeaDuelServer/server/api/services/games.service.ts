@@ -1,6 +1,12 @@
 import { DateTime } from "luxon";
-import { UsersService } from "./users.service";
-import { GameBoard, Game, BoardElementType, GameModel, GameBoardModel, BoardElement } from "./db.service";
+import {
+  GameBoard,
+  Game,
+  BoardElementType,
+  GameModel,
+  GameBoardModel,
+  BoardElement
+} from "./db.service";
 
 function hideBoard(board: GameBoard): GameBoard {
   return new GameBoardModel({
@@ -8,7 +14,9 @@ function hideBoard(board: GameBoard): GameBoard {
     boardData: board.boardData.map(col =>
       col.map(
         cell =>
-          (cell as BoardElement).checked ? cell : { ...cell, type: "Hidden" as BoardElementType }
+          (cell as BoardElement).checked
+            ? cell
+            : { ...cell, type: "Hidden" as BoardElementType }
       )
     )
   });
@@ -43,45 +51,46 @@ function transformGamePlayer(game: Game, playerId: string): Game {
 const defaultWidth = 10;
 const defaultHeight = 10;
 
-const emptyGameBoard = (width: number, height: number): GameBoard => new GameBoardModel({
-  width,
-  height,
-  boardData: new Array(width)
-    .fill([])
-    .map(_ =>
-      new Array(height)
-        .fill({})
-        .map(_ => ({ type: "Empty" as BoardElementType, checked: false }))
-    )
-});
+const emptyGameBoard = (width: number, height: number): GameBoard =>
+  new GameBoardModel({
+    width,
+    height,
+    boardData: new Array(width)
+      .fill([])
+      .map(_ =>
+        new Array(height)
+          .fill({})
+          .map(_ => ({ type: "Empty" as BoardElementType, checked: false }))
+      )
+  });
 
-const emptyGame = (playerA: string, playerB: string): Game => new GameModel({
-  state: "Ended",
-  playerId: playerA,
-  opponentId: playerB,
-  winnerId: "",
-  playerBoard: emptyGameBoard(defaultWidth, defaultHeight),
-  opponentBoard: emptyGameBoard(defaultWidth, defaultHeight),
-  startTime: DateTime.local()
-});
-
-// TODO: persistance
-const games: Game[] = [];
+const emptyGame = (playerA: string, playerB: string) =>
+  new GameModel({
+    state: "Ended",
+    playerId: playerA,
+    opponentId: playerB,
+    winnerId: "",
+    playerBoard: emptyGameBoard(defaultWidth, defaultHeight),
+    opponentBoard: emptyGameBoard(defaultWidth, defaultHeight),
+    startTime: DateTime.local().toISO()
+  });
 
 export class GamesService {
-  constructor () { }
+  constructor() {}
 
   async all(): Promise<Game[]> {
-    return games;
+    const query = GameModel.find();
+    return query.exec();
   }
 
   async fromPlayers(playerA: string, playerB: string): Promise<Game> {
-    const game = games.find(
-      game =>
-        (game.playerId === playerA && game.opponentId === playerB) ||
-        (game.playerId === playerB && game.opponentId === playerA)
-    );
-    return game || emptyGame(playerA, playerB);
+    const query = GameModel.findOne({
+      $or: [
+        { playerId: playerA, opponentId: playerB },
+        { playerId: playerB, opponentId: playerA }
+      ]
+    });
+    return query.exec();
   }
 
   async fromPlayersAsPlayer(player: string, opponent: string): Promise<Game> {
@@ -89,11 +98,11 @@ export class GamesService {
     return transformGamePlayer(game, player);
   }
 
-  async startNew(player: string, opponent: string) : Promise<Game> {
-    return null;
+  async startNew(player: string, opponent: string): Promise<Game> {
+    return emptyGame(player, opponent).save();
   }
 
-  async resign(player: string, opponent: string) : Promise<Game> {
+  async resign(player: string, opponent: string): Promise<Game> {
     return null;
   }
 }
