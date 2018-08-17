@@ -1,53 +1,17 @@
 import { DateTime } from "luxon";
 import { UsersService } from "./users.service";
-
-type BoardElementType =
-  | "Empty"
-  | "Destroyer"
-  | "Submarine"
-  | "Battleship"
-  | "AircraftCarrier"
-  | "Hidden";
-
-export interface BoardElement {
-  type: BoardElementType;
-  checked: boolean;
-}
-
-export interface GameBoard {
-  boardData: BoardElement[][];
-  width: number;
-  height: number;
-}
-
-type GameStateType =
-  | "WaitingForResponse"
-  | "Rejected"
-  | "BoatsPositioning"
-  | "PlayerTurn"
-  | "OpponentTurn"
-  | "Ended";
-
-export interface Game {
-  state: GameStateType;
-  playerId: string;
-  opponentId: string;
-  winnerId: string;
-  playerBoard: GameBoard;
-  opponentBoard: GameBoard;
-  startTime: DateTime;
-}
+import { GameBoard, Game, BoardElementType, GameModel, GameBoardModel, BoardElement } from "./db.service";
 
 function hideBoard(board: GameBoard): GameBoard {
-  return {
+  return new GameBoardModel({
     ...board,
     boardData: board.boardData.map(col =>
       col.map(
         cell =>
-          cell.checked ? cell : { ...cell, type: "Hidden" as BoardElementType }
+          (cell as BoardElement).checked ? cell : { ...cell, type: "Hidden" as BoardElementType }
       )
     )
-  };
+  });
 }
 
 function swapPlayers(game: Game): Game {
@@ -58,28 +22,28 @@ function swapPlayers(game: Game): Game {
         ? "PlayerTurn"
         : game.state;
 
-  return {
+  return new GameModel({
     ...game,
     state,
     playerId: game.opponentId,
     opponentId: game.playerId,
     playerBoard: game.opponentBoard,
     opponentBoard: game.playerBoard
-  };
+  });
 }
 
 function transformGamePlayer(game: Game, playerId: string): Game {
   const swapped = game.opponentId === playerId ? swapPlayers(game) : game;
-  return {
+  return new GameModel({
     ...swapped,
-    opponentBoard: hideBoard(swapped.opponentBoard)
-  };
+    opponentBoard: hideBoard(swapped.opponentBoard as GameBoard)
+  });
 }
 
 const defaultWidth = 10;
 const defaultHeight = 10;
 
-const emptyGameBoard = (width: number, height: number): GameBoard => ({
+const emptyGameBoard = (width: number, height: number): GameBoard => new GameBoardModel({
   width,
   height,
   boardData: new Array(width)
@@ -91,7 +55,7 @@ const emptyGameBoard = (width: number, height: number): GameBoard => ({
     )
 });
 
-const emptyGame = (playerA: string, playerB: string): Game => ({
+const emptyGame = (playerA: string, playerB: string): Game => new GameModel({
   state: "Ended",
   playerId: playerA,
   opponentId: playerB,

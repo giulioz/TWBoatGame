@@ -1,12 +1,5 @@
 import { DateTime } from "luxon";
-
-export interface Message {
-  senderId: string;
-  recipientId: string;
-  content: string;
-  time: DateTime;
-  readt: boolean;
-}
+import { Message, MessageModel } from "./db.service";
 
 // TODO: persistance
 const messages: Message[] = [];
@@ -20,7 +13,7 @@ export class MessagesService {
     const fromA = messages.filter(m => m.senderId === a && m.recipientId === b);
     const fromB = messages.filter(m => m.senderId === b && m.recipientId === a);
     return [...fromA, ...fromB].sort(
-      (a, b) => a.time.toMillis() - b.time.toMillis()
+      (a, b) => DateTime.fromRFC2822(a.time).toMillis() - DateTime.fromRFC2822(b.time).toMillis()
     );
   }
 
@@ -40,13 +33,13 @@ export class MessagesService {
     recipientId: string,
     content: string
   ): Promise<Message> {
-    const message: Message = {
+    const message: Message = new MessageModel({
       senderId,
       recipientId,
       content,
-      time: DateTime.local(),
+      time: DateTime.local().toRFC2822(),
       readt: false
-    };
+    });
 
     messages.push(message);
     return message;

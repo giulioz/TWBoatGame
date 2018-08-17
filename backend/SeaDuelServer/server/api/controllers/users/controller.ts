@@ -20,34 +20,33 @@ export class Controller {
   ) {}
 
   byId = async (req: Request, res: Response): Promise<void> => {
+    let user;
+    try {
+      user = await this.usersService.byId(req.params.id);
+      console.log(user);
+    } catch {
+      res.status(404).end();
+      return;
+    }
+
     if (
-      await isSameUser(this.authService, req, req.params.id) ||
-      await adminAuthCheck(this.authService, req)
+      (await isSameUser(this.authService, req, req.params.id)) ||
+      (await adminAuthCheck(this.authService, req))
     ) {
-      try {
-        const user = await this.usersService.byId(req.params.id);
-        user.password = "";
-
-        res.json(user);
-      } catch {
-        res.status(404).end();
-      }
+      user.password = "";
+      res.json(user);
     } else if (await userAuthCheck(this.authService, req)) {
-      try {
-        const user = await this.usersService.byId(req.params.id);
-        user.password = "";
-        user.email = "";
+      user.password = "";
+      user.email = "";
 
-        res.json(user);
-      } catch {
-        res.status(404).end();
-      }
+      res.json(user);
     } else {
       res.status(403).end();
     }
   };
 
   create = async (req: Request, res: Response): Promise<void> => {
+    // TODO: limit user creation per client
     const { id, email, password } = req.body;
     try {
       const created = await this.usersService.create(id, email, password);
@@ -58,6 +57,8 @@ export class Controller {
     } catch (err) {
       if (err === UsersServiceErrors.UserExists) {
         res.status(409).end();
+      } else {
+        res.status(500).end();
       }
     }
   };
