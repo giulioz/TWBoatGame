@@ -4,29 +4,29 @@ import * as path from 'path';
 import * as bodyParser from 'body-parser';
 import * as http from 'http';
 import * as os from 'os';
-import * as cookieParser from 'cookie-parser';
 import swaggerify from './swagger';
 import l from './logger';
 
-const app = express();
-
 export default class ExpressServer {
+  public app;
+
   constructor() {
     const root = path.normalize(__dirname + '/../..');
-    app.set('appPath', root + 'client');
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: true }));
-    app.use(express.static(`${root}/public`));
+    this.app = express();
+    this.app.set('appPath', root + 'client');
+    this.app.use(bodyParser.json());
+    this.app.use(bodyParser.urlencoded({ extended: true }));
+    this.app.use(express.static(`${root}/public`));
   }
 
-  router(routes: (app: Application) => void): ExpressServer {
-    swaggerify(app, routes)
+  router = (routes: (app: Application) => void): ExpressServer => {
+    swaggerify(this.app, routes)
     return this;
   }
 
-  listen(port: number = parseInt(process.env.PORT)): Application {
+  listen = (httpServer: http.Server, port: number = parseInt(process.env.PORT)): Application => {
     const welcome = port => () => l.info(`up and running in ${process.env.NODE_ENV || 'development'} @: ${os.hostname() } on port: ${port}}`);
-    http.createServer(app).listen(port, welcome(port));
-    return app;
+    httpServer.listen(port, welcome(port));
+    return this.app;
   }
 }

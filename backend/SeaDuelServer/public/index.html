@@ -1,13 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>SeaDuelServer</title>
+  <meta charset="UTF-8">
+  <title>SeaDuelServer</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+  <script>
+    var socket = io();
+    socket.on('connect', function () {
+      socket.emit('authentication', "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImdpdWxpb3oiLCJlbWFpbCI6ImdpdWxpb3pAZXhhbXBsZS5jb20iLCJsb2dpblRpbWUiOiIyMDE4LTA4LTE3VDIyOjQyOjQ4LjMwOSswMjowMCIsInJvbGUiOiJhZG1pbmlzdHJhdG9yIiwiaWF0IjoxNTM0NTM4NTY4fQ.3z6e6WdavRSFORIF-zb04zx0PI05NP2Tye21vn1YLHs");
+      socket.on('authenticated', function () {
+        console.log("ok");
+      });
+      socket.on('event', function (event) {
+        console.log(event);
+      });
+      socket.on
+    });
+  </script>
 </head>
+
 <body>
-<h1>Welcome to SeaDuelServer</h1>
-<ul>
-    <li><h3><a href="/api-explorer/">Interactive API Doc!</a></h3></li>
-</ul>
+  <h1>Welcome to SeaDuelServer</h1>
+  <ul>
+    <li>
+      <h3>
+        <a href="/api-explorer/">Interactive API Doc!</a>
+      </h3>
+    </li>
+  </ul>
 </body>
+
 </html>

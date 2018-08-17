@@ -4,6 +4,7 @@ import UsersService, {
 import MessagesService from "../../services/messages.service";
 import GamesService from "../../services/games.service";
 import AuthService, { authCheck } from "../../services/auth.service";
+import EventsService, { EventType } from "../../services/events.service";
 
 import { Request, Response } from "express";
 import l from "../../../common/logger";
@@ -13,7 +14,8 @@ export class Controller {
     private usersService: UsersService,
     private messagesService: MessagesService,
     private gamesService: GamesService,
-    private authService: AuthService
+    private authService: AuthService,
+    private eventsService: EventsService
   ) {}
 
   byId = async (req: Request, res: Response): Promise<void> => {
@@ -96,6 +98,7 @@ export class Controller {
     const user = await authCheck(this.authService, req);
     if (user) {
       await this.messagesService.send(user.id, req.params.id, req.body.content);
+      this.eventsService.sendEvent({type: EventType.IncomingMessage, userId: user.id}, req.params.id);
       res.send(200).end();
     } else {
       res.status(403).end();
