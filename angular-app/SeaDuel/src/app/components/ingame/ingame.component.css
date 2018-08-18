@@ -27,6 +27,7 @@
   margin-right: 50px;
   margin-top: 18px;
   margin-bottom: 18px;
+  min-height: 64px;
   display: flex;
   align-items: center;
 }
@@ -60,7 +61,7 @@
 
 .body-container {
   display: flex;
-  background: #A6AAC4;
+  background: #a6aac4;
   color: #2c356c;
   flex-grow: 1;
   margin-left: 32px;
@@ -70,15 +71,15 @@
 }
 
 .main {
-    flex-grow: 1;
-    display: flex;
+  flex-grow: 1;
+  display: flex;
 }
 
 .sidebar {
-    display: flex;
-    background: rgb(105, 112, 155);
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+  display: flex;
+  background: rgb(105, 112, 155);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 .nouser-container {

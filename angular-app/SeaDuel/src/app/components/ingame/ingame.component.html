@@ -1,38 +1,37 @@
 <div class="container">
-    <div class="background">
-        <div class="header">
-            <div class="logo">
-                <div class="logo-placeholder"></div>SeaDuel</div>
-            <div class="spacer"></div>
-            <div class="right">
-                <div class="username">Benvenuto,
-                    <b>
-                        <i>giulioz</i>
-                    </b>
-                </div>
-                <div class="material-icons account">
-                    account_circle
-                </div>
-            </div>
+  <div class="background">
+    <div class="header">
+      <div class="logo">
+        <div class="logo-placeholder"></div>SeaDuel</div>
+      <div class="spacer"></div>
+      <div class="right">
+        <div class="username">Benvenuto,
+          <b>
+            <!-- TODO -->
+            <i>giulioz</i>
+          </b>
         </div>
-        <div class="body-container">
-            <div class="main">
-                <div *ngIf="(route.url | async)[0].path === 'user'">
-                    <div class="column spacer">
-                        <app-account-header [user]="selectedUser | async"></app-account-header>
-                        <app-chat class="spacer"></app-chat>
-                    </div>
-                    <div class="column">
-                        <app-game-area class="spacer"></app-game-area>
-                    </div>
-                </div>
-                <div *ngIf="(route.url | async)[0].path === 'ingame'" class="nouser-container">
-                    <h1>Benvenuto su SeaDuel</h1>
-                    <p>Seleziona un utente a lato per cominciare a giocare.</p>
-                    <p>Puoi cercare un utente se conosci il suo nome oppure selezionarne uno in attesa per giocare.</p>
-                </div>
-            </div>
-            <app-sidebar class="sidebar"></app-sidebar>
+        <div class="material-icons account">
+          account_circle
         </div>
+      </div>
     </div>
+    <div class="body-container">
+      <div class="spacer column" *ngIf="(route.url | async)[0].path === 'user'">
+        <app-account-header [user]="selectedUser | async"></app-account-header>
+        <div class="main">
+          <app-chat class="spacer"></app-chat>
+          <div class="column">
+            <app-game-area class="spacer"></app-game-area>
+          </div>
+        </div>
+        <div class="main" *ngIf="(route.url | async)[0].path === 'ingame'" class="nouser-container">
+          <h1>Benvenuto su SeaDuel</h1>
+          <p>Seleziona un utente a lato per cominciare a giocare.</p>
+          <p>Puoi cercare un utente se conosci il suo nome oppure selezionarne uno in attesa per giocare.</p>
+        </div>
+      </div>
+      <app-sidebar class="sidebar"></app-sidebar>
+    </div>
+  </div>
 </div>

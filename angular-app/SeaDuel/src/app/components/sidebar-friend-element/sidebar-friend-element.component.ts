@@ -9,6 +9,7 @@ import { User } from "../../../swagger";
 export class SidebarFriendElementComponent implements OnInit {
   @Input() user: User;
   @Input() selected: boolean;
+  @Input() showPosition: boolean;
   @Output() select: EventEmitter<any> = new EventEmitter();
 
   get hasUnread() {

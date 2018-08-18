@@ -23,7 +23,7 @@ import { CustomHttpUrlEncodingCodec } from "../encoder";
 
 import { Observable } from "rxjs";
 
-import { Body } from "../model/body";
+import { AuthObject } from "../model/authObject";
 import { Login } from "../model/login";
 
 import { BASE_PATH, COLLECTION_FORMATS } from "../variables";
@@ -73,22 +73,22 @@ export class AuthenticationService {
    * @param reportProgress flag to report request and response progress.
    */
   public authCheckTokenPost(
-    body: Body,
+    body: AuthObject,
     observe?: "body",
     reportProgress?: boolean
   ): Observable<any>;
   public authCheckTokenPost(
-    body: Body,
+    body: AuthObject,
     observe?: "response",
     reportProgress?: boolean
   ): Observable<HttpResponse<any>>;
   public authCheckTokenPost(
-    body: Body,
+    body: AuthObject,
     observe?: "events",
     reportProgress?: boolean
   ): Observable<HttpEvent<any>>;
   public authCheckTokenPost(
-    body: Body,
+    body: AuthObject,
     observe: any = "body",
     reportProgress: boolean = false
   ): Observable<any> {

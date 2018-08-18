@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Observable } from "rxjs";
+import { Observable, timer } from "rxjs";
+import { switchMap } from "rxjs/operators";
 
 import { User, UsersService } from "../../../swagger";
 
@@ -15,11 +16,13 @@ export class IngameComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private userService: UsersService
+    private usersService: UsersService
   ) {
     this.route.params.subscribe(params => {
       if (params.id) {
-        this.selectedUser = this.userService.usersByIdIdGet(params.id);
+        this.selectedUser = timer(0, 3000).pipe(
+          switchMap(() => this.usersService.usersByIdIdGet(params.id))
+        );
       }
     });
   }

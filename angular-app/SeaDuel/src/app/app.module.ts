@@ -35,6 +35,7 @@ import { GameAreaComponent } from "./components/game-area/game-area.component";
 import { AuthService } from "./services/auth.service";
 import { AuthGuard } from "./services/auth-guard.service";
 import { NoAuthGuard } from "./services/noauth-guard.service";
+import { EventsService } from "./services/events.service";
 
 // Pipes
 import { UserstatusColorPipe } from "./pipes/userstatus-color.pipe";
@@ -74,6 +75,7 @@ function apiConfigFactory(): Configuration {
     ApiModule.forRoot(apiConfigFactory)
   ],
   providers: [
+    EventsService,
     AuthService,
     AuthGuard,
     NoAuthGuard,

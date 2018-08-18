@@ -1,5 +1,6 @@
 <div class="outer" [ngClass]="{'selected': selected}">
   <div class="inner" (click)="onSelect()">
+    {{showPosition ? user.position + " - " : ""}}
     <div class="material-icons icon">person</div>
     <div class="badge" style.background-color="{{this.user | userstatusColor}}"></div>
     <div class="username">{{this.user.id}}</div>

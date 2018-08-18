@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild, Input } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
-import { Observable } from "rxjs";
+import { timer, Observable } from "rxjs";
+import { switchMap } from "rxjs/operators";
 import { User, UsersService } from "../../../swagger";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: "app-sidebar",
@@ -23,7 +25,8 @@ export class SidebarComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private authService: AuthService
   ) {}
 
   // ************************************
@@ -31,27 +34,47 @@ export class SidebarComponent implements OnInit {
 
   openWaiting = () => {
     this.waitingTab.open = !this.waitingTab.open;
-    this.scoreTab.open = false;
-    this.friendsTab.open = false;
+    // this.scoreTab.open = false;
+    // this.friendsTab.open = false;
   };
 
   openFriends = () => {
     this.friendsTab.open = !this.friendsTab.open;
-    this.scoreTab.open = false;
-    this.waitingTab.open = false;
+    // this.scoreTab.open = false;
+    // this.waitingTab.open = false;
   };
 
   openScore = () => {
     this.scoreTab.open = !this.scoreTab.open;
-    this.friendsTab.open = false;
-    this.waitingTab.open = false;
+    // this.friendsTab.open = false;
+    // this.waitingTab.open = false;
   };
 
   // ************************************
   //  Friend bar
 
-  selectFriend = (friendId: string) => {
-    this.router.navigate(["/user/" + friendId]);
+  selectFriend = (userId: string) => {
+    if (userId !== this.authService.getUserToken().id) {
+      this.router.navigate(["/user/" + userId]);
+    }
+  };
+
+  // ************************************
+  //  Waiting bar
+
+  selectWaiting = (userId: string) => {
+    if (userId !== this.authService.getUserToken().id) {
+      this.router.navigate(["/user/" + userId]);
+    }
+  };
+
+  // ************************************
+  //  Highscores bar
+
+  selectHighscores = (userId: string) => {
+    if (userId !== this.authService.getUserToken().id) {
+      this.router.navigate(["/user/" + userId]);
+    }
   };
 
   // ************************************
@@ -60,13 +83,16 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
     this.waitingTab.open = true;
 
-    // this.usersService.configuration.apiKeys = {};
-    // this.usersService.configuration.apiKeys[
-    //   "Authorization"
-    // ] = localStorage.getItem("currentUser");
+    this.friends = timer(0, 3000).pipe(
+      switchMap(() => this.usersService.usersContactsGet())
+    );
 
-    this.friends = this.usersService.usersContactsGet();
-    this.waiting = this.usersService.usersWaitingGet();
-    this.top = this.usersService.usersTopGet();
+    this.waiting = timer(0, 3000).pipe(
+      switchMap(() => this.usersService.usersWaitingGet())
+    );
+
+    this.top = timer(0, 3000).pipe(
+      switchMap(() => this.usersService.usersTopGet())
+    );
   }
 }

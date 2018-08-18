@@ -183,13 +183,17 @@ export class Controller {
     const user = await authCheck(this.authService, req);
 
     if (user) {
-      await this.messagesService.send(user.id, req.params.id, req.body.content);
+      const msg = await this.messagesService.send(user.id, req.params.id, req.body.content);
+      this.eventsService.sendEvent(
+        { type: EventType.IncomingMessage, userId: user.id },
+        user.id
+      );
       this.eventsService.sendEvent(
         { type: EventType.IncomingMessage, userId: user.id },
         req.params.id
       );
 
-      res.send(200).end();
+      res.json(msg);
     } else {
       res.status(403).end();
     }

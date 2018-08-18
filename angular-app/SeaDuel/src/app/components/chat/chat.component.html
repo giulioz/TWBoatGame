@@ -1,1 +1,14 @@
-<div class="root">abc</div>
+<div class="root">
+  <div class="scroller">
+    <div>
+      <div class="row" [ngClass]="{'user': isUser(message), 'opponent': !isUser(message)}" *ngFor="let message of (this.messages | async)">
+        <div class="message">{{message.content}}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom row">
+    <input id="message" placeholder="Scrivi messaggio..." type="text" [(ngModel)]="messageBoxContent" name="message" />
+    <button (click)="messageSend()" class="button">Invia</button>
+  </div>
+</div>

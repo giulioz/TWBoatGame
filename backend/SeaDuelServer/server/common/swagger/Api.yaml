@@ -148,6 +148,10 @@ definitions:
       time:
         type: string
         format: "date-time"
+      senderId:
+        type: string
+      recipientId:
+        type: string
 
 paths:
   /auth/login:

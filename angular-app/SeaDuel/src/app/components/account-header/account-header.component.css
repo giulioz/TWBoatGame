@@ -1,8 +1,8 @@
 .root {
   background: #ffffff;
-  margin-left: 10px;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  border-top-left-radius: 10px;
+  padding-top: 16px;
+  padding-bottom: 16px;
   display: flex;
   align-items: center;
 }
@@ -13,12 +13,12 @@
 
 .account {
   font-size: 50px;
-  margin-left: 8px;
+  margin-left: 22px;
   margin-right: 8px;
 }
 
 .username {
-  font-size: 25px;
+  font-size: 30px;
   font-weight: bold;
   margin-right: 4px;
 }
@@ -32,4 +32,12 @@
 .stats {
   text-align: right;
   margin-right: 8px;
+}
+
+.button {
+  font-size: 15pt;
+  padding-left: 32px;
+  padding-right: 32px;
+  margin-left: 10px;
+  margin-right: 22px;
 }

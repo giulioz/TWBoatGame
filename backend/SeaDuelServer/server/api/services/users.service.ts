@@ -26,7 +26,7 @@ function calculateUsersStats(users: User[]) {
   // FIXME
   return users
     .sort((a, b) => kd(a) - kd(b))
-    .map((u, i) => ({ ...(u as any)._doc, position: i, state: state(u) }));
+    .map((u, i) => ({ ...(u as any)._doc, position: i + 1, state: state(u) }));
 }
 
 export class UsersService {

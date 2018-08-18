@@ -7,7 +7,8 @@ import { User } from "../../../swagger";
   styleUrls: ["./account-header.component.css"]
 })
 export class AccountHeaderComponent implements OnInit {
-  @Input() user: User;
+  @Input()
+  user: User;
 
   ngOnInit() {}
 }

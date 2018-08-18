@@ -1,6 +1,6 @@
 .root {
   width: 500px;
-  background: #ffffff;
+  background: rgb(229, 230, 240);
   margin-left: 10px;
   margin-right: 10px;
   flex-grow: 1;

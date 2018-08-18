@@ -1,6 +1,69 @@
 .root {
-  background: #ffffff;
+  background: rgb(229, 230, 240);
   margin-left: 10px;
-  margin-top: 10px;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.scroller {
+  overflow: auto;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.bottom {
+  min-height: 36px;
+}
+
+.row {
+  display: flex;
+  margin: 14px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  flex-shrink: 0;
+}
+
+.message {
+  border-radius: 10px;
+  padding: 13px;
+  min-width: 100px;
+}
+
+.opponent div {
+  background: #a6aac4;
+}
+
+.user {
+  justify-content: flex-end;
+}
+
+.user div {
+  background: #2c356c;
+  color: #ffffff;
+}
+
+input {
+  border: 1px solid #a6aac4;
+  border-radius: 3px;
+  height: 32px;
+  flex-grow: 1;
+  display: block;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 11pt;
+}
+
+input::placeholder {
+  color: #9599b5;
+  font-style: italic;
+}
+
+.button {
+  font-size: 11pt;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  height: 36px;
+  margin-left: 10px;
 }

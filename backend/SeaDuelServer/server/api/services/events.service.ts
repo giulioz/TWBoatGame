@@ -40,13 +40,15 @@ export default class EventsService {
           l.error(err);
         }
       },
-      disconnect: async (socket) => {
+      disconnect: async socket => {
         delete this.usersTable[socket.client.userId];
       }
     });
   };
 
   sendEvent = (event: Event, targetUserId: string) => {
-    this.usersTable[targetUserId].emit("event", JSON.stringify(event));
+    if (this.usersTable[targetUserId]) {
+      this.usersTable[targetUserId].emit("event", JSON.stringify(event));
+    }
   };
 }

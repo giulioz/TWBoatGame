@@ -13,4 +13,6 @@
 export interface Message {
   content?: string;
   time?: Date;
+  senderId?: string;
+  recipientId?: string;
 }

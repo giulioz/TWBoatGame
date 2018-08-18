@@ -1,12 +1,15 @@
 <div class="container">
   <app-sidebar-tab text="Amici" icon="people" (select)="openFriends()" #friendsTab>
     <app-sidebar-friend-search></app-sidebar-friend-search>
-    <app-sidebar-friend-element *ngFor="let friend of (this.friends | async)" [user]="friend" [selected]="friend.id === selectedUser" (select)="selectFriend(friend.id)"></app-sidebar-friend-element>
+    <app-sidebar-friend-element *ngFor="let friend of (this.friends | async)" [user]="friend" [selected]="friend.id === selectedUser"
+      (select)="selectFriend(friend.id)"></app-sidebar-friend-element>
   </app-sidebar-tab>
   <app-sidebar-tab text="In Attesa" icon="explore" (select)="openWaiting()" #waitingTab>
-    Test
+    <app-sidebar-friend-element *ngFor="let user of (this.waiting | async)" [user]="user" [selected]="user.id === selectedUser"
+      (select)="selectWaiting(user.id)"></app-sidebar-friend-element>
   </app-sidebar-tab>
   <app-sidebar-tab text="Classifica" icon="timeline" (select)="openScore()" #scoreTab>
-    Test
+    <app-sidebar-friend-element *ngFor="let user of (this.top | async)" showPosition="true" [user]="user" [selected]="user.id === selectedUser"
+      (select)="selectHighscores(user.id)"></app-sidebar-friend-element>
   </app-sidebar-tab>
 </div>
