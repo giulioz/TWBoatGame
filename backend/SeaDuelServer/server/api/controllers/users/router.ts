@@ -23,8 +23,14 @@ export default (
   return express
     .Router()
     .post("/", controller.create)
+    .get("/", controller.all)
+    .get("/findId/:id", controller.findId)
     .get("/byId/:id", controller.byId)
+    .delete("/byId/:id", controller.delete)
     .put("/byId/:id", controller.update)
+    .get("/contacts", controller.contacts)
+    .get("/waiting", controller.waiting)
+    .get("/top", controller.top)
     .get("/byId/:id/messages", controller.getMessages)
     .post("/byId/:id/messages", controller.postMessage);
 };

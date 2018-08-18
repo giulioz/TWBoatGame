@@ -18,6 +18,28 @@ export class Controller {
     private eventsService: EventsService
   ) {}
 
+  all = async (req: Request, res: Response): Promise<void> => {
+    const auth = await authCheck(this.authService, req);
+    if (auth.role === "administrator") {
+      const users = await this.usersService.all();
+      res.json(users.map(u => ({ ...u, password: "" })));
+    } else {
+      res.status(403).end();
+    }
+  };
+
+  findId = async (req: Request, res: Response): Promise<void> => {
+    const auth = await authCheck(this.authService, req);
+    const users = await this.usersService.findId(req.params.id);
+    if (auth.id === req.params.id || auth.role === "administrator") {
+      res.json(users.map(u => ({ ...u, password: "" })));
+    } else if (auth) {
+      res.json(users.map(u => ({ ...u, password: "", email: "" })));
+    } else {
+      res.status(403).end();
+    }
+  };
+
   byId = async (req: Request, res: Response): Promise<void> => {
     let user;
     try {
@@ -60,6 +82,16 @@ export class Controller {
     }
   };
 
+  delete = async (req: Request, res: Response): Promise<void> => {
+    const user = await authCheck(this.authService, req);
+    if (user.role === "administrator" || user.id === req.params.id) {
+      await this.usersService.delete(req.params.id);
+      res.status(200).end();
+    } else {
+      res.status(403).end();
+    }
+  };
+
   update = async (req: Request, res: Response): Promise<void> => {
     const user = await authCheck(this.authService, req);
     if (user.role === "administrator") {
@@ -81,6 +113,38 @@ export class Controller {
     }
   };
 
+  contacts = async (req: Request, res: Response): Promise<void> => {
+    const auth = await authCheck(this.authService, req);
+    if (auth) {
+      const users = await this.usersService.contacts(auth.id);
+      res.json(users.map(u => ({ ...u, password: "", email: "" })));
+    } else {
+      res.status(403).end();
+    }
+  };
+
+  waiting = async (req: Request, res: Response): Promise<void> => {
+    const auth = await authCheck(this.authService, req);
+    if (auth) {
+      const user = await this.usersService.waiting();
+      res.json(user.map(u => ({ ...u, password: "", email: "" })));
+    } else {
+      res.status(403).end();
+    }
+  };
+
+  top = async (req: Request, res: Response): Promise<void> => {
+    const auth = await authCheck(this.authService, req);
+    if (auth) {
+      const users = await this.usersService.all();
+      res.json(
+        users.slice(0, 10).map(u => ({ ...u, password: "", email: "" }))
+      );
+    } else {
+      res.status(403).end();
+    }
+  };
+
   getMessages = async (req: Request, res: Response): Promise<void> => {
     const user = await authCheck(this.authService, req);
     if (user) {
@@ -88,6 +152,7 @@ export class Controller {
         user.id,
         req.params.id
       );
+      await this.messagesService.conversationSetRead(user.id, req.params.id);
       res.json(conversation);
     } else {
       res.status(403).end();
@@ -98,7 +163,10 @@ export class Controller {
     const user = await authCheck(this.authService, req);
     if (user) {
       await this.messagesService.send(user.id, req.params.id, req.body.content);
-      this.eventsService.sendEvent({type: EventType.IncomingMessage, userId: user.id}, req.params.id);
+      this.eventsService.sendEvent(
+        { type: EventType.IncomingMessage, userId: user.id },
+        req.params.id
+      );
       res.send(200).end();
     } else {
       res.status(403).end();

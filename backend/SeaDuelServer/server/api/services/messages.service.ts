@@ -7,6 +7,18 @@ export class MessagesService {
     return query.exec();
   }
 
+  async fromUser(a: string): Promise<Message[]> {
+    const query = MessageModel.find({
+      $or: [{ senderId: a }, { recipientId: a }]
+    });
+    const messages = await query.exec();
+    return messages.sort(
+      (a, b) =>
+        DateTime.fromISO(a.time).toMillis() -
+        DateTime.fromISO(b.time).toMillis()
+    );
+  }
+
   async conversation(a: string, b: string): Promise<Message[]> {
     const query = MessageModel.find({
       $or: [{ senderId: a, recipientId: b }, { senderId: b, recipientId: a }]

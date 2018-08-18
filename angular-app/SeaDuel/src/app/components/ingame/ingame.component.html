@@ -17,12 +17,17 @@
         </div>
         <div class="body-container">
             <div class="main">
-                <div class="column spacer">
-                    <app-account-header [user]="selectedUser"></app-account-header>
-                    <app-chat class="spacer"></app-chat>
+                <div *ngIf="(route.url | async)[0].path === 'user'">
+                    <div class="column spacer">
+                        <app-account-header [user]="selectedUser | async"></app-account-header>
+                        <app-chat class="spacer"></app-chat>
+                    </div>
+                    <div class="column">
+                        <app-game-area class="spacer"></app-game-area>
+                    </div>
                 </div>
-                <div class="column">
-                    <app-game-area class="spacer"></app-game-area>
+                <div *ngIf="(route.url | async)[0].path === 'ingame'">
+                    Ok
                 </div>
             </div>
             <app-sidebar class="sidebar" [selectedUser]="selectedUserId"></app-sidebar>

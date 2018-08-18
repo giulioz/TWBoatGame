@@ -96,6 +96,13 @@ export class GamesService {
     return query.exec();
   }
 
+  async fromPlayer(player: string): Promise<Game[]> {
+    const query = GameModel.find({
+      $or: [{ playerId: player }, { opponentId: player }]
+    });
+    return query.exec();
+  }
+
   async fromPlayers(playerA: string, playerB: string): Promise<Game> {
     const query = GameModel.findOne({
       $or: [

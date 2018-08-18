@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { Observable } from "rxjs";
 
 import { User, UsersService } from "../../../swagger";
 
@@ -10,7 +11,7 @@ import { User, UsersService } from "../../../swagger";
 })
 export class IngameComponent implements OnInit {
   selectedUserId: string;
-  selectedUser: User;
+  selectedUser: Observable<User>;
 
   constructor(
     private router: Router,
@@ -18,8 +19,10 @@ export class IngameComponent implements OnInit {
     private userService: UsersService
   ) {
     this.route.params.subscribe(params => {
-      this.selectedUserId = params.id;
-      this.selectedUser = null;
+      if (params.id) {
+        this.selectedUserId = params.id;
+        this.selectedUser = this.userService.usersByIdIdGet(params.id);
+      }
     });
   }
 

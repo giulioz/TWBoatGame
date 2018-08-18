@@ -13,9 +13,10 @@ import EventsService from "./api/services/events.service";
 const dbService = new DbService();
 const eventsService = new EventsService();
 const usersService = new UsersService();
+const messagesService = new MessagesService();
 const gamesService = new GamesService(usersService);
 const authService = new AuthService(usersService);
-const messagesService = new MessagesService();
+usersService.linkServices(messagesService, gamesService);
 
 const port = parseInt(process.env.PORT);
 const app = new Server();
