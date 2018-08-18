@@ -1,20 +1,19 @@
 import { Pipe, PipeTransform } from "@angular/core";
-
-import { UserState } from "../models/user";
+import { User } from "../../swagger";
 
 @Pipe({
   name: "userstatusColor"
 })
 export class UserstatusColorPipe implements PipeTransform {
-  transform(value: UserState, args?: any): string {
-    if (value === UserState.None) {
-      return "#000000";
-    } else if (value === UserState.Offline) {
+  transform(value: User, args?: any): string {
+    if (value.state === "offline") {
       return "rgb(164, 172, 180)";
-    } else if (value === UserState.Online) {
-      return "#14FF00";
-    } else if (value === UserState.Playing) {
+    } else if (value.playing) {
       return "#FF0000";
+    } else if (value.state === "online") {
+      return "#14FF00";
+    } else {
+      return "#000000";
     }
   }
 }

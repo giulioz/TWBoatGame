@@ -9,6 +9,7 @@ import { ScrollToModule } from "@nicky-lenaers/ngx-scroll-to";
 
 // Modules
 import { AppRoutingModule } from "./app-routing.module";
+import { ApiModule, BASE_PATH } from "../swagger";
 
 // Components
 import { AppComponent } from "./app.component";
@@ -27,12 +28,9 @@ import { GameAreaComponent } from "./components/game-area/game-area.component";
 
 // Services
 import { AuthService } from "./services/auth.service";
-import { RegistrationService } from "./services/registration.service";
 import { AuthGuard } from "./services/auth-guard.service";
 import { NoAuthGuard } from "./services/noauth-guard.service";
-import { UserStore } from "./state/user-store";
 import { JwtInterceptor } from "./utils/jwt-interceptor";
-import { UsersService } from "./services/users.service";
 
 // Pipes
 import { UserstatusColorPipe } from "./pipes/userstatus-color.pipe";
@@ -59,16 +57,15 @@ import { UserstatusColorPipe } from "./pipes/userstatus-color.pipe";
     AppRoutingModule,
     ScrollToModule.forRoot(),
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ApiModule
   ],
   providers: [
     AuthService,
-    RegistrationService,
     AuthGuard,
     NoAuthGuard,
-    UserStore,
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    UsersService
+    { provide: BASE_PATH, useValue: 'http://localhost:4201/api/v1' },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

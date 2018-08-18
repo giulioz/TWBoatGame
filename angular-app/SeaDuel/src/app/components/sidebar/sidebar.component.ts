@@ -1,21 +1,23 @@
 import { Component, OnInit, ViewChild, Input } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { UserStore } from "../../state/user-store";
-
 @Component({
   selector: "app-sidebar",
   templateUrl: "./sidebar.component.html",
   styleUrls: ["./sidebar.component.css"]
 })
 export class SidebarComponent implements OnInit {
-  @ViewChild("waitingTab") waitingTab;
-  @ViewChild("friendsTab") friendsTab;
-  @ViewChild("scoreTab") scoreTab;
+  @ViewChild("waitingTab")
+  waitingTab;
+  @ViewChild("friendsTab")
+  friendsTab;
+  @ViewChild("scoreTab")
+  scoreTab;
 
-  @Input() selectedUser: string;
+  @Input()
+  selectedUser: string;
 
-  constructor(private router: Router, private userStore: UserStore) {}
+  constructor(private router: Router) {}
 
   // ************************************
   //  Collapse

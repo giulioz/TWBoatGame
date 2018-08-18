@@ -1,7 +1,7 @@
 <div class="outer" [ngClass]="{'selected': selected}">
   <div class="inner" (click)="onSelect()">
     <div class="material-icons icon">person</div>
-    <div class="badge" style.background-color="{{this.user.state | userstatusColor}}"></div>
+    <div class="badge" style.background-color="{{this.user | userstatusColor}}"></div>
     <div class="username">{{this.user.id}}</div>
     <div class="unread" *ngIf="hasUnread"></div>
   </div>

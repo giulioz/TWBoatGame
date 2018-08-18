@@ -1,33 +1,30 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { map } from "rxjs/operators";
-
-import { environment } from "../../environments/environment";
+import { AuthenticationService } from "../../swagger";
 
 @Injectable()
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  constructor(private authService: AuthenticationService) {}
 
-  get loggedIn() {
-    // return localStorage.getItem("currentUser") || 0;
-    return true;
+  async isLoggedIn() {
+    return new Promise(resolve => {
+      this.authService
+        .authCheckTokenPost({
+          token: localStorage.getItem("currentUser") || ""
+        })
+        .subscribe(() => resolve(true), () => resolve(false));
+    });
   }
 
-  login(username: string, password: string) {
-    return this.http
-      .post<any>(`${environment.apiUrl}/users/login`, {
-        username: username,
-        password: password
-      })
-      .pipe(
-        map(user => {
-          if (user && user.token) {
-            localStorage.setItem("currentUser", JSON.stringify(user));
-          }
+  async login(id: string, password: string) {
+    return new Promise(resolve => {
+      this.authService.authLoginPost({ id, password }).subscribe(user => {
+        if (user) {
+          localStorage.setItem("currentUser", user);
+        }
 
-          return user;
-        })
-      );
+        resolve(user);
+      }, error => resolve(null));
+    });
   }
 
   logout() {

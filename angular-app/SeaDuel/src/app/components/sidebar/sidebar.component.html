@@ -3,7 +3,7 @@
     <app-sidebar-friend-search></app-sidebar-friend-search>
     <app-sidebar-friend-element *ngFor="let friend of (userStore.currentUser | async).friends" [user]="friend" [selected]="friend.id === selectedUser" (select)="selectFriend(friend.id)"></app-sidebar-friend-element>
   </app-sidebar-tab>
-  <app-sidebar-tab text="In Attesa" icon="explore" (select)="openWaiting()" #gamesTab>
+  <app-sidebar-tab text="In Attesa" icon="explore" (select)="openWaiting()" #waitingTab>
     Test
   </app-sidebar-tab>
   <app-sidebar-tab text="Classifica" icon="timeline" (select)="openScore()" #scoreTab>

@@ -1,10 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Observable } from "rxjs";
-import { DateTime } from "luxon";
 
-import { UsersService } from "../../services/users.service";
-import { User, UserType, UserState } from "../../models/user";
+import { User, UsersService } from "../../../swagger";
 
 @Component({
   selector: "app-ingame",

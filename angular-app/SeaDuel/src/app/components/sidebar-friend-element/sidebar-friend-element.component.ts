@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-
-import { User } from "../../models/user";
+import { User } from "../../../swagger";
 
 @Component({
   selector: "app-sidebar-friend-element",
@@ -13,11 +12,7 @@ export class SidebarFriendElementComponent implements OnInit {
   @Output() select: EventEmitter<any> = new EventEmitter();
 
   get hasUnread() {
-    return (
-      this.user &&
-      this.user.conversation[this.user.conversation.length - 1] &&
-      !this.user.conversation[this.user.conversation.length - 1].readt
-    );
+    return false;
   }
 
   onSelect(): void {

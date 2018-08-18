@@ -50,3 +50,9 @@ input::placeholder {
 a {
     color: #FFFFFF;
 }
+
+.error {
+    margin: 8px;
+    color: #ad1212;
+    font-size: 12pt;
+}
