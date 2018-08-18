@@ -192,6 +192,21 @@ paths:
           description: "Invalid credentials"
 
   /users:
+    get:
+      tags:
+        - Users
+      security:
+        - Bearer: []
+      description: "Get the list of all the users"
+      responses:
+        200:
+          description: "Return all the users"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+        403:
+          description: "Access Denied"
     post:
       tags:
         - Users
@@ -223,6 +238,29 @@ paths:
           description: "User already exists"
         429:
           description: "Too many user creation requests"
+
+  /users/findId/{id}:
+    get:
+      tags:
+        - Users
+      security:
+        - Bearer: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "The start of the user id to find"
+          type: string
+      description: "Find user by the start of user id"
+      responses:
+        200:
+          description: "Return the users"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+        403:
+          description: "Access Denied"
 
   /users/byId/{id}:
     get:
@@ -290,6 +328,57 @@ paths:
           description: "Invalid user format or request"
         404:
           description: "User id not found"
+
+  /users/contacts:
+    get:
+      tags:
+        - Users
+      security:
+        - Bearer: []
+      description: "Get the users in contact with the logged in user"
+      responses:
+        200:
+          description: "Return the users"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+        403:
+          description: "Access Denied"
+
+  /users/waiting:
+    get:
+      tags:
+        - Users
+      security:
+        - Bearer: []
+      description: "Get random users waiting to play"
+      responses:
+        200:
+          description: "Return the users"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+        403:
+          description: "Access Denied"
+
+  /users/top:
+    get:
+      tags:
+        - Users
+      security:
+        - Bearer: []
+      description: "Get the top 10 users"
+      responses:
+        200:
+          description: "Return the users"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+        403:
+          description: "Access Denied"
 
   /users/byId/{id}/messages:
     get:
