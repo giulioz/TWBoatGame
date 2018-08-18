@@ -1,21 +1,21 @@
 ## Roadmap di progetto
 
-- [ ] Progettazione di base
-    - [ ] Logica e dinamiche di gioco
-    - [ ] Dinamiche utenti
-    - [ ] Dinamiche amministratore
-    - [ ] Wireframe interfaccia
+- [x] Progettazione di base
+    - [x] Logica e dinamiche di gioco
+    - [x] Dinamiche utenti
+    - [x] Dinamiche amministratore
+    - [x] Wireframe interfaccia
 
-- [ ] Progettazione Backend
-    - [ ] Definizione oggetti
-    - [ ] Definizione metodi ed endpoint
-    - [ ] Definizione tecnologica
+- [x] Progettazione Backend
+    - [x] Definizione oggetti
+    - [x] Definizione metodi ed endpoint
+    - [x] Definizione tecnologica
 
-- [ ] Sviluppo Backend
-    - [ ] Gestione Utenti
-    - [ ] Interazioni utenti
-        - [ ] Messaggistica, social
-        - [ ] Classifiche
+- [x] Sviluppo Backend
+    - [x] Gestione Utenti
+    - [x] Interazioni utenti
+        - [x] Messaggistica, social
+        - [x] Classifiche
     - [ ] Gestione gioco
 
 - [ ] Sviluppo Frontend
