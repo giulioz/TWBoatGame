@@ -115,22 +115,13 @@ export class GamesService {
 
   async fromPlayersAsPlayer(player: string, opponent: string): Promise<Game> {
     const game = await this.fromPlayers(player, opponent);
-    return transformGamePlayer(game, player);
+    return game ? transformGamePlayer(game, player) : null;
   }
 
   async sendRequest(player: string, opponent: string): Promise<Game> {
-    // RESIGN: other player wins and resigning player loses, then delete old game
     const prevGame = await this.fromPlayers(player, opponent);
     if (prevGame.state !== GameStateType.Ended) {
-      await this.userService.incrementStats(player, 0, 1);
-      await this.userService.incrementStats(opponent, 1, 0);
-      const deleteQuery = GameModel.deleteOne({
-        $or: [
-          { playerId: player, opponentId: opponent },
-          { playerId: opponent, opponentId: player }
-        ]
-      });
-      await deleteQuery.exec();
+      throw "Game not ended";
     }
 
     const game = emptyGame(player, opponent);
@@ -182,9 +173,17 @@ export class GamesService {
   //   );
   // }
 
-  async resign(player: string, opponent: string): Promise<Game> {
-    // GameModel.deleteOne()
-    return null;
+  async resign(player: string, opponent: string): Promise<void> {
+    // RESIGN: other player wins and resigning player loses, then delete old game
+    await this.userService.incrementStats(player, 0, 1);
+    await this.userService.incrementStats(opponent, 1, 0);
+    const deleteQuery = GameModel.deleteOne({
+      $or: [
+        { playerId: player, opponentId: opponent },
+        { playerId: opponent, opponentId: player }
+      ]
+    });
+    await deleteQuery.exec();
   }
 }
 

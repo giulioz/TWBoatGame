@@ -1,7 +1,7 @@
 // Angular
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
 
 // Externals
@@ -9,7 +9,12 @@ import { ScrollToModule } from "@nicky-lenaers/ngx-scroll-to";
 
 // Modules
 import { AppRoutingModule } from "./app-routing.module";
-import { ApiModule, BASE_PATH } from "../swagger";
+import {
+  ApiModule,
+  BASE_PATH,
+  Configuration,
+  ConfigurationParameters
+} from "../swagger";
 
 // Components
 import { AppComponent } from "./app.component";
@@ -30,10 +35,18 @@ import { GameAreaComponent } from "./components/game-area/game-area.component";
 import { AuthService } from "./services/auth.service";
 import { AuthGuard } from "./services/auth-guard.service";
 import { NoAuthGuard } from "./services/noauth-guard.service";
-import { JwtInterceptor } from "./utils/jwt-interceptor";
 
 // Pipes
 import { UserstatusColorPipe } from "./pipes/userstatus-color.pipe";
+
+import { environment } from "../environments/environment";
+
+function apiConfigFactory(): Configuration {
+  const params: ConfigurationParameters = {
+    // set configuration parameters here.
+  };
+  return new Configuration(params);
+}
 
 @NgModule({
   declarations: [
@@ -58,14 +71,13 @@ import { UserstatusColorPipe } from "./pipes/userstatus-color.pipe";
     ScrollToModule.forRoot(),
     FormsModule,
     HttpClientModule,
-    ApiModule
+    ApiModule.forRoot(apiConfigFactory)
   ],
   providers: [
     AuthService,
     AuthGuard,
     NoAuthGuard,
-    { provide: BASE_PATH, useValue: 'http://localhost:4201/api/v1' },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    { provide: BASE_PATH, useValue: environment.apiUrl }
   ],
   bootstrap: [AppComponent]
 })

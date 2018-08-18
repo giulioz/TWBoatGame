@@ -20,7 +20,8 @@ export class Controller {
 
   all = async (req: Request, res: Response): Promise<void> => {
     const auth = await authCheck(this.authService, req);
-    if (auth.role === "administrator") {
+
+    if (auth && auth.role === "administrator") {
       const users = await this.usersService.all();
       res.json(users.map(u => ({ ...u, password: "" })));
     } else {
@@ -31,7 +32,8 @@ export class Controller {
   findId = async (req: Request, res: Response): Promise<void> => {
     const auth = await authCheck(this.authService, req);
     const users = await this.usersService.findId(req.params.id);
-    if (auth.id === req.params.id || auth.role === "administrator") {
+
+    if (auth && (auth.id === req.params.id || auth.role === "administrator")) {
       res.json(users.map(u => ({ ...u, password: "" })));
     } else if (auth) {
       res.json(users.map(u => ({ ...u, password: "", email: "" })));
@@ -41,25 +43,27 @@ export class Controller {
   };
 
   byId = async (req: Request, res: Response): Promise<void> => {
-    let user;
     try {
-      user = await this.usersService.byId(req.params.id);
+      const auth = await authCheck(this.authService, req);
+      const user = await this.usersService.byId(req.params.id);
+
+      if (
+        auth &&
+        (auth.id === req.params.id || auth.role === "administrator")
+      ) {
+        user.password = "";
+
+        res.json(user);
+      } else if (auth) {
+        user.password = "";
+        user.email = "";
+
+        res.json(user);
+      } else {
+        res.status(403).end();
+      }
     } catch {
       res.status(404).end();
-      return;
-    }
-
-    const auth = await authCheck(this.authService, req);
-    if (auth.id === req.params.id || auth.role === "administrator") {
-      user.password = "";
-      res.json(user);
-    } else if (auth) {
-      user.password = "";
-      user.email = "";
-
-      res.json(user);
-    } else {
-      res.status(403).end();
     }
   };
 
@@ -84,7 +88,8 @@ export class Controller {
 
   delete = async (req: Request, res: Response): Promise<void> => {
     const user = await authCheck(this.authService, req);
-    if (user.role === "administrator" || user.id === req.params.id) {
+
+    if (user && (user.role === "administrator" || user.id === req.params.id)) {
       await this.usersService.delete(req.params.id);
       res.status(200).end();
     } else {
@@ -94,8 +99,10 @@ export class Controller {
 
   update = async (req: Request, res: Response): Promise<void> => {
     const user = await authCheck(this.authService, req);
-    if (user.role === "administrator") {
+
+    if (user && user.role === "administrator") {
       await this.usersService.update(req.params.id, req.body);
+
       res.status(200).end();
     } else if (user.id === req.params.id) {
       delete req.body.id;
@@ -106,7 +113,9 @@ export class Controller {
       delete req.body.lostGames;
       delete req.body.position;
       delete req.body.lastActivity;
+
       await this.usersService.update(req.params.id, req.body);
+
       res.status(200).end();
     } else {
       res.status(403).end();
@@ -115,9 +124,12 @@ export class Controller {
 
   contacts = async (req: Request, res: Response): Promise<void> => {
     const auth = await authCheck(this.authService, req);
+
     if (auth) {
       const users = await this.usersService.contacts(auth.id);
-      res.json(users.map(u => ({ ...u, password: "", email: "" })));
+      const usersStriped = users.map(u => ({ ...u, password: "", email: "" }));
+
+      res.json(usersStriped);
     } else {
       res.status(403).end();
     }
@@ -125,9 +137,12 @@ export class Controller {
 
   waiting = async (req: Request, res: Response): Promise<void> => {
     const auth = await authCheck(this.authService, req);
+
     if (auth) {
-      const user = await this.usersService.waiting();
-      res.json(user.map(u => ({ ...u, password: "", email: "" })));
+      const users = await this.usersService.waiting();
+      const usersStriped = users.map(u => ({ ...u, password: "", email: "" }));
+
+      res.json(usersStriped);
     } else {
       res.status(403).end();
     }
@@ -135,11 +150,14 @@ export class Controller {
 
   top = async (req: Request, res: Response): Promise<void> => {
     const auth = await authCheck(this.authService, req);
+
     if (auth) {
       const users = await this.usersService.all();
-      res.json(
-        users.slice(0, 10).map(u => ({ ...u, password: "", email: "" }))
-      );
+      const usersStriped = users
+        .slice(0, 10)
+        .map(u => ({ ...u, password: "", email: "" }));
+
+      res.json(usersStriped);
     } else {
       res.status(403).end();
     }
@@ -147,12 +165,14 @@ export class Controller {
 
   getMessages = async (req: Request, res: Response): Promise<void> => {
     const user = await authCheck(this.authService, req);
+
     if (user) {
       const conversation = await this.messagesService.conversation(
         user.id,
         req.params.id
       );
       await this.messagesService.conversationSetRead(user.id, req.params.id);
+
       res.json(conversation);
     } else {
       res.status(403).end();
@@ -161,16 +181,88 @@ export class Controller {
 
   postMessage = async (req: Request, res: Response): Promise<void> => {
     const user = await authCheck(this.authService, req);
+
     if (user) {
       await this.messagesService.send(user.id, req.params.id, req.body.content);
       this.eventsService.sendEvent(
         { type: EventType.IncomingMessage, userId: user.id },
         req.params.id
       );
+
+      res.send(200).end();
+    } else {
+      res.status(403).end();
+    }
+  };
+
+  getGame = async (req: Request, res: Response): Promise<void> => {
+    const user = await authCheck(this.authService, req);
+
+    if (user) {
+      const game = await this.gamesService.fromPlayersAsPlayer(
+        user.id,
+        req.params.id
+      );
+
+      res.json(game);
+    } else {
+      res.status(403).end();
+    }
+  };
+
+  newGame = async (req: Request, res: Response): Promise<void> => {
+    const user = await authCheck(this.authService, req);
+
+    if (user) {
+      try {
+        const game = await this.gamesService.sendRequest(
+          user.id,
+          req.params.id
+        );
+        this.eventsService.sendEvent(
+          { type: EventType.GameChanged, userId: user.id },
+          req.params.id
+        );
+
+        res.json(game);
+      } catch {
+        // Game not ended
+        res.status(409).end();
+      }
+    } else {
+      res.status(403).end();
+    }
+  };
+
+  updateGame = async (req: Request, res: Response): Promise<void> => {
+    const user = await authCheck(this.authService, req);
+
+    if (user) {
+      // TODO
+      
+      // await this.usersService.update(req.params.id, req.body);
+
+      res.status(200).end();
+    } else {
+      res.status(403).end();
+    }
+  };
+
+  resignGame = async (req: Request, res: Response): Promise<void> => {
+    const user = await authCheck(this.authService, req);
+
+    if (user) {
+      await this.gamesService.resign(user.id, req.params.id);
+      this.eventsService.sendEvent(
+        { type: EventType.GameChanged, userId: user.id },
+        req.params.id
+      );
+
       res.send(200).end();
     } else {
       res.status(403).end();
     }
   };
 }
+
 export default Controller;

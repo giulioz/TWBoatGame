@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, Input } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
+import { Observable } from "rxjs";
+import { User, UsersService } from "../../../swagger";
 
 @Component({
   selector: "app-sidebar",
@@ -14,15 +16,20 @@ export class SidebarComponent implements OnInit {
   @ViewChild("scoreTab")
   scoreTab;
 
-  @Input()
-  selectedUser: string;
+  friends: Observable<User[]>;
+  waiting: Observable<User[]>;
+  top: Observable<User[]>;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private usersService: UsersService
+  ) {}
 
   // ************************************
   //  Collapse
 
-  openGames = () => {
+  openWaiting = () => {
     this.waitingTab.open = !this.waitingTab.open;
     this.scoreTab.open = false;
     this.friendsTab.open = false;
@@ -52,5 +59,14 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     this.waitingTab.open = true;
+
+    // this.usersService.configuration.apiKeys = {};
+    // this.usersService.configuration.apiKeys[
+    //   "Authorization"
+    // ] = localStorage.getItem("currentUser");
+
+    this.friends = this.usersService.usersContactsGet();
+    this.waiting = this.usersService.usersWaitingGet();
+    this.top = this.usersService.usersTopGet();
   }
 }

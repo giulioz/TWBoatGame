@@ -15,8 +15,7 @@ const lastActivityOnlineThreshold = Duration.fromObject({
 
 const kd = (u: User) => u.wonGames / (u.wonGames + u.lostGames);
 
-const state = (u: User): "offline" | "online" | "playing" => {
-  // FIXME
+const state = (u: User): "offline" | "online" => {
   const lastActivityTime =
     DateTime.local().toMillis() - DateTime.fromISO(u.lastActivity).toMillis();
   const isOnline = lastActivityTime < lastActivityOnlineThreshold;
@@ -24,6 +23,7 @@ const state = (u: User): "offline" | "online" | "playing" => {
 };
 
 function calculateUsersStats(users: User[]) {
+  // FIXME
   return users
     .sort((a, b) => kd(a) - kd(b))
     .map((u, i) => ({ ...(u as any)._doc, position: i, state: state(u) }));
@@ -56,14 +56,9 @@ export class UsersService {
     else throw Errors.UserNotFound;
   }
 
-  async fetchIdsWithoutStats(ids: string[]): Promise<User[]> {
-    const query = UserModel.find({
-      $or: ids.map(id => ({
-        id
-      }))
-    });
-    const users = await query.exec();
-    return users.map(u => (u as any)._doc);
+  async fetchIds(ids: string[]): Promise<User[]> {
+    const all = await this.all();
+    return all.filter(u => ids.indexOf(u.id) !== -1);
   }
 
   async create(id: string, email: string, password: string): Promise<User> {
@@ -118,7 +113,7 @@ export class UsersService {
       )
     ];
     const userIds = [...new Set([...gamesUsers, ...messagesUsers])];
-    return this.fetchIdsWithoutStats(userIds);
+    return this.fetchIds(userIds);
   }
 
   async waiting(): Promise<User[]> {

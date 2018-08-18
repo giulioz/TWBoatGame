@@ -32,5 +32,9 @@ export default (
     .get("/waiting", controller.waiting)
     .get("/top", controller.top)
     .get("/byId/:id/messages", controller.getMessages)
-    .post("/byId/:id/messages", controller.postMessage);
+    .post("/byId/:id/messages", controller.postMessage)
+    .get("/byId/:id/game", controller.getGame)
+    .post("/byId/:id/game", controller.newGame)
+    .put("/byId/:id/game", controller.updateGame)
+    .delete("/byId/:id/game", controller.resignGame);
 };

@@ -80,3 +80,18 @@
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
 }
+
+.nouser-container {
+  padding: 32px;
+  color: #ffffff;
+}
+
+.nouser-container h1 {
+  margin: 0;
+  padding: 0;
+  font-size: 50px;
+}
+
+.nouser-container p {
+  font-size: 20px;
+}

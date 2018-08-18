@@ -10,7 +10,6 @@ import { User, UsersService } from "../../../swagger";
   styleUrls: ["./ingame.component.css"]
 })
 export class IngameComponent implements OnInit {
-  selectedUserId: string;
   selectedUser: Observable<User>;
 
   constructor(
@@ -20,7 +19,6 @@ export class IngameComponent implements OnInit {
   ) {
     this.route.params.subscribe(params => {
       if (params.id) {
-        this.selectedUserId = params.id;
         this.selectedUser = this.userService.usersByIdIdGet(params.id);
       }
     });

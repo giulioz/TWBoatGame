@@ -26,11 +26,13 @@
                         <app-game-area class="spacer"></app-game-area>
                     </div>
                 </div>
-                <div *ngIf="(route.url | async)[0].path === 'ingame'">
-                    Ok
+                <div *ngIf="(route.url | async)[0].path === 'ingame'" class="nouser-container">
+                    <h1>Benvenuto su SeaDuel</h1>
+                    <p>Seleziona un utente a lato per cominciare a giocare.</p>
+                    <p>Puoi cercare un utente se conosci il suo nome oppure selezionarne uno in attesa per giocare.</p>
                 </div>
             </div>
-            <app-sidebar class="sidebar" [selectedUser]="selectedUserId"></app-sidebar>
+            <app-sidebar class="sidebar"></app-sidebar>
         </div>
     </div>
 </div>
