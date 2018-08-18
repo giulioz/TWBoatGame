@@ -67,61 +67,6 @@ export class UsersService {
 
   /**
    *
-   * Get the users in contact with the logged in user
-   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-   * @param reportProgress flag to report request and response progress.
-   */
-  public usersByIdIdContactsGet(
-    observe?: "body",
-    reportProgress?: boolean
-  ): Observable<Array<User>>;
-  public usersByIdIdContactsGet(
-    observe?: "response",
-    reportProgress?: boolean
-  ): Observable<HttpResponse<Array<User>>>;
-  public usersByIdIdContactsGet(
-    observe?: "events",
-    reportProgress?: boolean
-  ): Observable<HttpEvent<Array<User>>>;
-  public usersByIdIdContactsGet(
-    observe: any = "body",
-    reportProgress: boolean = false
-  ): Observable<any> {
-    let headers = this.defaultHeaders;
-
-    // authentication (Bearer) required
-    if (this.configuration.apiKeys["Authorization"]) {
-      headers = headers.set(
-        "Authorization",
-        this.configuration.apiKeys["Authorization"]
-      );
-    }
-
-    // to determine the Accept header
-    const httpHeaderAccepts: string[] = ["application/json"];
-    const httpHeaderAcceptSelected:
-      | string
-      | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected !== undefined) {
-      headers = headers.set("Accept", httpHeaderAcceptSelected);
-    }
-
-    // to determine the Content-Type header
-    const consumes: string[] = ["application/json"];
-
-    return this.httpClient.get<Array<User>>(
-      `${this.basePath}/users/byId/${encodeURIComponent(String(id))}/contacts`,
-      {
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
-  }
-
-  /**
-   *
    * Delete an user
    * @param id The id of the user to delete
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -333,6 +278,58 @@ export class UsersService {
         reportProgress: reportProgress
       }
     );
+  }
+
+  /**
+   *
+   * Get the users in contact with the logged in user
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public usersContactsGet(
+    observe?: "body",
+    reportProgress?: boolean
+  ): Observable<Array<User>>;
+  public usersContactsGet(
+    observe?: "response",
+    reportProgress?: boolean
+  ): Observable<HttpResponse<Array<User>>>;
+  public usersContactsGet(
+    observe?: "events",
+    reportProgress?: boolean
+  ): Observable<HttpEvent<Array<User>>>;
+  public usersContactsGet(
+    observe: any = "body",
+    reportProgress: boolean = false
+  ): Observable<any> {
+    let headers = this.defaultHeaders;
+
+    // authentication (Bearer) required
+    if (this.configuration.apiKeys["Authorization"]) {
+      headers = headers.set(
+        "Authorization",
+        this.configuration.apiKeys["Authorization"]
+      );
+    }
+
+    // to determine the Accept header
+    const httpHeaderAccepts: string[] = ["application/json"];
+    const httpHeaderAcceptSelected:
+      | string
+      | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set("Accept", httpHeaderAcceptSelected);
+    }
+
+    // to determine the Content-Type header
+    const consumes: string[] = ["application/json"];
+
+    return this.httpClient.get<Array<User>>(`${this.basePath}/users/contacts`, {
+      withCredentials: this.configuration.withCredentials,
+      headers: headers,
+      observe: observe,
+      reportProgress: reportProgress
+    });
   }
 
   /**
