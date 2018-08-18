@@ -1,5 +1,5 @@
-export * from "./authRequest";
-export * from "./body";
+export * from "./newUser";
+export * from "./authObject";
 export * from "./game";
 export * from "./gameBoard";
 export * from "./login";

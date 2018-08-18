@@ -180,8 +180,8 @@ paths:
           description: "Auth token"
           schema:
             type: object
+            title: AuthObject
             properties:
-              title: AuthObject
               token:
                 type: string
       description: "Checks a token validity"
@@ -202,7 +202,7 @@ paths:
           description: "The user to create"
           schema:
             type: object
-            title: AuthRequest
+            title: NewUser
             properties:
               id:
                 type: string
@@ -242,6 +242,25 @@ paths:
           description: "Return the user with the specified id"
           schema:
             $ref: "#/definitions/User"
+        404:
+          description: "User id not found"
+        403:
+          description: "Access Denied"
+    delete:
+      tags:
+        - Users
+      security:
+        - Bearer: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "The id of the user to delete"
+          type: string
+      description: "Delete an user"
+      responses:
+        200:
+          description: "User deleted"
         404:
           description: "User id not found"
         403:
@@ -396,6 +415,25 @@ paths:
             $ref: "#/definitions/Game"
         400:
           description: "Invalid game update"
+        404:
+          description: "User id not found"
+        403:
+          description: "Access Denied"
+    delete:
+      tags:
+        - Games
+      security:
+        - Bearer: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "The user id of the opponent"
+          type: string
+      description: "Resign from a game"
+      responses:
+        200:
+          description: "Resigned succesfully"
         404:
           description: "User id not found"
         403:

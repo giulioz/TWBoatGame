@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { AuthRequest, UsersService } from "../../../swagger";
+import { UsersService, NewUser } from "../../../swagger";
 import { AuthService } from "../../services/auth.service";
 
 @Component({
@@ -13,7 +13,7 @@ export class RegisterFormComponent implements OnInit {
   @ViewChild("message")
   message;
 
-  model: AuthRequest = { id: "", email: "", password: "" };
+  model: NewUser = { id: "", email: "", password: "" };
 
   constructor(
     private router: Router,

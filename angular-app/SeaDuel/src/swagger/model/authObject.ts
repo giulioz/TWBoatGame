@@ -10,11 +10,6 @@
  * Do not edit the class manually.
  */
 
-export interface AuthRequest {
-  /**
-   * Username
-   */
-  id?: string;
-  email?: string;
-  password?: string;
+export interface AuthObject {
+  token?: string;
 }

@@ -23,7 +23,7 @@ import { CustomHttpUrlEncodingCodec } from "../encoder";
 
 import { Observable } from "rxjs";
 
-import { AuthRequest } from "../model/authRequest";
+import { NewUser } from "../model/newUser";
 import { User } from "../model/user";
 
 import { BASE_PATH, COLLECTION_FORMATS } from "../variables";
@@ -63,6 +63,72 @@ export class UsersService {
       }
     }
     return false;
+  }
+
+  /**
+   *
+   * Delete an user
+   * @param id The id of the user to delete
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public usersByIdIdDelete(
+    id: string,
+    observe?: "body",
+    reportProgress?: boolean
+  ): Observable<any>;
+  public usersByIdIdDelete(
+    id: string,
+    observe?: "response",
+    reportProgress?: boolean
+  ): Observable<HttpResponse<any>>;
+  public usersByIdIdDelete(
+    id: string,
+    observe?: "events",
+    reportProgress?: boolean
+  ): Observable<HttpEvent<any>>;
+  public usersByIdIdDelete(
+    id: string,
+    observe: any = "body",
+    reportProgress: boolean = false
+  ): Observable<any> {
+    if (id === null || id === undefined) {
+      throw new Error(
+        "Required parameter id was null or undefined when calling usersByIdIdDelete."
+      );
+    }
+
+    let headers = this.defaultHeaders;
+
+    // authentication (Bearer) required
+    if (this.configuration.apiKeys["Authorization"]) {
+      headers = headers.set(
+        "Authorization",
+        this.configuration.apiKeys["Authorization"]
+      );
+    }
+
+    // to determine the Accept header
+    const httpHeaderAccepts: string[] = ["application/json"];
+    const httpHeaderAcceptSelected:
+      | string
+      | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set("Accept", httpHeaderAcceptSelected);
+    }
+
+    // to determine the Content-Type header
+    const consumes: string[] = ["application/json"];
+
+    return this.httpClient.delete<any>(
+      `${this.basePath}/users/byId/${encodeURIComponent(String(id))}`,
+      {
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
   }
 
   /**
@@ -222,22 +288,22 @@ export class UsersService {
    * @param reportProgress flag to report request and response progress.
    */
   public usersPost(
-    body: AuthRequest,
+    body: NewUser,
     observe?: "body",
     reportProgress?: boolean
   ): Observable<any>;
   public usersPost(
-    body: AuthRequest,
+    body: NewUser,
     observe?: "response",
     reportProgress?: boolean
   ): Observable<HttpResponse<any>>;
   public usersPost(
-    body: AuthRequest,
+    body: NewUser,
     observe?: "events",
     reportProgress?: boolean
   ): Observable<HttpEvent<any>>;
   public usersPost(
-    body: AuthRequest,
+    body: NewUser,
     observe: any = "body",
     reportProgress: boolean = false
   ): Observable<any> {

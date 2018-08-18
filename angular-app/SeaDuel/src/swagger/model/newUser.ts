@@ -10,6 +10,11 @@
  * Do not edit the class manually.
  */
 
-export interface Body {
-  token?: string;
+export interface NewUser {
+  /**
+   * Username
+   */
+  id?: string;
+  email?: string;
+  password?: string;
 }
