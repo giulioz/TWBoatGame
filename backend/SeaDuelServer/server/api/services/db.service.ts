@@ -19,10 +19,12 @@ export class User extends Typegoose {
   lostGames: number;
   @prop()
   lastActivity: string;
+  @prop()
+  playing: boolean;
 
   // Calculated
   position: number;
-  state: "offline" | "online" | "playing";
+  state: "offline" | "online";
 }
 
 export class Message extends Typegoose {

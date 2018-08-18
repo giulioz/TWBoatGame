@@ -66,7 +66,6 @@ definitions:
         enum:
           - offline
           - online
-          - playing
       wonGames:
         type: number
       lostGames:
@@ -79,6 +78,8 @@ definitions:
         type: string
         format: "date-time"
         description: "Last http request made by user, for online check"
+      playing:
+        type: boolean
 
   GameBoard:
     type: object
@@ -148,20 +149,6 @@ definitions:
         type: string
         format: "date-time"
 
-  Event:
-    type: object
-    title: Event
-    properties:
-      type:
-        type: string
-        enum:
-          - IncomingMessage
-          - IncomingGameRequest
-          - GameStateChanged
-          - GameBoardChanged
-      data:
-        type: object
-
 paths:
   /auth/login:
     post:
@@ -194,6 +181,7 @@ paths:
           schema:
             type: object
             properties:
+              title: AuthObject
               token:
                 type: string
       description: "Checks a token validity"
@@ -214,6 +202,7 @@ paths:
           description: "The user to create"
           schema:
             type: object
+            title: AuthRequest
             properties:
               id:
                 type: string
@@ -324,6 +313,7 @@ paths:
           description: "The body of the message to send"
           schema:
             type: object
+            title: MessageObject
             properties:
               content:
                 type: string
@@ -375,6 +365,8 @@ paths:
           description: "Game request sent successfully, returns the game"
           schema:
             $ref: "#/definitions/Game"
+        409:
+          description: "Game already started"
         404:
           description: "User id not found"
         403:

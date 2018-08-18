@@ -20,13 +20,13 @@ export function hashPassword(password: string) {
   return hash.digest("hex");
 }
 
-function genAuthToken(user: User) : AuthToken {
+function genAuthToken(user: User): AuthToken {
   return {
     id: user.id,
     email: user.email,
     loginTime: DateTime.local(),
     role: user.role
-  }
+  };
 }
 
 export async function authCheck(authService: AuthService, req: Request) {
@@ -61,6 +61,8 @@ export class AuthService {
   async checkToken(token: string): Promise<AuthToken> {
     try {
       const auth = verify(token.split(" ")[1], secret) as AuthToken;
+
+      await this.usersService.byId(auth.id);
 
       // for online / offline detection
       this.usersService.touchLastActivity(auth.id);

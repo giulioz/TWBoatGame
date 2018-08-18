@@ -12,8 +12,8 @@ import EventsService from "./api/services/events.service";
 
 const dbService = new DbService();
 const eventsService = new EventsService();
-const gamesService = new GamesService();
-const usersService = new UsersService(gamesService);
+const usersService = new UsersService();
+const gamesService = new GamesService(usersService);
 const authService = new AuthService(usersService);
 const messagesService = new MessagesService();
 

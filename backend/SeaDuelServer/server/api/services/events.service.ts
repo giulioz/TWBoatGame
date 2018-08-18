@@ -6,9 +6,7 @@ import l from "../../common/logger";
 
 export enum EventType {
   IncomingMessage = "IncomingMessage",
-  IncomingGameRequest = "IncomingGameRequest",
-  GameStateChanged = "GameStateChanged",
-  GameBoardChanged = "GameBoardChanged"
+  GameChanged = "GameChanged"
 }
 
 export interface Event {

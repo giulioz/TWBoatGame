@@ -1,6 +1,5 @@
 import { DateTime, Duration } from "luxon";
 import { hashPassword } from "./auth.service";
-import GamesService from "./games.service";
 import { User, UserModel } from "./db.service";
 
 export enum Errors {
@@ -8,33 +7,30 @@ export enum Errors {
   UserExists
 }
 
-const lastActivityOnlineThreshold = Duration.fromObject({ minutes: parseInt(process.env.OFFLINE_MINUTES) }).as(
-  "milliseconds"
-);
+const lastActivityOnlineThreshold = Duration.fromObject({
+  minutes: parseInt(process.env.OFFLINE_MINUTES)
+}).as("milliseconds");
 
 const kd = (u: User) => u.wonGames / (u.wonGames + u.lostGames);
 
-const state = (u: User, gamesService: GamesService): "offline" | "online" | "playing" => {
+const state = (u: User): "offline" | "online" | "playing" => {
   const lastActivityTime =
     DateTime.local().toMillis() - DateTime.fromISO(u.lastActivity).toMillis();
   const isOnline = lastActivityTime < lastActivityOnlineThreshold;
-  const isPlaying = false; // TODO: check with gamesService
-  return isOnline ? (isPlaying ? "playing" : "online") : "offline";
+  return isOnline ? "online" : "offline";
 };
 
-function calculateUsersStats(users: User[], gamesService: GamesService) {
+function calculateUsersStats(users: User[]) {
   return users
     .sort((a, b) => kd(a) - kd(b))
-    .map((u, i) => ({ ...(u as any)._doc, position: i, state: state(u, gamesService) }));
+    .map((u, i) => ({ ...(u as any)._doc, position: i, state: state(u) }));
 }
 
 export class UsersService {
-  constructor(private gamesService: GamesService) {}
-
   async all(): Promise<User[]> {
     const query = UserModel.find();
     const users = await query.exec();
-    return calculateUsersStats(users, this.gamesService);
+    return calculateUsersStats(users);
   }
 
   async byId(id: string): Promise<User> {
@@ -61,7 +57,8 @@ export class UsersService {
       wonGames: 0,
       lostGames: 0,
       position: NaN,
-      lastActivity: DateTime.local().toISO()
+      lastActivity: DateTime.local().toISO(),
+      playing: false
     });
 
     return userToSave.save();
@@ -83,6 +80,17 @@ export class UsersService {
       { lastActivity: DateTime.local().toISO() }
     );
     return updateQuery.exec();
+  }
+
+  async incrementStats(
+    id: string,
+    deltaWin: number,
+    deltaLoose: number
+  ): Promise<void> {
+    return UserModel.updateOne(
+      { id },
+      { $inc: { wonGames: deltaWin, lostGames: deltaLoose } }
+    ).exec();
   }
 }
 
