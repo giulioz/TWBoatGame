@@ -4,6 +4,7 @@ import { Observable, timer } from "rxjs";
 import { switchMap } from "rxjs/operators";
 
 import { User, UsersService } from "../../../swagger";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: "app-ingame",
@@ -12,12 +13,16 @@ import { User, UsersService } from "../../../swagger";
 })
 export class IngameComponent implements OnInit {
   selectedUser: Observable<User>;
+  userName: string;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private usersService: UsersService
-  ) {
+    private usersService: UsersService,
+    private authService: AuthService
+  ) { }
+
+  ngOnInit() {
     this.route.params.subscribe(params => {
       if (params.id) {
         this.selectedUser = timer(0, 3000).pipe(
@@ -26,6 +31,4 @@ export class IngameComponent implements OnInit {
       }
     });
   }
-
-  ngOnInit() {}
 }

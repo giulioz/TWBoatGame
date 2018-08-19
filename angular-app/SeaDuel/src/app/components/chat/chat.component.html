@@ -7,8 +7,8 @@
     </div>
   </div>
 
-  <div class="bottom row">
+  <form class="bottom row">
     <input id="message" placeholder="Scrivi messaggio..." type="text" [(ngModel)]="messageBoxContent" name="message" />
-    <button (click)="messageSend()" class="button">Invia</button>
-  </div>
+    <button type="submit" (click)="messageSend()" class="button">Invia</button>
+  </form>
 </div>

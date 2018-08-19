@@ -182,7 +182,7 @@ export class Controller {
   postMessage = async (req: Request, res: Response): Promise<void> => {
     const user = await authCheck(this.authService, req);
 
-    if (user) {
+    if (user && req.body.content) {
       const msg = await this.messagesService.send(user.id, req.params.id, req.body.content);
       this.eventsService.sendEvent(
         { type: EventType.IncomingMessage, userId: user.id },

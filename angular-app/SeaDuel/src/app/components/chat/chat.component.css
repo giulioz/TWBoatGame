@@ -1,9 +1,10 @@
 .root {
-  background: rgb(229, 230, 240);
+  background: #ffffff;
   margin-left: 10px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  box-shadow: 0px 0px 3px 3px rgba(0,0,0,0.1);
 }
 
 .scroller {
