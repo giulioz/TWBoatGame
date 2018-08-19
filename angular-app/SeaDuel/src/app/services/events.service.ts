@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import * as io from "socket.io-client";
 import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
+import { AuthService } from "./auth.service";
 
 export enum EventType {
   IncomingMessage = "IncomingMessage",
@@ -15,25 +16,27 @@ export interface Event {
 
 @Injectable()
 export class EventsService {
-  socket: SocketIOClient.Socket;
-  authenticated = false;
-  eventStream: Observable<Event>;
+  constructor(private authService: AuthService) {}
 
-  constructor() {
-    this.socket = io(environment.socketUrl);
-    this.socket.on("connect", () => {
-      this.socket.on("authenticated", () => {
-        this.authenticated = true;
-      });
-      this.eventStream = new Observable(observer => {
-        this.socket.on("event", (event: string) => {
-          observer.next(JSON.parse(event));
+  async getEvents() {
+    return new Promise<Observable<Event>>(resolve => {
+      const socket = io(environment.socketUrl);
+
+      socket.on("connect", () => {
+        socket.on("authenticated", () => {
+          console.log("socket auth ok");
         });
+
+        socket.emit("authentication", this.authService.getToken());
+
+        const eventStream = new Observable<Event>(observer => {
+          socket.on("event", (event: string) => {
+            observer.next(JSON.parse(event));
+          });
+        });
+
+        resolve(eventStream);
       });
     });
-  }
-
-  authenticate(token: string) {
-    this.socket.emit("authentication", token);
   }
 }

@@ -33,7 +33,7 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe(async params => {
       if (params.id) {
         this.userId = params.id;
 
@@ -41,7 +41,8 @@ export class ChatComponent implements OnInit {
           this.userId
         );
 
-        this.eventsService.eventStream.subscribe(event => {
+        const eventStream = await this.eventsService.getEvents();
+        eventStream.subscribe(event => {
           if (event.type === EventType.IncomingMessage) {
             this.messages = this.messaggingService.usersByIdIdMessagesGet(
               this.userId

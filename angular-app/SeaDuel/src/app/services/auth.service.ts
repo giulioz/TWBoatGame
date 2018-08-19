@@ -13,8 +13,7 @@ function parseJwt(token) {
 export class AuthService {
   constructor(
     private authService: AuthenticationService,
-    private configuration: Configuration,
-    private eventsService: EventsService
+    private configuration: Configuration
   ) {}
 
   async isLoggedIn() {
@@ -28,9 +27,6 @@ export class AuthService {
             this.configuration.apiKeys = {};
             this.configuration.apiKeys["Authorization"] = localStorage.getItem(
               "currentUser"
-            );
-            this.eventsService.authenticate(
-              localStorage.getItem("currentUser")
             );
             resolve(true);
           },
@@ -47,7 +43,6 @@ export class AuthService {
             localStorage.setItem("currentUser", user);
             this.configuration.apiKeys = {};
             this.configuration.apiKeys["Authorization"] = user;
-            this.eventsService.authenticate(user);
           }
 
           resolve(user);
@@ -59,6 +54,10 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem("currentUser");
+  }
+
+  getToken() {
+    return localStorage.getItem("currentUser");
   }
 
   getUserToken() {
