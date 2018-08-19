@@ -52,6 +52,7 @@
 .header .right {
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .header .right .username {
@@ -72,7 +73,7 @@
   margin-right: 32px;
   margin-bottom: 32px;
   border-radius: 10px;
-  box-shadow: 8px 8px 8px 0px rgba(0,0,0,0.15);
+  box-shadow: 8px 8px 8px 0px rgba(0, 0, 0, 0.15);
 }
 
 .sidebar {
@@ -98,7 +99,7 @@
 }
 
 .ztop {
-  z-index: 999;
+  z-index: 2;
 }
 
 app-chat {
@@ -110,4 +111,39 @@ app-chat {
 app-game-area {
   flex-grow: 4;
   display: flex;
+}
+
+.right:hover .user-modal {
+  display: block;
+}
+
+.user-modal {
+  position: absolute;
+  top: 48px;
+  right: 32px;
+  width: 230px;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.25);
+  z-index: 10;
+  display: none;
+  font-size: 18px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.user-modal a {
+  justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  margin: 8px;
+  margin-left: 32px;
+  margin-right: 8px;
+  color: #2c356c;
+  text-decoration: none;
+}
+
+.user-modal a i {
+  margin-left: 16px;
 }

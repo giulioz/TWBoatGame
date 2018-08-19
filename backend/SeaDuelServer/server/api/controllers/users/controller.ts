@@ -140,7 +140,9 @@ export class Controller {
 
     if (auth) {
       const users = await this.usersService.waiting();
-      const usersStriped = users.map(u => ({ ...u, password: "", email: "" }));
+      const usersStriped = users
+        .map(u => ({ ...u, password: "", email: "" }))
+        .filter(u => u.id != auth.id);
 
       res.json(usersStriped);
     } else {
@@ -183,7 +185,11 @@ export class Controller {
     const user = await authCheck(this.authService, req);
 
     if (user && req.body.content) {
-      const msg = await this.messagesService.send(user.id, req.params.id, req.body.content);
+      const msg = await this.messagesService.send(
+        user.id,
+        req.params.id,
+        req.body.content
+      );
       this.eventsService.sendEvent(
         { type: EventType.IncomingMessage, userId: user.id },
         user.id
@@ -243,7 +249,7 @@ export class Controller {
 
     if (user) {
       // TODO
-      
+
       // await this.usersService.update(req.params.id, req.body);
 
       res.status(200).end();

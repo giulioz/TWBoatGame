@@ -18,6 +18,8 @@ export class SidebarComponent implements OnInit {
   @ViewChild("scoreTab")
   scoreTab;
 
+  userId: string;
+
   friends: Observable<User[]>;
   waiting: Observable<User[]>;
   top: Observable<User[]>;
@@ -54,7 +56,7 @@ export class SidebarComponent implements OnInit {
   //  Friend bar
 
   selectFriend = (userId: string) => {
-    if (userId !== this.authService.getUserToken().id) {
+    if (userId !== this.userId) {
       this.router.navigate(["/user/" + userId]);
     }
   };
@@ -63,7 +65,7 @@ export class SidebarComponent implements OnInit {
   //  Waiting bar
 
   selectWaiting = (userId: string) => {
-    if (userId !== this.authService.getUserToken().id) {
+    if (userId !== this.userId) {
       this.router.navigate(["/user/" + userId]);
     }
   };
@@ -72,7 +74,7 @@ export class SidebarComponent implements OnInit {
   //  Highscores bar
 
   selectHighscores = (userId: string) => {
-    if (userId !== this.authService.getUserToken().id) {
+    if (userId !== this.userId) {
       this.router.navigate(["/user/" + userId]);
     }
   };
@@ -82,6 +84,7 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     this.waitingTab.open = true;
+    this.userId = this.authService.getUserToken().id;
 
     this.friends = timer(0, 3000).pipe(
       switchMap(() => this.usersService.usersContactsGet())

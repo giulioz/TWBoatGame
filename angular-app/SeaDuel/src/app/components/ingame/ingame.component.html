@@ -7,11 +7,28 @@
       <div class="right">
         <div class="username">Benvenuto,
           <b>
-            <i>{{authService.getUserToken().id}}</i>
+            <i>{{userName}}</i>
           </b>
         </div>
         <div class="material-icons account">
           account_circle
+        </div>
+        <div class="user-modal">
+          <a href="/my">Il mio account
+            <i class="material-icons">
+              perm_contact_calendar
+            </i>
+          </a>
+          <a *ngIf="authService.getUserToken().role === 'administrator'" href="/admin">Amministrazione
+            <i class="material-icons">
+              build
+            </i>
+          </a>
+          <a href="#" (click)="logout()">Esci
+            <i class="material-icons">
+              exit_to_app
+            </i>
+          </a>
         </div>
       </div>
     </div>

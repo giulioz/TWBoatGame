@@ -1,0 +1,143 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  color: #ffffff;
+}
+
+.background {
+  background: #2c356c;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.header {
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-top: 18px;
+  margin-bottom: 18px;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.header .logo {
+  display: flex;
+  align-items: center;
+  font-size: 45px;
+}
+
+.header .logo .logo-placeholder {
+  width: 64px;
+  height: 64px;
+  background: #ffffff;
+  margin-right: 18px;
+  border-radius: 32px;
+}
+
+.header .right {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.header .right .username {
+  font-size: 20px;
+  margin-right: 16px;
+  color: #ffffff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.header .right .account {
+  margin-left: 12px;
+  font-size: 30px;
+}
+
+.body-container {
+  background: rgb(105, 112, 155);
+  color: #ffffff;
+  flex-grow: 1;
+  margin-left: 32px;
+  margin-right: 32px;
+  margin-bottom: 32px;
+  border-radius: 10px;
+  box-shadow: 8px 8px 8px 0px rgba(0, 0, 0, 0.15);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+}
+
+.centering {
+  margin: auto;
+}
+
+h1 {
+  margin: 0;
+  margin-bottom: 16px;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+}
+
+h1 .material-icons {
+  font-size: 50px;
+  margin-right: 16px;
+}
+
+.users {
+  max-width: 600px;
+  flex-grow: 1;
+  overflow: auto;
+}
+
+.users div {
+  padding: 16px;
+  margin: 2px;
+  background: #ffffff;
+  color: #2c356c;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.users div .user-icon {
+  margin: 0;
+  margin-right: 16px;
+  font-size: 35px;
+}
+
+.users div .username {
+  font-size: 20px;
+  font-weight: bold;
+  flex: 1;
+}
+
+.users div .email {
+  font-style: italic;
+  flex: 1;
+}
+
+.users div .button {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  margin-left: 32px;
+  border-width: 2px;
+}
+
+.users div .red {
+  background: linear-gradient(#9f2a2a, #913434);
+  border: 2px solid #ff4800;
+  margin-left: 8px;
+}
+
+.users div .red:hover {
+  background: linear-gradient(rgb(196, 43, 43), #913434);
+}

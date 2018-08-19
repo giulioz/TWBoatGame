@@ -30,12 +30,15 @@ import { SidebarFriendSearchComponent } from "./components/sidebar-friend-search
 import { AccountHeaderComponent } from "./components/account-header/account-header.component";
 import { ChatComponent } from "./components/chat/chat.component";
 import { GameAreaComponent } from "./components/game-area/game-area.component";
+import { AdminPageComponent } from './components/admin-page/admin-page.component';
+import { AccountPageComponent } from './components/account-page/account-page.component';
 
 // Services
 import { AuthService } from "./services/auth.service";
+import { EventsService } from "./services/events.service";
 import { AuthGuard } from "./services/auth-guard.service";
 import { NoAuthGuard } from "./services/noauth-guard.service";
-import { EventsService } from "./services/events.service";
+import { AdminGuard } from "./services/admin-guard.service";
 
 // Pipes
 import { UserstatusColorPipe } from "./pipes/userstatus-color.pipe";
@@ -64,7 +67,9 @@ function apiConfigFactory(): Configuration {
     SidebarFriendSearchComponent,
     AccountHeaderComponent,
     ChatComponent,
-    GameAreaComponent
+    GameAreaComponent,
+    AdminPageComponent,
+    AccountPageComponent
   ],
   imports: [
     BrowserModule,
@@ -79,6 +84,7 @@ function apiConfigFactory(): Configuration {
     AuthService,
     AuthGuard,
     NoAuthGuard,
+    AdminGuard,
     { provide: BASE_PATH, useValue: environment.apiUrl }
   ],
   bootstrap: [AppComponent]

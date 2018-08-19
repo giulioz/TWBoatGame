@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="background">
+    <div class="header">
+      <div class="logo">
+        <div class="logo-placeholder"></div>Amministrazione</div>
+      <div class="spacer"></div>
+      <div class="right">
+        <a href="/ingame" class="username">Torna al gioco
+          <div class="material-icons account">
+            exit_to_app
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="body-container">
+      <div class="centering users">
+        <h1>
+          <span class="material-icons">people</span>
+          Utenti
+        </h1>
+        <div *ngFor="let user of (users | async)">
+          <span class="material-icons user-icon">
+            account_circle
+          </span>
+          <span class="username">{{user.id}}</span>
+          <span class="email">{{user.email}}</span>
+          <span class="button" (click)="toggleAdmin(user.id, user.role === 'administrator')">
+            <span class="material-icons">{{user.role === "administrator" ? "star" : "star_border"}}</span>
+          </span>
+          <span class="button red" (click)="delete(user.id)">
+            <span class="material-icons">delete_forever</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -30,5 +30,12 @@ export class IngameComponent implements OnInit {
         );
       }
     });
+
+    this.userName = this.authService.getUserToken().id;
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(["/"]);
   }
 }

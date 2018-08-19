@@ -24,7 +24,7 @@ export class EventsService {
 
       socket.on("connect", () => {
         socket.on("authenticated", () => {
-          console.log("socket auth ok");
+          // console.log("socket auth ok");
         });
 
         socket.emit("authentication", this.authService.getToken());
