@@ -71,11 +71,18 @@
   box-shadow: 8px 8px 8px 0px rgba(0, 0, 0, 0.15);
   padding: 32px;
   display: flex;
-  flex-direction: column;
 }
 
-.centering {
-  margin: auto;
+.spacer {
+  flex: 1;
+}
+
+.users {
+  max-width: 600px;
+  flex-grow: 1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 h1 {
@@ -84,6 +91,7 @@ h1 {
   font-size: 40px;
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 }
 
 h1 .material-icons {
@@ -91,13 +99,7 @@ h1 .material-icons {
   margin-right: 16px;
 }
 
-.users {
-  max-width: 600px;
-  flex-grow: 1;
-  overflow: auto;
-}
-
-.users div {
+.users .user {
   padding: 16px;
   margin: 2px;
   background: #ffffff;
@@ -105,39 +107,51 @@ h1 .material-icons {
   border-radius: 2px;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  flex-shrink: 0;
 }
 
-.users div .user-icon {
+.users .user .user-icon {
   margin: 0;
   margin-right: 16px;
   font-size: 35px;
 }
 
-.users div .username {
+.users .user .username {
   font-size: 20px;
   font-weight: bold;
-  flex: 1;
+  margin-right: 32px;
 }
 
-.users div .email {
+.users .user .email {
   font-style: italic;
-  flex: 1;
+  margin-right: 16px;
 }
 
-.users div .button {
+.users .user .text {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.users .user div {
+  display: flex;
+}
+
+.users .user .button {
   display: flex;
   align-items: center;
   padding: 4px;
-  margin-left: 32px;
+  margin-right: 8px;
   border-width: 2px;
 }
 
-.users div .red {
+.users .user .red {
   background: linear-gradient(#9f2a2a, #913434);
   border: 2px solid #ff4800;
-  margin-left: 8px;
+  margin-right: 0;
 }
 
-.users div .red:hover {
+.users .user .red:hover {
   background: linear-gradient(rgb(196, 43, 43), #913434);
 }
