@@ -16,7 +16,7 @@ video {
   top: 0;
   left: 0;
   width: 100vw;
-  height: 1000px;
+  /* height: 1000px; */
   object-fit: cover;
   filter: brightness(50%) contrast(200%);
 }
