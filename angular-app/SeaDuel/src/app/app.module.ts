@@ -45,7 +45,7 @@ import { UserstatusColorPipe } from "./pipes/userstatus-color.pipe";
 
 import { environment } from "../environments/environment";
 
-function apiConfigFactory(): Configuration {
+export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
     // set configuration parameters here.
   };

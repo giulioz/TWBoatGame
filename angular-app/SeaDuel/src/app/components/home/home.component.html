@@ -1,14 +1,17 @@
-<div class="column">
+<div class="container">
+  <video loop autoplay muted>
+    <source src="/assets/background.webm" type="video/webm" />
+  </video>
   <div class="splash-container">
     <div class="top-bar">
-      <div class="spacer"></div>
-      <a class="centering" routerLink="/login">
+      <a routerLink="/login">
         <i class="material-icons">exit_to_app</i>
         <span>Accedi...</span>
       </a>
     </div>
 
-    <div class="logo"></div>
+    <!-- <div class="logo"></div> -->
+    <img src="assets/boat.svg" class="logo" />
     <p class="title">SeaDuel</p>
     <p class="subtitle">Sfida i tuoi amici in battaglie navali, diventa un campione!
       <br />Unisciti ora per giocare, è gratis!</p>
@@ -22,6 +25,9 @@
     <div class="text">Gioca subito a SeaDuel! È gratis!</div>
   </div>
 
+  <video loop autoplay muted class="carousel-back">
+    <source src="/assets/background.webm" type="video/webm" />
+  </video>
   <div class="carousel-container">
     <div class="title">Un’ampia flotta a tua disposizione</div>
     <div class="carousel"></div>

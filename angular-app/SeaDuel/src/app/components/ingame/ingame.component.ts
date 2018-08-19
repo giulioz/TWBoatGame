@@ -17,9 +17,9 @@ export class IngameComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
     private usersService: UsersService,
-    private authService: AuthService
+    public authService: AuthService
   ) { }
 
   ngOnInit() {
