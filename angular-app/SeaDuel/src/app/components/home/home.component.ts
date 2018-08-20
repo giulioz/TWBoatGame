@@ -9,23 +9,21 @@ export class HomeComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    document.onload = () => {
-      const video = document.getElementsByTagName("video")[0];
-      video.height = document.getElementsByClassName(
-        "splash-container"
-      )[0].clientHeight;
-      video.play();
+    const video = document.getElementsByTagName("video")[0];
+    video.height = document.getElementsByClassName(
+      "splash-container"
+    )[0].clientHeight;
+    video.play();
 
-      const videoCarousel = document.getElementsByClassName(
-        "carousel-back"
-      )[0] as HTMLVideoElement;
-      videoCarousel.style.top =
-        document
-          .getElementsByClassName("carousel-container")[0]
-          .getBoundingClientRect().top -
-        100 +
-        "px";
-      videoCarousel.play();
-    };
+    const videoCarousel = document.getElementsByClassName(
+      "carousel-back"
+    )[0] as HTMLVideoElement;
+    videoCarousel.style.top =
+      document
+        .getElementsByClassName("carousel-container")[0]
+        .getBoundingClientRect().top -
+      100 +
+      "px";
+    videoCarousel.play();
   }
 }
