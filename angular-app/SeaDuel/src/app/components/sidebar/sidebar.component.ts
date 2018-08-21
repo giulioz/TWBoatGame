@@ -84,6 +84,8 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     this.waitingTab.open = true;
+    this.friendsTab.open = true;
+    this.scoreTab.open = true;
     this.userId = this.authService.getUserToken().id;
 
     this.friends = timer(0, 3000).pipe(

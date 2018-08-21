@@ -32,6 +32,7 @@ import { ChatComponent } from "./components/chat/chat.component";
 import { GameAreaComponent } from "./components/game-area/game-area.component";
 import { AdminPageComponent } from './components/admin-page/admin-page.component';
 import { AccountPageComponent } from './components/account-page/account-page.component';
+import { WaveBackgroundComponent } from './components/wave-background/wave-background.component';
 
 // Services
 import { AuthService } from "./services/auth.service";
@@ -69,7 +70,8 @@ export function apiConfigFactory(): Configuration {
     ChatComponent,
     GameAreaComponent,
     AdminPageComponent,
-    AccountPageComponent
+    AccountPageComponent,
+    WaveBackgroundComponent
   ],
   imports: [
     BrowserModule,
