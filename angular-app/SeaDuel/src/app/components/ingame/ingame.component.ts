@@ -3,8 +3,9 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Observable, timer } from "rxjs";
 import { switchMap } from "rxjs/operators";
 
-import { User, UsersService } from "../../../swagger";
+import { User, UsersService, Game, GamesService } from "../../../swagger";
 import { AuthService } from "../../services/auth.service";
+import { EventsService, EventType } from "../../services/events.service";
 
 @Component({
   selector: "app-ingame",
@@ -12,30 +13,55 @@ import { AuthService } from "../../services/auth.service";
   styleUrls: ["./ingame.component.css"]
 })
 export class IngameComponent implements OnInit {
-  selectedUser: Observable<User>;
-  userName: string;
+  currentUser: User;
+  opponentId?: string;
+  opponent: Observable<User>;
+  game: Observable<Game>;
 
   constructor(
     private router: Router,
-    public route: ActivatedRoute,
+    private route: ActivatedRoute,
     private usersService: UsersService,
-    public authService: AuthService
-  ) { }
+    private authService: AuthService,
+    private gamesService: GamesService,
+    private eventsService: EventsService
+  ) {}
 
-  ngOnInit() {
-    this.route.params.subscribe(params => {
-      if (params.id) {
-        this.selectedUser = timer(0, 3000).pipe(
+  updateGame = () => {
+    this.game = this.gamesService.usersByIdIdGameGet(this.opponentId);
+
+    // this.game.subscribe(next => {
+    //   next.state ===
+    // })
+  };
+
+  async ngOnInit() {
+    this.currentUser = this.authService.getUserToken();
+
+    this.route.params.subscribe(async params => {
+      this.opponentId = params.id;
+
+      if (this.opponentId) {
+        this.updateGame();
+
+        this.opponent = timer(0, 3000).pipe(
           switchMap(() => this.usersService.usersByIdIdGet(params.id))
         );
       }
     });
 
-    this.userName = this.authService.getUserToken().id;
+    const eventStream = await this.eventsService.getEvents();
+    eventStream.subscribe(event => {
+      if (event.type === EventType.GameChanged) {
+        this.updateGame();
+      }
+    });
   }
 
   logout() {
     this.authService.logout();
     this.router.navigate(["/"]);
   }
+
+  onStartGame() {}
 }

@@ -32,21 +32,21 @@ export class ChatComponent implements OnInit {
       });
   }
 
+  loadMessages = () => {
+    this.messages = this.messaggingService.usersByIdIdMessagesGet(this.userId);
+  };
+
   ngOnInit() {
     this.route.params.subscribe(async params => {
       if (params.id) {
         this.userId = params.id;
 
-        this.messages = this.messaggingService.usersByIdIdMessagesGet(
-          this.userId
-        );
+        this.loadMessages();
 
         const eventStream = await this.eventsService.getEvents();
         eventStream.subscribe(event => {
           if (event.type === EventType.IncomingMessage) {
-            this.messages = this.messaggingService.usersByIdIdMessagesGet(
-              this.userId
-            );
+            this.loadMessages();
           }
         });
       }

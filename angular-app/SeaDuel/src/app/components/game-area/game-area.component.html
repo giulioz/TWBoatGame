@@ -1,5 +1,9 @@
 <div class="root">
-  <div class="center-message">
-      Premi <strong>Sfida</strong> per cominciare la partita
+  <div class="center-message" *ngIf="currentState(game | async) == 'Ended'">
+    Premi
+    <strong>Sfida</strong> per cominciare la partita
   </div>
+  <div class="center-message" *ngIf="currentState(game | async) == 'WaitingForResponse'">
+      Sfida inviata. Risposta in attesa...
+    </div>
 </div>

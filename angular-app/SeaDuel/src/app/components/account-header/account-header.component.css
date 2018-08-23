@@ -40,4 +40,9 @@
   padding-right: 32px;
   margin-left: 10px;
   margin-right: 22px;
+  visibility: hidden;
+}
+
+.show {
+  visibility: visible;
 }

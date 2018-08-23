@@ -13,7 +13,7 @@
       <div class="right">
         <div class="username">Benvenuto,
           <b>
-            <i> {{userName}}</i>
+            <i> {{currentUser.id}}</i>
           </b>
         </div>
         <div class="material-icons account">
@@ -25,7 +25,7 @@
               perm_contact_calendar
             </i>
           </a>
-          <a *ngIf="authService.getUserToken().role === 'administrator'" href="/admin">Amministrazione
+          <a *ngIf="currentUser.role === 'administrator'" href="/admin">Amministrazione
             <i class="material-icons">
               build
             </i>
@@ -40,14 +40,14 @@
     </div>
     <div class="body-container">
       <div class="body-background">
-        <div class="spacer column" *ngIf="(route.url | async)[0].path === 'user'">
-          <app-account-header class="ztop" [user]="selectedUser | async"></app-account-header>
+        <div class="spacer column" *ngIf="opponentId">
+          <app-account-header class="ztop" [user]="opponent | async" startGameActive="true" (startGame)="onStartGame()"></app-account-header>
           <div class="spacerFlex">
             <app-chat></app-chat>
-            <app-game-area></app-game-area>
+            <app-game-area [opponentId]="opponentId" [game]="game"></app-game-area>
           </div>
         </div>
-        <div class="spacer nouser-container" *ngIf="(route.url | async)[0].path === 'ingame'">
+        <div class="spacer nouser-container" *ngIf="!opponentId">
           <h1>Benvenuto su SeaDuel</h1>
           <p>Seleziona un utente a lato per cominciare a giocare.</p>
           <p>Puoi cercare un utente se conosci il suo nome oppure selezionarne uno in attesa per giocare.</p>

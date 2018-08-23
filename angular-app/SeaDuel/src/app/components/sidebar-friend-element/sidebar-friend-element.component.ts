@@ -7,10 +7,14 @@ import { User } from "../../../swagger";
   styleUrls: ["./sidebar-friend-element.component.css"]
 })
 export class SidebarFriendElementComponent implements OnInit {
-  @Input() user: User;
-  @Input() selected: boolean;
-  @Input() showPosition: boolean;
-  @Output() select: EventEmitter<any> = new EventEmitter();
+  @Input()
+  user: User;
+  @Input()
+  selected: boolean;
+  @Input()
+  showPosition: boolean;
+  @Output()
+  select: EventEmitter<any> = new EventEmitter();
 
   get hasUnread() {
     return false;

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { User } from "../../../swagger";
 
 @Component({
@@ -10,5 +10,15 @@ export class AccountHeaderComponent implements OnInit {
   @Input()
   user: User;
 
+  @Input()
+  startGameActive: boolean;
+
+  @Output()
+  startGame: EventEmitter<any> = new EventEmitter();
+
   ngOnInit() {}
+
+  onSelect() {
+    this.startGame.emit();
+  }
 }

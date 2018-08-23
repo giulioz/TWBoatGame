@@ -115,7 +115,7 @@ export class GamesService {
 
   async fromPlayersAsPlayer(player: string, opponent: string): Promise<Game> {
     const game = await this.fromPlayers(player, opponent);
-    return game ? transformGamePlayer(game, player) : null;
+    return game ? transformGamePlayer(game, player) : emptyGame(player, opponent);
   }
 
   async sendRequest(player: string, opponent: string): Promise<Game> {
