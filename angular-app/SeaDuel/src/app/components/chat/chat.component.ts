@@ -1,8 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { MessagingService, Message } from "../../../swagger";
 import { Observable } from "rxjs";
-import { EventsService, EventType } from "../../services/events.service";
-import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-chat",
@@ -10,46 +8,26 @@ import { ActivatedRoute } from "@angular/router";
   styleUrls: ["./chat.component.css"]
 })
 export class ChatComponent implements OnInit {
-  userId: string;
-  messageBoxContent: string;
+  @Input()
+  opponentId: string;
+  @Input()
   messages: Observable<Message[]>;
 
-  constructor(
-    private messaggingService: MessagingService,
-    private eventsService: EventsService,
-    private route: ActivatedRoute
-  ) {}
+  messageBoxContent: string;
+
+  constructor(private messaggingService: MessagingService) {}
 
   isUser(message: Message) {
-    return message.recipientId === this.userId;
+    return message.recipientId === this.opponentId;
   }
 
   messageSend() {
     this.messaggingService
-      .usersByIdIdMessagesPost(this.userId, { content: this.messageBoxContent })
+      .usersByIdIdMessagesPost(this.opponentId, { content: this.messageBoxContent })
       .subscribe(_ => {
         this.messageBoxContent = "";
       });
   }
 
-  loadMessages = () => {
-    this.messages = this.messaggingService.usersByIdIdMessagesGet(this.userId);
-  };
-
-  ngOnInit() {
-    this.route.params.subscribe(async params => {
-      if (params.id) {
-        this.userId = params.id;
-
-        this.loadMessages();
-
-        const eventStream = await this.eventsService.getEvents();
-        eventStream.subscribe(event => {
-          if (event.type === EventType.IncomingMessage) {
-            this.loadMessages();
-          }
-        });
-      }
-    });
-  }
+  ngOnInit() {}
 }

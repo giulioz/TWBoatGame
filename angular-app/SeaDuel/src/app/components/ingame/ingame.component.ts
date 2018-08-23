@@ -3,7 +3,14 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Observable, timer } from "rxjs";
 import { switchMap } from "rxjs/operators";
 
-import { User, UsersService, Game, GamesService } from "../../../swagger";
+import {
+  User,
+  UsersService,
+  Game,
+  GamesService,
+  Message,
+  MessagingService
+} from "../../../swagger";
 import { AuthService } from "../../services/auth.service";
 import { EventsService, EventType } from "../../services/events.service";
 
@@ -16,6 +23,7 @@ export class IngameComponent implements OnInit {
   currentUser: User;
   opponentId?: string;
   opponent: Observable<User>;
+  messages: Observable<Message[]>;
   game: Observable<Game>;
 
   constructor(
@@ -24,15 +32,24 @@ export class IngameComponent implements OnInit {
     private usersService: UsersService,
     private authService: AuthService,
     private gamesService: GamesService,
+    private messaggingService: MessagingService,
     private eventsService: EventsService
   ) {}
 
+  loadUser = () => {
+    this.opponent = timer(0, 3000).pipe(
+      switchMap(() => this.usersService.usersByIdIdGet(this.opponentId))
+    );
+  };
+
+  loadMessages = () => {
+    this.messages = this.messaggingService.usersByIdIdMessagesGet(
+      this.opponentId
+    );
+  };
+
   updateGame = () => {
     this.game = this.gamesService.usersByIdIdGameGet(this.opponentId);
-
-    // this.game.subscribe(next => {
-    //   next.state ===
-    // })
   };
 
   async ngOnInit() {
@@ -42,11 +59,9 @@ export class IngameComponent implements OnInit {
       this.opponentId = params.id;
 
       if (this.opponentId) {
+        this.loadUser();
+        this.loadMessages();
         this.updateGame();
-
-        this.opponent = timer(0, 3000).pipe(
-          switchMap(() => this.usersService.usersByIdIdGet(params.id))
-        );
       }
     });
 
@@ -54,6 +69,8 @@ export class IngameComponent implements OnInit {
     eventStream.subscribe(event => {
       if (event.type === EventType.GameChanged) {
         this.updateGame();
+      } else if (event.type === EventType.IncomingMessage) {
+        this.loadMessages();
       }
     });
   }
