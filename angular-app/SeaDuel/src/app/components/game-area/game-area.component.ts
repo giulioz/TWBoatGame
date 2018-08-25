@@ -14,7 +14,20 @@ export class GameAreaComponent implements OnInit {
   @Input()
   game: Observable<Game>;
 
-  currentState = (game: Game) => (game ? game.state : "");
+  currentState(game: Game) {
+    if (game.state === "Ended") {
+      return "Ended";
+    } else if (game.state === "WaitingForResponse") {
+      return "WaitingForResponse";
+    } else if (game.state === "BoatsPositioning") {
+      if (!game.playerReady) {
+        return "PlayerToPosition";
+      } else {
+        
+      }
+      return "BoatsPositioning";
+    }
+  }
 
   constructor(private gamesService: GamesService) {}
 

@@ -9,7 +9,9 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { GameBoard } from "./gameBoard";
+import { GameAvailableBoats } from "./gameAvailableBoats";
+import { OpponentBoard } from "./opponentBoard";
+import { PlayerBoard } from "./playerBoard";
 
 export interface Game {
   state?: Game.StateEnum;
@@ -17,8 +19,8 @@ export interface Game {
    * UserId of the winner, -1 if still playing
    */
   winnerId?: string;
-  playerBoard?: GameBoard;
-  opponentBoard?: GameBoard;
+  playerBoard?: PlayerBoard;
+  opponentBoard?: OpponentBoard;
   /**
    * If the player has positioned his boats
    */
@@ -31,18 +33,17 @@ export interface Game {
    * Time when the game first started
    */
   startTime?: Date;
+  availableBoats?: Array<GameAvailableBoats>;
 }
 export namespace Game {
   export type StateEnum =
     | "WaitingForResponse"
-    | "Rejected"
     | "BoatsPositioning"
     | "PlayerTurn"
     | "OpponentTurn"
     | "Ended";
   export const StateEnum = {
     WaitingForResponse: "WaitingForResponse" as StateEnum,
-    Rejected: "Rejected" as StateEnum,
     BoatsPositioning: "BoatsPositioning" as StateEnum,
     PlayerTurn: "PlayerTurn" as StateEnum,
     OpponentTurn: "OpponentTurn" as StateEnum,

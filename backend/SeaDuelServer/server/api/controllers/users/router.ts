@@ -35,6 +35,8 @@ export default (
     .post("/byId/:id/messages", controller.postMessage)
     .get("/byId/:id/game", controller.getGame)
     .post("/byId/:id/game", controller.newGame)
-    .put("/byId/:id/game", controller.updateGame)
-    .delete("/byId/:id/game", controller.resignGame);
+    .put("/byId/:id/game", controller.acceptGame)
+    .delete("/byId/:id/game", controller.resignGame)
+    .post("/byId/:id/game/boats", controller.addBoat)
+    .post("/byId/:id/game/moves", controller.doMove);
 };

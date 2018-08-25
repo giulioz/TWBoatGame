@@ -4,9 +4,9 @@ import {
   Game,
   BoardElementType,
   GameModel,
-  GameBoardModel,
   BoardElement,
-  GameStateType
+  GameStateType,
+  Boat
 } from "./db.service";
 import UsersService from "./users.service";
 
@@ -20,18 +20,30 @@ const boatSizes = {
   AircraftCarrier: 5
 };
 
-function hideBoard(board: GameBoard): GameBoard {
-  return new GameBoardModel({
+function isFullBoatDrown(board: GameBoard, x: number, y: number) {
+  // TODO
+  return false;
+}
+
+function hideBoard(board: GameBoard) {
+  return {
     ...board,
-    boardData: board.boardData.map(col =>
+    boardData: board.boardData.map((col, x) =>
       col.map(
-        cell =>
-          (cell as BoardElement).checked
-            ? cell
-            : { ...cell, type: BoardElementType.Hidden }
+        (cell: BoardElement, y) =>
+          cell.checked
+            ? {
+                type:
+                  cell.type === BoardElementType.Empty
+                    ? "Miss"
+                    : isFullBoatDrown(board, x, y)
+                      ? "Boat"
+                      : "Hit"
+              }
+            : { type: "Unknown" }
       )
     )
-  });
+  };
 }
 
 function swapPlayers(game: Game): Game {
@@ -50,30 +62,36 @@ function swapPlayers(game: Game): Game {
     playerBoard: game.opponentBoard,
     opponentBoard: game.playerBoard,
     playerReady: game.opponentReady,
-    opponentReady: game.playerReady
+    opponentReady: game.playerReady,
+    playerAvailableBoats: game.opponentAvailableBoats
   });
 }
 
 function transformGamePlayer(game: Game, playerId: string): Game {
   const swapped = game.opponentId === playerId ? swapPlayers(game) : game;
+  console.log(swapped);
   return new GameModel({
     ...swapped,
-    opponentBoard: hideBoard(swapped.opponentBoard as GameBoard)
+    ...(swapped as any)._doc,
+    opponentBoard: hideBoard(swapped.opponentBoard as GameBoard),
+    opponentAvailableBoats: []
   });
 }
 
-const emptyGameBoard = (width: number, height: number): GameBoard =>
-  new GameBoardModel({
-    width,
-    height,
-    boardData: new Array(width)
-      .fill([])
-      .map(_ =>
-        new Array(height)
-          .fill({})
-          .map(_ => ({ type: BoardElementType.Empty, checked: false }))
-      )
-  });
+const emptyGameBoard = (width: number, height: number): GameBoard => ({
+  width,
+  height,
+  boardData: new Array(width * height)
+    .fill(0)
+    .map(_ => ({ type: BoardElementType.Empty, checked: false }))
+});
+
+const initialBoats: Boat[] = [
+  { type: BoardElementType.Destroyer, amount: 4 },
+  { type: BoardElementType.Submarine, amount: 2 },
+  { type: BoardElementType.Battleship, amount: 2 },
+  { type: BoardElementType.AircraftCarrier, amount: 1 }
+];
 
 const emptyGame = (playerA: string, playerB: string) =>
   new GameModel({
@@ -85,7 +103,9 @@ const emptyGame = (playerA: string, playerB: string) =>
     opponentBoard: emptyGameBoard(defaultWidth, defaultHeight),
     playerReady: false,
     opponentReady: false,
-    startTime: DateTime.local().toISO()
+    startTime: DateTime.local().toISO(),
+    playerAvailableBoats: [...initialBoats],
+    opponentAvailableBoats: [...initialBoats]
   });
 
 export class GamesService {
@@ -114,13 +134,15 @@ export class GamesService {
   }
 
   async fromPlayersAsPlayer(player: string, opponent: string): Promise<Game> {
-    const game = await this.fromPlayers(player, opponent);
-    return game ? transformGamePlayer(game, player) : emptyGame(player, opponent);
+    const game =
+      (await this.fromPlayers(player, opponent)) || emptyGame(player, opponent);
+
+    return transformGamePlayer(game, player);
   }
 
   async sendRequest(player: string, opponent: string): Promise<Game> {
     const prevGame = await this.fromPlayers(player, opponent);
-    if (prevGame.state !== GameStateType.Ended) {
+    if (prevGame && prevGame.state !== GameStateType.Ended) {
       throw "Game not ended";
     }
 
@@ -174,9 +196,15 @@ export class GamesService {
   // }
 
   async resign(player: string, opponent: string): Promise<void> {
-    // RESIGN: other player wins and resigning player loses, then delete old game
-    await this.userService.incrementStats(player, 0, 1);
-    await this.userService.incrementStats(opponent, 1, 0);
+    const game = await this.fromPlayers(player, opponent);
+    if (
+      game.state === GameStateType.BoatsPositioning ||
+      game.state === GameStateType.OpponentTurn ||
+      game.state === GameStateType.PlayerTurn
+    ) {
+      await this.userService.incrementStats(player, 0, 1);
+      await this.userService.incrementStats(opponent, 1, 0);
+    }
     const deleteQuery = GameModel.deleteOne({
       $or: [
         { playerId: player, opponentId: opponent },
@@ -184,6 +212,59 @@ export class GamesService {
       ]
     });
     await deleteQuery.exec();
+  }
+
+  async acceptGame(player: string, opponent: string): Promise<void> {
+    const game = await this.fromPlayers(player, opponent);
+    if (
+      game.state !== GameStateType.WaitingForResponse ||
+      game.opponentId !== player
+    ) {
+      throw "Invalid";
+    }
+
+    return GameModel.updateOne(
+      {
+        $or: [
+          { playerId: player, opponentId: opponent },
+          { playerId: opponent, opponentId: player }
+        ]
+      },
+      {
+        state: GameStateType.BoatsPositioning
+      }
+    ).exec();
+  }
+
+  async playerReady(player: string, opponent: string): Promise<void> {
+    const game = await this.fromPlayers(player, opponent);
+    if (game.state !== GameStateType.BoatsPositioning) {
+      throw "Invalid";
+    }
+
+    if (game.playerId === player) {
+      game.playerReady = true;
+    } else {
+      game.opponentReady = true;
+    }
+
+    if (game.playerReady && game.opponentReady) {
+      game.state = GameStateType.PlayerTurn;
+    }
+
+    return GameModel.updateOne(
+      {
+        $or: [
+          { playerId: player, opponentId: opponent },
+          { playerId: opponent, opponentId: player }
+        ]
+      },
+      {
+        playerReady: game.playerReady,
+        opponentReady: game.opponentReady,
+        state: game.state
+      }
+    ).exec();
   }
 }
 

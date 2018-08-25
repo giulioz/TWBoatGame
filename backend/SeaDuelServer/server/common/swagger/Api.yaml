@@ -81,33 +81,6 @@ definitions:
       playing:
         type: boolean
 
-  GameBoard:
-    type: object
-    title: GameBoard
-    properties:
-      width:
-        type: number
-      height:
-        type: number
-      boardData:
-        type: array
-        items:
-          type: array
-          items:
-            type: object
-            properties:
-              type:
-                type: string
-                enum:
-                  - Empty
-                  - Hidden
-                  - Destroyer
-                  - Submarine
-                  - Battleship
-                  - AircraftCarrier
-              checked:
-                type: boolean
-
   Game:
     type: object
     title: Game
@@ -116,7 +89,6 @@ definitions:
         type: string
         enum:
           - WaitingForResponse
-          - Rejected
           - BoatsPositioning
           - PlayerTurn
           - OpponentTurn
@@ -125,9 +97,48 @@ definitions:
         type: string
         description: "UserId of the winner, -1 if still playing"
       playerBoard:
-        $ref: "#/definitions/GameBoard"
+        type: object
+        title: PlayerBoard
+        properties:
+          width:
+            type: number
+          height:
+            type: number
+          boardData:
+            type: array
+            items:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - Empty
+                    - Destroyer
+                    - Submarine
+                    - Battleship
+                    - AircraftCarrier
+                checked:
+                  type: boolean
       opponentBoard:
-        $ref: "#/definitions/GameBoard"
+        type: object
+        title: OpponentBoard
+        properties:
+          width:
+            type: number
+          height:
+            type: number
+          boardData:
+            type: array
+            items:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - Unknown
+                    - Hit
+                    - Miss
+                    - Boat
       playerReady:
         type: boolean
         description: "If the player has positioned his boats"
@@ -138,6 +149,20 @@ definitions:
         type: string
         format: "date-time"
         description: "Time when the game first started"
+      availableBoats:
+        type: array
+        items:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - Destroyer
+                - Submarine
+                - Battleship
+                - AircraftCarrier
+            amount:
+              type: number
 
   Message:
     type: object
@@ -494,22 +519,12 @@ paths:
           required: true
           description: "The user id of the opponent"
           type: string
-        - name: body
-          in: body
-          required: true
-          description: "The game data to update"
-          schema:
-            $ref: "#/definitions/Game"
-      description: "Update the game state"
+      description: "Accept a game request"
       responses:
         200:
-          description: "Game updated successfully, returns updated the game"
-          schema:
-            $ref: "#/definitions/Game"
-        400:
-          description: "Invalid game update"
+          description: "Game accepted"
         404:
-          description: "User id not found"
+          description: "Game not found"
         403:
           description: "Access Denied"
     delete:
@@ -527,6 +542,88 @@ paths:
       responses:
         200:
           description: "Resigned succesfully"
+        404:
+          description: "User id not found"
+        403:
+          description: "Access Denied"
+
+  /users/byId/{id}/game/boats:
+    post:
+      tags:
+        - Games
+      security:
+        - Bearer: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "The user id of the opponent"
+          type: string
+        - name: body
+          in: body
+          required: true
+          description: "The boat to add"
+          schema:
+            type: object
+            title: Boat
+            properties:
+              x:
+                type: number
+              y:
+                type: number
+              direction:
+                type: string
+                enum:
+                  - Vertical
+                  - Horizontal
+              type:
+                type: string
+                enum:
+                  - Destroyer
+                  - Submarine
+                  - Battleship
+                  - AircraftCarrier
+      description: "Adds a new boat during initial positioning"
+      responses:
+        200:
+          description: "Boat added successfully"
+        400:
+          description: "Invalid position or boat type"
+        404:
+          description: "User id not found"
+        403:
+          description: "Access Denied"
+
+  /users/byId/{id}/game/moves:
+    post:
+      tags:
+        - Games
+      security:
+        - Bearer: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "The user id of the opponent"
+          type: string
+        - name: body
+          in: body
+          required: true
+          description: "The boat to add"
+          schema:
+            type: object
+            title: Move
+            properties:
+              x:
+                type: number
+              y:
+                type: number
+      description: "Fires a shot into the opponent board"
+      responses:
+        200:
+          description: "Move done successfully"
+        400:
+          description: "Invalid move"
         404:
           description: "User id not found"
         403:

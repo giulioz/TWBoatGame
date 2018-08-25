@@ -10,8 +10,16 @@
  * Do not edit the class manually.
  */
 
-export interface GameBoard {
+export interface PlayerBoard {
   width?: number;
   height?: number;
-  boardData?: Array<Array<any>>;
+  boardData?: Array<{
+    type:
+      | "Empty"
+      | "Destroyer"
+      | "Submarine"
+      | "Battleship"
+      | "AircraftCarrier";
+    checked: boolean;
+  }>;
 }

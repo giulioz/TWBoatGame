@@ -36,13 +36,11 @@ export class IngameComponent implements OnInit {
     private eventsService: EventsService
   ) {}
 
-  loadUser = () => {
-    this.opponent = timer(0, 3000).pipe(
-      switchMap(() => this.usersService.usersByIdIdGet(this.opponentId))
-    );
+  updateUser = () => {
+    this.opponent = this.usersService.usersByIdIdGet(this.opponentId);
   };
 
-  loadMessages = () => {
+  updateMessages = () => {
     this.messages = this.messaggingService.usersByIdIdMessagesGet(
       this.opponentId
     );
@@ -52,25 +50,25 @@ export class IngameComponent implements OnInit {
     this.game = this.gamesService.usersByIdIdGameGet(this.opponentId);
   };
 
-  async ngOnInit() {
+  ngOnInit() {
     this.currentUser = this.authService.getUserToken();
 
-    this.route.params.subscribe(async params => {
+    this.route.params.subscribe(params => {
       this.opponentId = params.id;
 
       if (this.opponentId) {
-        this.loadUser();
-        this.loadMessages();
+        this.updateUser();
+        this.updateMessages();
         this.updateGame();
       }
     });
 
-    const eventStream = await this.eventsService.getEvents();
+    const eventStream = this.eventsService.getEvents();
     eventStream.subscribe(event => {
       if (event.type === EventType.GameChanged) {
         this.updateGame();
       } else if (event.type === EventType.IncomingMessage) {
-        this.loadMessages();
+        this.updateMessages();
       }
     });
   }

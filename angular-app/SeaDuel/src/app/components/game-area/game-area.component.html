@@ -4,6 +4,9 @@
     <strong>Sfida</strong> per cominciare la partita
   </div>
   <div class="center-message" *ngIf="currentState(game | async) == 'WaitingForResponse'">
-      Sfida inviata. Risposta in attesa...
-    </div>
+    Sfida inviata. Risposta in attesa...
+  </div>
+  <div class="center-message" *ngIf="currentState(game | async) == 'BoatsPositioning'">
+    Posiziona le tue 
+  </div>
 </div>

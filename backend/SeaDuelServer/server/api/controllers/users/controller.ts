@@ -5,6 +5,7 @@ import MessagesService from "../../services/messages.service";
 import GamesService from "../../services/games.service";
 import AuthService, { authCheck } from "../../services/auth.service";
 import EventsService, { EventType } from "../../services/events.service";
+import { GameStateType } from "../../services/db.service";
 
 import { Request, Response } from "express";
 import l from "../../../common/logger";
@@ -235,7 +236,7 @@ export class Controller {
         );
 
         res.json(game);
-      } catch {
+      } catch (e) {
         // Game not ended
         res.status(409).end();
       }
@@ -244,15 +245,21 @@ export class Controller {
     }
   };
 
-  updateGame = async (req: Request, res: Response): Promise<void> => {
+  acceptGame = async (req: Request, res: Response): Promise<void> => {
     const user = await authCheck(this.authService, req);
 
     if (user) {
-      // TODO
+      try {
+        await this.gamesService.acceptGame(user.id, req.params.id);
 
-      // await this.usersService.update(req.params.id, req.body);
-
-      res.status(200).end();
+        this.eventsService.sendEvent(
+          { type: EventType.GameChanged, userId: user.id },
+          req.params.id
+        );
+        res.status(200).end();
+      } catch {
+        res.status(404).end();
+      }
     } else {
       res.status(403).end();
     }
@@ -263,12 +270,56 @@ export class Controller {
 
     if (user) {
       await this.gamesService.resign(user.id, req.params.id);
+
       this.eventsService.sendEvent(
         { type: EventType.GameChanged, userId: user.id },
         req.params.id
       );
-
       res.send(200).end();
+    } else {
+      res.status(403).end();
+    }
+  };
+
+  addBoat = async (req: Request, res: Response): Promise<void> => {
+    const user = await authCheck(this.authService, req);
+
+    if (user) {
+      try {
+        // TODO
+
+        this.eventsService.sendEvent(
+          { type: EventType.GameChanged, userId: user.id },
+          req.params.id
+        );
+        res.send(200).end();
+      } catch {
+        res.status(404).end();
+      }
+
+      res.status(200).end();
+    } else {
+      res.status(403).end();
+    }
+  };
+
+  doMove = async (req: Request, res: Response): Promise<void> => {
+    const user = await authCheck(this.authService, req);
+
+    if (user) {
+      try {
+        // TODO
+
+        this.eventsService.sendEvent(
+          { type: EventType.GameChanged, userId: user.id },
+          req.params.id
+        );
+        res.send(200).end();
+      } catch {
+        res.status(404).end();
+      }
+
+      res.status(200).end();
     } else {
       res.status(403).end();
     }
