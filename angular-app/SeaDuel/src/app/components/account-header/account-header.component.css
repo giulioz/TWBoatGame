@@ -40,9 +40,19 @@
   padding-right: 32px;
   margin-left: 10px;
   margin-right: 22px;
-  visibility: hidden;
+  background: linear-gradient(#2a3c9f3a, #3463913a);
+  border: 3px solid #00b3ff02;
+}
+
+.button:hover {
+  background: linear-gradient(#2a3c9f3a, #3463913a);
 }
 
 .show {
-  visibility: visible;
+  background: linear-gradient(#2a3c9f, #346391);
+  border: 3px solid #00b1ff;
+}
+
+.show:hover {
+  background: linear-gradient(rgb(43, 66, 196), #346391);
 }

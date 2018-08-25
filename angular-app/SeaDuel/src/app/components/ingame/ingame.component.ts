@@ -36,6 +36,8 @@ export class IngameComponent implements OnInit {
     private eventsService: EventsService
   ) {}
 
+  getGameState = (game: Game) => game ? game.state : "";
+
   updateUser = () => {
     this.opponent = this.usersService.usersByIdIdGet(this.opponentId);
   };
@@ -78,5 +80,9 @@ export class IngameComponent implements OnInit {
     this.router.navigate(["/"]);
   }
 
-  onStartGame() {}
+  onStartGame = () => {
+    this.gamesService.usersByIdIdGamePost(this.opponentId).subscribe(_ => {
+      this.updateGame();
+    });
+  }
 }

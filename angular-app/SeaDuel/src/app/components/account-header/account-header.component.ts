@@ -18,7 +18,9 @@ export class AccountHeaderComponent implements OnInit {
 
   ngOnInit() {}
 
-  onSelect() {
-    this.startGame.emit();
-  }
+  onStartGame = () => {
+    if (this.startGameActive) {
+      this.startGame.emit();
+    }
+  };
 }

@@ -230,11 +230,15 @@ export class Controller {
           user.id,
           req.params.id
         );
+
+        this.eventsService.sendEvent(
+          { type: EventType.GameChanged, userId: user.id },
+          user.id
+        );
         this.eventsService.sendEvent(
           { type: EventType.GameChanged, userId: user.id },
           req.params.id
         );
-
         res.json(game);
       } catch (e) {
         // Game not ended
@@ -252,6 +256,10 @@ export class Controller {
       try {
         await this.gamesService.acceptGame(user.id, req.params.id);
 
+        this.eventsService.sendEvent(
+          { type: EventType.GameChanged, userId: user.id },
+          user.id
+        );
         this.eventsService.sendEvent(
           { type: EventType.GameChanged, userId: user.id },
           req.params.id
@@ -273,6 +281,10 @@ export class Controller {
 
       this.eventsService.sendEvent(
         { type: EventType.GameChanged, userId: user.id },
+        user.id
+      );
+      this.eventsService.sendEvent(
+        { type: EventType.GameChanged, userId: user.id },
         req.params.id
       );
       res.send(200).end();
@@ -286,15 +298,26 @@ export class Controller {
 
     if (user) {
       try {
-        // TODO
+        await this.gamesService.addBoat(
+          user.id,
+          req.params.id,
+          req.body.type,
+          req.body.x,
+          req.body.y,
+          req.body.direction
+        );
 
+        this.eventsService.sendEvent(
+          { type: EventType.GameChanged, userId: user.id },
+          user.id
+        );
         this.eventsService.sendEvent(
           { type: EventType.GameChanged, userId: user.id },
           req.params.id
         );
         res.send(200).end();
       } catch {
-        res.status(404).end();
+        res.status(400).end();
       }
 
       res.status(200).end();
@@ -310,6 +333,10 @@ export class Controller {
       try {
         // TODO
 
+        this.eventsService.sendEvent(
+          { type: EventType.GameChanged, userId: user.id },
+          user.id
+        );
         this.eventsService.sendEvent(
           { type: EventType.GameChanged, userId: user.id },
           req.params.id

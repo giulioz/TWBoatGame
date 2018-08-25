@@ -30,9 +30,10 @@ import { SidebarFriendSearchComponent } from "./components/sidebar-friend-search
 import { AccountHeaderComponent } from "./components/account-header/account-header.component";
 import { ChatComponent } from "./components/chat/chat.component";
 import { GameAreaComponent } from "./components/game-area/game-area.component";
-import { AdminPageComponent } from './components/admin-page/admin-page.component';
-import { AccountPageComponent } from './components/account-page/account-page.component';
-import { WaveBackgroundComponent } from './components/wave-background/wave-background.component';
+import { AdminPageComponent } from "./components/admin-page/admin-page.component";
+import { AccountPageComponent } from "./components/account-page/account-page.component";
+import { WaveBackgroundComponent } from "./components/wave-background/wave-background.component";
+import { BoardViewComponent } from "./components/board-view/board-view.component";
 
 // Services
 import { AuthService } from "./services/auth.service";
@@ -71,7 +72,8 @@ export function apiConfigFactory(): Configuration {
     GameAreaComponent,
     AdminPageComponent,
     AccountPageComponent,
-    WaveBackgroundComponent
+    WaveBackgroundComponent,
+    BoardViewComponent
   ],
   imports: [
     BrowserModule,

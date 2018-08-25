@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { Game, GamesService, UsersService } from "../../../swagger";
+import { Game, GamesService } from "../../../swagger";
 import { Observable } from "rxjs";
 
 @Component({
@@ -15,6 +15,10 @@ export class GameAreaComponent implements OnInit {
   game: Observable<Game>;
 
   currentState(game: Game) {
+    if (!game) {
+      return "";
+    }
+
     if (game.state === "Ended") {
       return "Ended";
     } else if (game.state === "WaitingForResponse") {
@@ -23,7 +27,7 @@ export class GameAreaComponent implements OnInit {
       if (!game.playerReady) {
         return "PlayerToPosition";
       } else {
-        
+        console.log("ok");
       }
       return "BoatsPositioning";
     }
