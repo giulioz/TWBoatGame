@@ -28,20 +28,18 @@ function isFullBoatDrown(board: GameBoard, x: number, y: number) {
 function hideBoard(board: GameBoard) {
   return {
     ...board,
-    boardData: board.boardData.map((col, x) =>
-      col.map(
-        (cell: BoardElement, y) =>
-          cell.checked
-            ? {
-                type:
-                  cell.type === BoardElementType.Empty
-                    ? "Miss"
-                    : isFullBoatDrown(board, x, y)
-                      ? "Boat"
-                      : "Hit"
-              }
-            : { type: "Unknown" }
-      )
+    boardData: board.boardData.map(
+      (cell: BoardElement, i) =>
+        cell.checked
+          ? {
+              type:
+                cell.type === BoardElementType.Empty
+                  ? "Miss"
+                  : isFullBoatDrown(board, i % board.width, i / board.width)
+                    ? "Boat"
+                    : "Hit"
+            }
+          : { type: "Unknown" }
     )
   };
 }
