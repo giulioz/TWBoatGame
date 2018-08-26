@@ -14,7 +14,7 @@ export class GameAreaComponent implements OnInit {
   @Input()
   game: Observable<Game>;
 
-  currentState(game: Game) {
+  currentState = (game: Game) => {
     if (!game) {
       return "";
     }
@@ -28,7 +28,10 @@ export class GameAreaComponent implements OnInit {
     } else {
       return game.state;
     }
-  }
+  };
+
+  playerBoard = (game: Game) => (game ? game.playerBoard : null);
+  opponentBoard = (game: Game) => (game ? game.opponentBoard : null);
 
   constructor(private gamesService: GamesService) {}
 
@@ -43,6 +46,17 @@ export class GameAreaComponent implements OnInit {
   rejectGameRequest = () => {
     this.gamesService
       .usersByIdIdGameDelete(this.opponentId)
+      .subscribe({ error: e => console.error(e) });
+  };
+
+  positionAction = $event => {
+    this.gamesService
+      .usersByIdIdGameBoatsPost(this.opponentId, {
+        x: $event.x,
+        y: $event.y,
+        direction: "Horizontal",
+        type: "Destroyer"
+      })
       .subscribe({ error: e => console.error(e) });
   };
 }

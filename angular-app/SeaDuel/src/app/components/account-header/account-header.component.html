@@ -12,5 +12,5 @@
       <strong>partite perse: </strong>{{user.lostGames}}
     </div>
   </div>
-  <button class="button" [disabled]="!startGameActive" [ngClass]="{'show': startGameActive}" (click)="onStartGame()">Sfida</button>
+  <button class="button" [disabled]="!actionActive" [ngClass]="{'show': actionActive}" (click)="onAction()">{{actionText}}</button>
 </div>

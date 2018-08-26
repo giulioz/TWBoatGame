@@ -14,6 +14,7 @@
         <div class="username">Benvenuto,
           <b>
             <i> {{currentUser.id}}</i>
+            <div class="position">{{currentUser.wonGames + " / " + currentUser.lostGames}}</div>
           </b>
         </div>
         <div class="material-icons account">
@@ -41,7 +42,8 @@
     <div class="body-container">
       <div class="body-background">
         <div class="spacer column" *ngIf="opponentId">
-          <app-account-header class="ztop" [user]="opponent | async" [startGameActive]="getGameState(game | async) === 'Ended'" (startGame)="onStartGame()"></app-account-header>
+          <app-account-header class="ztop" [user]="opponent | async" [actionActive]="actionActive(game | async)" (action)="onHeaderAction()"
+            actionText="{{getGameState(game | async) === 'Ended' ? 'Sfida' : 'Abbandona partita'}}"></app-account-header>
           <div class="spacerFlex">
             <app-chat [opponentId]="opponentId" [messages]="messages"></app-chat>
             <app-game-area [opponentId]="opponentId" [game]="game"></app-game-area>

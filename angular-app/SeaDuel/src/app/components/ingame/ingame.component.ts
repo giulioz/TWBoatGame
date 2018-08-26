@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Observable, timer } from "rxjs";
-import { switchMap } from "rxjs/operators";
+import { Observable } from "rxjs";
 
 import {
   User,
@@ -36,7 +35,10 @@ export class IngameComponent implements OnInit {
     private eventsService: EventsService
   ) {}
 
-  getGameState = (game: Game) => game ? game.state : "";
+  getGameState = (game: Game) => (game ? game.state : "");
+  actionActive = (game: Game) =>
+    this.getGameState(game) !== "WaitingForResponse" &&
+    this.getGameState(game) !== "HasToRespond";
 
   updateUser = () => {
     this.opponent = this.usersService.usersByIdIdGet(this.opponentId);
@@ -54,6 +56,7 @@ export class IngameComponent implements OnInit {
 
   ngOnInit() {
     this.currentUser = this.authService.getUserToken();
+    this.usersService.usersByIdIdGet(this.authService.getUserToken().id).subscribe(user => this.currentUser = user);
 
     this.route.params.subscribe(params => {
       this.opponentId = params.id;
@@ -80,9 +83,20 @@ export class IngameComponent implements OnInit {
     this.router.navigate(["/"]);
   }
 
-  onStartGame = () => {
-    this.gamesService.usersByIdIdGamePost(this.opponentId).subscribe(_ => {
-      this.updateGame();
+  onHeaderAction = () => {
+    this.game.subscribe(game => {
+      if (this.getGameState(game) === "Ended") {
+        this.gamesService.usersByIdIdGamePost(this.opponentId).subscribe(_ => {
+          this.updateGame();
+        });
+      } else if (this.getGameState(game) !== "WaitingForResponse" && this.getGameState(game) !== "HasToRespond") { {
+        this.gamesService
+          .usersByIdIdGameDelete(this.opponentId)
+          .subscribe(_ => {
+            this.updateGame();
+            this.updateUser();
+          });
+      }
     });
-  }
+  };
 }

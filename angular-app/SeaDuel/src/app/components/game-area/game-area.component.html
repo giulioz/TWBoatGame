@@ -1,35 +1,38 @@
 <div class="root">
-  <div class="material-icons center-icon" *ngIf="currentState(game | async) == 'Ended'">
+  <div class="material-icons center icon" *ngIf="currentState(game | async) == 'Ended'">
     arrow_upward
   </div>
-  <div class="center-message" *ngIf="currentState(game | async) == 'Ended'">
+  <div class="center message" *ngIf="currentState(game | async) == 'Ended'">
     Premi
     <strong>Sfida</strong> per cominciare la partita
   </div>
 
-  <div class="material-icons center-icon" *ngIf="currentState(game | async) == 'WaitingForResponse'">
+  <div class="material-icons center icon" *ngIf="currentState(game | async) == 'WaitingForResponse'">
     watch_later
   </div>
-  <div class="center-message" *ngIf="currentState(game | async) == 'WaitingForResponse'">
+  <div class="center message" *ngIf="currentState(game | async) == 'WaitingForResponse'">
     Sfida inviata. Risposta in attesa...
   </div>
 
-  <div class="center-message" *ngIf="currentState(game | async) == 'HasToRespond'">
+  <div class="center message" *ngIf="currentState(game | async) == 'HasToRespond'">
     Ti ha invitato a giocare. Accetti?
   </div>
-  <div class="center-buttons" *ngIf="currentState(game | async) == 'HasToRespond'">
+  <div class="center" *ngIf="currentState(game | async) == 'HasToRespond'">
     <button class="button" (click)="acceptGameRequest()">Accetta</button>
     <button class="button" (click)="rejectGameRequest()">Rifiuta</button>
   </div>
 
-  <div class="center-message" *ngIf="currentState(game | async) == 'PlayerToPosition'">
+  <div class="center message" *ngIf="currentState(game | async) == 'PlayerToPosition'">
     Posiziona le tue Navi
   </div>
+  <div class="center" *ngIf="currentState(game | async) == 'PlayerToPosition'">
+    <app-board-view [board]="playerBoard(game | async)" (action)="positionAction($event)"></app-board-view>
+  </div>
 
-  <div class="material-icons center-icon" *ngIf="currentState(game | async) == 'OpponentToPosition'">
+  <div class="material-icons center icon" *ngIf="currentState(game | async) == 'OpponentToPosition'">
     watch_later
   </div>
-  <div class="center-message" *ngIf="currentState(game | async) == 'OpponentToPosition'">
+  <div class="center message" *ngIf="currentState(game | async) == 'OpponentToPosition'">
     Attendi, il tuo avversario sta ancora posizionando le sue navi...
   </div>
 </div>

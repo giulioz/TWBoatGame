@@ -11,16 +11,17 @@ export class AccountHeaderComponent implements OnInit {
   user: User;
 
   @Input()
-  startGameActive: boolean;
-
+  actionActive: boolean;
+  @Input()
+  actionText: string;
   @Output()
-  startGame: EventEmitter<any> = new EventEmitter();
+  action: EventEmitter<any> = new EventEmitter();
 
   ngOnInit() {}
 
-  onStartGame = () => {
-    if (this.startGameActive) {
-      this.startGame.emit();
+  onAction = () => {
+    if (this.actionActive) {
+      this.action.emit();
     }
   };
 }

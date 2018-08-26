@@ -46,6 +46,12 @@
   margin-right: 16px;
 }
 
+.position {
+  margin-right: 16px;
+  font-size: 14px;
+  font-style: italic;
+}
+
 .selected {
   background: #ffffff;
   color: rgb(105, 112, 155);

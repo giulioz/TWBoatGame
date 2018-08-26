@@ -4,6 +4,7 @@
     <div class="material-icons icon">person</div>
     <div class="badge" style.background-color="{{this.user | userstatusColor}}"></div>
     <div class="username">{{this.user.id}}</div>
+    <div class="position" *ngIf="showPosition">{{user.wonGames + " / " + user.lostGames}}</div>
     <div class="unread" *ngIf="hasUnread"></div>
   </div>
 </div>

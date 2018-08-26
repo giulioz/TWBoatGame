@@ -288,6 +288,21 @@ export class GamesService {
       throw "Invalid";
     }
 
+    const isAvailable = availableBoats => {
+      const foundIndex = availableBoats.findIndex(boat => boat.type === type);
+      if (foundIndex < 0 || availableBoats[foundIndex].amount < 1) {
+        throw "Unavailable";
+      } else {
+        return true;
+      }
+    };
+
+    if (game.playerId === player) {
+      isAvailable(game.playerAvailableBoats);
+    } else {
+      isAvailable(game.opponentAvailableBoats);
+    }
+
     const newBoard = boardAddBoat(
       game.playerId === player ? game.playerBoard : game.opponentBoard,
       type,
@@ -300,6 +315,19 @@ export class GamesService {
       throw "Invalid";
     }
 
+    const decrementAvailable = availableBoats => {
+      const foundIndex = availableBoats.findIndex(boat => boat.type === type);
+      if (foundIndex >= 0) {
+        availableBoats[foundIndex].amount--;
+      }
+    };
+
+    if (game.playerId === player) {
+      decrementAvailable(game.playerAvailableBoats);
+    } else {
+      decrementAvailable(game.opponentAvailableBoats);
+    }
+
     return GameModel.updateOne(
       {
         $or: [
@@ -309,12 +337,84 @@ export class GamesService {
       },
       game.playerId === player
         ? {
-            playerBoard: newBoard
+            playerBoard: newBoard,
+            playerAvailableBoats: game.playerAvailableBoats
           }
         : {
-            opponentBoard: newBoard
+            opponentBoard: newBoard,
+            opponentAvailableBoats: game.opponentAvailableBoats
           }
     );
+  }
+
+  async doMove(
+    player: string,
+    opponent: string,
+    x: number,
+    y: number
+  ): Promise<void> {
+    const doMoveBoard = (board: GameBoard) => {
+      const i = x + y * board.width;
+      if (!board.boardData[i].checked) {
+        board.boardData[i].checked = true;
+      }
+    };
+
+    const checkVictory = (board: GameBoard) =>
+      board.boardData.filter(
+        cell => !cell.checked && cell.type !== BoardElementType.Empty
+      ).length > 0;
+
+    const game = await this.fromPlayers(player, opponent);
+    if (game.playerId === player) {
+      if (game.state !== GameStateType.PlayerTurn) {
+        throw "Invalid";
+      }
+
+      doMoveBoard(game.opponentBoard);
+      if (checkVictory(game.opponentBoard)) {
+        game.state = GameStateType.Ended;
+      } else {
+        game.state = GameStateType.OpponentTurn;
+      }
+
+      return GameModel.updateOne(
+        {
+          $or: [
+            { playerId: player, opponentId: opponent },
+            { playerId: opponent, opponentId: player }
+          ]
+        },
+        {
+          opponentBoard: game.opponentBoard,
+          state: game.state
+        }
+      );
+    } else {
+      if (game.state !== GameStateType.OpponentTurn) {
+        throw "Invalid";
+      }
+
+      doMoveBoard(game.playerBoard);
+      if (checkVictory(game.playerBoard)) {
+        game.state = GameStateType.Ended;
+      } else {
+        game.state = GameStateType.PlayerTurn;
+      }
+
+      return GameModel.updateOne(
+        {
+          $or: [
+            { playerId: player, opponentId: opponent },
+            { playerId: opponent, opponentId: player }
+          ]
+        },
+        {
+          playerBoard: game.playerBoard,
+          state: game.state
+        }
+      );
+    }
   }
 }
 
