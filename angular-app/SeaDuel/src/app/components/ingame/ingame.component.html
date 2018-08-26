@@ -46,7 +46,7 @@
             actionText="{{getGameState(game | async) === 'Ended' ? 'Sfida' : 'Abbandona partita'}}"></app-account-header>
           <div class="spacerFlex">
             <app-chat [opponentId]="opponentId" [messages]="messages"></app-chat>
-            <app-game-area [opponentId]="opponentId" [game]="game"></app-game-area>
+            <app-game-area [opponentId]="opponentId" [game]="game" (needsUpdate)="updateGame()"></app-game-area>
           </div>
         </div>
         <div class="spacer nouser-container" *ngIf="!opponentId">

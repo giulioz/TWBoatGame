@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { Game, GamesService, Boat } from "../../../swagger";
+import { Component, OnInit, Input, EventEmitter, Output } from "@angular/core";
+import { Game, GamesService } from "../../../swagger";
 import { Observable } from "rxjs";
 
 @Component({
@@ -14,17 +14,8 @@ export class GameAreaComponent implements OnInit {
   @Input()
   game: Observable<Game>;
 
-  initialBoats: Boat[] = [
-    { type: "Destroyer" },
-    { type: "Destroyer" },
-    { type: "Destroyer" },
-    { type: "Destroyer" },
-    { type: "Submarine" },
-    { type: "Submarine" },
-    { type: "Battleship" },
-    { type: "Battleship" },
-    { type: "AircraftCarrier" }
-  ];
+  @Output()
+  needsUpdate: EventEmitter<any> = new EventEmitter();
 
   currentState = (game: Game) => {
     if (!game) {
@@ -52,23 +43,37 @@ export class GameAreaComponent implements OnInit {
   acceptGameRequest = () => {
     this.gamesService
       .usersByIdIdGamePut(this.opponentId)
-      .subscribe({ error: e => console.error(e) });
+      .subscribe(_ => this.needsUpdate.emit(), e => console.error(e));
   };
 
   rejectGameRequest = () => {
     this.gamesService
       .usersByIdIdGameDelete(this.opponentId)
-      .subscribe({ error: e => console.error(e) });
+      .subscribe(_ => this.needsUpdate.emit(), e => console.error(e));
   };
 
   positionAction = $event => {
+    this.game.subscribe(game => {
+      const nextBoat = game.availableBoats.filter(boat => boat.amount > 0)[0]
+        .type;
+
+      this.gamesService
+        .usersByIdIdGameBoatsPost(this.opponentId, {
+          x: $event.x,
+          y: $event.y,
+          direction: "Vertical",
+          type: nextBoat
+        })
+        .subscribe(_ => this.needsUpdate.emit(), e => console.error(e));
+    });
+  };
+
+  moveAction = $event => {
     this.gamesService
-      .usersByIdIdGameBoatsPost(this.opponentId, {
+      .usersByIdIdGameMovesPost(this.opponentId, {
         x: $event.x,
-        y: $event.y,
-        direction: "Vertical",
-        type: "Submarine"
+        y: $event.y
       })
-      .subscribe({ error: e => console.error(e) });
+      .subscribe(_ => this.needsUpdate.emit(), e => console.error(e));
   };
 }

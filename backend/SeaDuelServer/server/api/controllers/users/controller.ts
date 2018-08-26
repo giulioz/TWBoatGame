@@ -331,7 +331,12 @@ export class Controller {
 
     if (user) {
       try {
-        // TODO
+        this.gamesService.doMove(
+          user.id,
+          req.params.id,
+          req.body.x,
+          req.body.y
+        );
 
         this.eventsService.sendEvent(
           { type: EventType.GameChanged, userId: user.id },

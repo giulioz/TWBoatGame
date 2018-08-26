@@ -35,4 +35,24 @@
   <div class="center message" *ngIf="currentState(game | async) == 'OpponentToPosition'">
     Attendi, il tuo avversario sta ancora posizionando le sue navi...
   </div>
+
+  <div class="center message" *ngIf="currentState(game | async) == 'PlayerTurn'">
+    È il tuo turno! Seleziona una casella avversaria da colpire
+  </div>
+  <div class="center" *ngIf="currentState(game | async) == 'PlayerTurn'">
+    Campo avversario:
+    <app-board-view [board]="opponentBoard(game | async)" (action)="moveAction($event)"></app-board-view>
+    Il tuo campo:
+    <app-board-view [board]="playerBoard(game | async)"></app-board-view>
+  </div>
+
+  <div class="center message" *ngIf="currentState(game | async) == 'OpponentTurn'">
+    Attendi il turno del tuo avversario...
+  </div>
+  <div class="center" *ngIf="currentState(game | async) == 'OpponentTurn'">
+    Campo avversario:
+    <app-board-view [board]="opponentBoard(game | async)"></app-board-view>
+    Il tuo campo:
+    <app-board-view [board]="playerBoard(game | async)"></app-board-view>
+  </div>
 </div>

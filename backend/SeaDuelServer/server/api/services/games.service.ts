@@ -321,7 +321,7 @@ export class GamesService {
       }
     };
     const isReady = (availableBoats: Boat[]) =>
-      availableBoats.filter(a => a.amount > 0).length > 0;
+      availableBoats.filter(a => a.amount > 0).length === 0;
     if (game.playerId === player) {
       decrementAvailable(game.playerAvailableBoats);
       if (isReady(game.playerAvailableBoats)) {
@@ -332,6 +332,13 @@ export class GamesService {
       if (isReady(game.opponentAvailableBoats)) {
         game.opponentReady = true;
       }
+    }
+
+    const randomTurn = () => Math.random() > 0.5;
+    if (game.playerReady && game.opponentReady) {
+      game.state = randomTurn
+        ? GameStateType.PlayerTurn
+        : GameStateType.OpponentTurn;
     }
 
     return GameModel.updateOne(
@@ -345,12 +352,14 @@ export class GamesService {
         ? {
             playerBoard: newBoard,
             playerAvailableBoats: game.playerAvailableBoats,
-            playerReady: game.playerReady
+            playerReady: game.playerReady,
+            state: game.state
           }
         : {
             opponentBoard: newBoard,
             opponentAvailableBoats: game.opponentAvailableBoats,
-            opponentReady: game.opponentReady
+            opponentReady: game.opponentReady,
+            state: game.state
           }
     );
   }
