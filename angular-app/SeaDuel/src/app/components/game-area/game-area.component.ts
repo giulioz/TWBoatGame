@@ -28,6 +28,14 @@ export class GameAreaComponent implements OnInit {
       } else {
         return "OpponentToPosition";
       }
+    } else if (game.state === "Ended") {
+      if (game.winnerId === game.playerId) {
+        return "Won";
+      } else if (game.winnerId === game.opponentId) {
+        return "Lost";
+      } else {
+        return "Ended";
+      }
     } else {
       return game.state;
     }

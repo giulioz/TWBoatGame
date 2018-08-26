@@ -21,8 +21,39 @@ const boatSizes = {
 };
 
 function isFullBoatDrown(board: GameBoard, x: number, y: number) {
-  // TODO
-  return false;
+  const boardXY = (x: number, y: number, board: GameBoard) =>
+    board.boardData[x + y * board.width];
+  const initialCell = boardXY(x, y, board);
+  const recurse = (
+    x: number,
+    y: number,
+    direction: "Left" | "Down" | "Right" | "Up"
+  ) => {
+    if (x < 0 || x >= board.width || y < 0 || y >= board.height) {
+      return 0;
+    } else {
+      const currentCell = boardXY(x, y, board);
+      if (currentCell.checked && currentCell.type === initialCell.type) {
+        if (direction === "Left") {
+          return 1 + recurse(x + 1, y, direction);
+        } else if (direction === "Down") {
+          return 1 + recurse(x, y + 1, direction);
+        } else if (direction === "Right") {
+          return 1 + recurse(x - 1, y, direction);
+        } else if (direction === "Up") {
+          return 1 + recurse(x, y - 1, direction);
+        }
+      } else {
+        return 0;
+      }
+    }
+  };
+  return (
+    recurse(x, y, "Left") === boatSizes[initialCell.type] ||
+    recurse(x, y, "Down") === boatSizes[initialCell.type] ||
+    recurse(x, y, "Right") === boatSizes[initialCell.type] ||
+    recurse(x, y, "Up") === boatSizes[initialCell.type]
+  );
 }
 
 function hideBoard(board: GameBoard) {
@@ -54,7 +85,6 @@ function swapPlayers(game: Game) {
         : game.state;
 
   return {
-    ...game,
     state,
     playerId: game.opponentId,
     opponentId: game.playerId,
@@ -74,12 +104,12 @@ function transformGamePlayer(game: Game, playerId: string) {
       game.opponentId === playerId
         ? GameStateType.HasToRespond
         : swapped.state,
-    winnerId: swapped.winnerId,
+    winnerId: game.winnerId,
     playerBoard: swapped.playerBoard,
     opponentBoard: hideBoard(swapped.opponentBoard),
     playerReady: swapped.playerReady,
     opponentReady: swapped.opponentReady,
-    startTime: swapped.startTime,
+    startTime: game.startTime,
     availableBoats: swapped.playerAvailableBoats
   };
 }
@@ -128,16 +158,19 @@ function boardAddBoat(
       ? [x + 1, y + boatSizes[type]]
       : [x + boatSizes[type], y + 1];
 
-  if (
+  const isWithinBoard = (begin: number[], end: number[], board: GameBoard) =>
     begin[0] >= 0 &&
-    begin[0] < defaultWidth &&
+    begin[0] < board.width &&
     begin[1] >= 0 &&
-    begin[1] < defaultHeight &&
+    begin[1] < board.height &&
     end[0] >= 0 &&
-    end[0] < defaultWidth &&
+    end[0] <= board.width &&
     end[1] >= 0 &&
-    end[1] < defaultHeight
-  ) {
+    end[1] <= board.height;
+
+  const isBoundaryEmpty = (begin: number[], end: number[], board: GameBoard) => true;
+
+  if (isWithinBoard(begin, end, board)) {
     for (let x = begin[0]; x < end[0]; x++) {
       for (let y = begin[1]; y < end[1]; y++) {
         // TODO: Boundary check
@@ -397,6 +430,7 @@ export class GamesService {
       doMoveBoard(game.opponentBoard);
       if (checkVictory(game.opponentBoard)) {
         game.state = GameStateType.Ended;
+        game.winnerId = game.playerId;
       } else {
         game.state = GameStateType.OpponentTurn;
       }
@@ -410,7 +444,8 @@ export class GamesService {
         },
         {
           opponentBoard: game.opponentBoard,
-          state: game.state
+          state: game.state,
+          winnerId: game.winnerId
         }
       );
     } else {
@@ -421,6 +456,7 @@ export class GamesService {
       doMoveBoard(game.playerBoard);
       if (checkVictory(game.playerBoard)) {
         game.state = GameStateType.Ended;
+        game.winnerId = game.opponentId;
       } else {
         game.state = GameStateType.PlayerTurn;
       }
@@ -434,7 +470,8 @@ export class GamesService {
         },
         {
           playerBoard: game.playerBoard,
-          state: game.state
+          state: game.state,
+          winnerId: game.winnerId
         }
       );
     }

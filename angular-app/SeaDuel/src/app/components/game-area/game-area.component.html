@@ -55,4 +55,24 @@
     Il tuo campo:
     <app-board-view [board]="playerBoard(game | async)"></app-board-view>
   </div>
+
+  <div class="material-icons center icon" *ngIf="currentState(game | async) == 'Won'">
+    arrow_upward
+  </div>
+  <div class="center message" *ngIf="currentState(game | async) == 'Won'">
+    <strong>Hai vinto!</strong>
+  </div>
+  <div class="center message" *ngIf="currentState(game | async) == 'Won'">
+    Vuoi la rivincita? Gioca di nuovo!
+  </div>
+
+  <div class="material-icons center icon" *ngIf="currentState(game | async) == 'Lost'">
+    arrow_upward
+  </div>
+  <div class="center message" *ngIf="currentState(game | async) == 'Lost'">
+    <strong>Hai perso!</strong>
+  </div>
+  <div class="center message" *ngIf="currentState(game | async) == 'Lost'">
+    Vuoi la rivincita? Gioca di nuovo!
+  </div>
 </div>
