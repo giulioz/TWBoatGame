@@ -158,6 +158,9 @@ function boardAddBoat(
       ? [x + 1, y + boatSizes[type]]
       : [x + boatSizes[type], y + 1];
 
+  const isPointWithinBoard = (x: number, y: number, board: GameBoard) =>
+    x >= 0 && x < board.width && y >= 0 && y < board.height;
+
   const isWithinBoard = (begin: number[], end: number[], board: GameBoard) =>
     begin[0] >= 0 &&
     begin[0] < board.width &&
@@ -168,13 +171,32 @@ function boardAddBoat(
     end[1] >= 0 &&
     end[1] <= board.height;
 
-  const isBoundaryEmpty = (begin: number[], end: number[], board: GameBoard) => true;
+  const isBoundaryEmpty = (
+    begin: number[],
+    end: number[],
+    board: GameBoard
+  ) => {
+    const inflatedBegin = [begin[0] - 1, begin[1] - 1];
+    const inflatedEnd = [end[0] + 1, end[1] + 1];
 
-  if (isWithinBoard(begin, end, board)) {
+    for (let x = inflatedBegin[0]; x < inflatedEnd[0]; x++) {
+      for (let y = inflatedBegin[1]; y < inflatedEnd[1]; y++) {
+        if (
+          isPointWithinBoard(x, y, board) &&
+          board.boardData[x + y * board.width].type !== BoardElementType.Empty
+        ) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  };
+
+  if (isWithinBoard(begin, end, board) && isBoundaryEmpty(begin, end, board)) {
     for (let x = begin[0]; x < end[0]; x++) {
       for (let y = begin[1]; y < end[1]; y++) {
-        // TODO: Boundary check
-        if (newBoardData[x + y * board.width].type === "Empty") {
+        if (newBoardData[x + y * board.width].type === BoardElementType.Empty) {
           newBoardData[x + y * board.width] = { type, checked: false };
         } else {
           return null;
