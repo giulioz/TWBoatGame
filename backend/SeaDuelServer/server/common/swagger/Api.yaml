@@ -85,10 +85,15 @@ definitions:
     type: object
     title: Game
     properties:
+      playerId:
+        type: string
+      opponentId:
+        type: string
       state:
         type: string
         enum:
           - WaitingForResponse
+          - HasToRespond
           - BoatsPositioning
           - PlayerTurn
           - OpponentTurn

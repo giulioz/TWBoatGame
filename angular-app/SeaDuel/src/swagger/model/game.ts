@@ -14,6 +14,8 @@ import { OpponentBoard } from "./opponentBoard";
 import { PlayerBoard } from "./playerBoard";
 
 export interface Game {
+  playerId?: string;
+  opponentId?: string;
   state?: Game.StateEnum;
   /**
    * UserId of the winner, -1 if still playing
@@ -38,12 +40,14 @@ export interface Game {
 export namespace Game {
   export type StateEnum =
     | "WaitingForResponse"
+    | "HasToRespond"
     | "BoatsPositioning"
     | "PlayerTurn"
     | "OpponentTurn"
     | "Ended";
   export const StateEnum = {
     WaitingForResponse: "WaitingForResponse" as StateEnum,
+    HasToRespond: "HasToRespond" as StateEnum,
     BoatsPositioning: "BoatsPositioning" as StateEnum,
     PlayerTurn: "PlayerTurn" as StateEnum,
     OpponentTurn: "OpponentTurn" as StateEnum,

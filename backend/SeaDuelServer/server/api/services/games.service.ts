@@ -69,7 +69,11 @@ function swapPlayers(game: Game) {
 function transformGamePlayer(game: Game, playerId: string) {
   const swapped = game.opponentId === playerId ? swapPlayers(game) : game;
   return {
-    state: swapped.state,
+    state:
+      game.state === GameStateType.WaitingForResponse &&
+      game.opponentId === playerId
+        ? GameStateType.HasToRespond
+        : swapped.state,
     winnerId: swapped.winnerId,
     playerBoard: swapped.playerBoard,
     opponentBoard: hideBoard(swapped.opponentBoard),

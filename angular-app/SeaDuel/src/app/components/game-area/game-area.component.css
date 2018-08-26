@@ -20,6 +20,14 @@
   padding-bottom: 16px;
 }
 
+.center-buttons {
+  align-self: center;
+}
+
+.center-buttons .button {
+  margin: 8px;
+}
+
 .center-message {
   font-size: 20px;
   font-style: italic;

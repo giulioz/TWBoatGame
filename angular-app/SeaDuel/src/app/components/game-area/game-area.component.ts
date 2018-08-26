@@ -19,21 +19,30 @@ export class GameAreaComponent implements OnInit {
       return "";
     }
 
-    if (game.state === "Ended") {
-      return "Ended";
-    } else if (game.state === "WaitingForResponse") {
-      return "WaitingForResponse";
-    } else if (game.state === "BoatsPositioning") {
+    if (game.state === "BoatsPositioning") {
       if (!game.playerReady) {
         return "PlayerToPosition";
       } else {
-        console.log("ok");
+        return "OpponentToPosition";
       }
-      return "BoatsPositioning";
+    } else {
+      return game.state;
     }
   }
 
   constructor(private gamesService: GamesService) {}
 
   ngOnInit() {}
+
+  acceptGameRequest = () => {
+    this.gamesService
+      .usersByIdIdGamePut(this.opponentId)
+      .subscribe({ error: e => console.error(e) });
+  };
+
+  rejectGameRequest = () => {
+    this.gamesService
+      .usersByIdIdGameDelete(this.opponentId)
+      .subscribe({ error: e => console.error(e) });
+  };
 }

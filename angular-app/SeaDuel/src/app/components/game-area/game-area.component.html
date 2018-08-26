@@ -14,7 +14,22 @@
     Sfida inviata. Risposta in attesa...
   </div>
 
-  <div class="center-message" *ngIf="currentState(game | async) == 'BoatsPositioning'">
+  <div class="center-message" *ngIf="currentState(game | async) == 'HasToRespond'">
+    Ti ha invitato a giocare. Accetti?
+  </div>
+  <div class="center-buttons" *ngIf="currentState(game | async) == 'HasToRespond'">
+    <button class="button" (click)="acceptGameRequest()">Accetta</button>
+    <button class="button" (click)="rejectGameRequest()">Rifiuta</button>
+  </div>
+
+  <div class="center-message" *ngIf="currentState(game | async) == 'PlayerToPosition'">
     Posiziona le tue Navi
+  </div>
+
+  <div class="material-icons center-icon" *ngIf="currentState(game | async) == 'OpponentToPosition'">
+    watch_later
+  </div>
+  <div class="center-message" *ngIf="currentState(game | async) == 'OpponentToPosition'">
+    Attendi, il tuo avversario sta ancora posizionando le sue navi...
   </div>
 </div>

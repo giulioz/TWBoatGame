@@ -66,6 +66,7 @@ export class GameBoard {
 
 export enum GameStateType {
   WaitingForResponse = "WaitingForResponse",
+  HasToRespond = "HasToRespond",
   BoatsPositioning = "BoatsPositioning",
   PlayerTurn = "PlayerTurn",
   OpponentTurn = "OpponentTurn",
