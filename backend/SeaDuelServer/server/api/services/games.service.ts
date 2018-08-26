@@ -198,6 +198,12 @@ export class GamesService {
       throw "Game not ended";
     }
 
+    await GameModel.deleteOne({
+      $or: [
+        { playerId: player, opponentId: opponent },
+        { playerId: opponent, opponentId: player }
+      ]
+    }).exec();
     const game = new GameModel(emptyGame(player, opponent));
     game.state = GameStateType.WaitingForResponse;
     return game.save();
@@ -380,7 +386,7 @@ export class GamesService {
     const checkVictory = (board: GameBoard) =>
       board.boardData.filter(
         cell => !cell.checked && cell.type !== BoardElementType.Empty
-      ).length > 0;
+      ).length === 0;
 
     const game = await this.fromPlayers(player, opponent);
     if (game.playerId === player) {
