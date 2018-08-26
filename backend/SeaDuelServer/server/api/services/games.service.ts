@@ -296,7 +296,6 @@ export class GamesService {
         return true;
       }
     };
-
     if (game.playerId === player) {
       isAvailable(game.playerAvailableBoats);
     } else {
@@ -321,11 +320,18 @@ export class GamesService {
         availableBoats[foundIndex].amount--;
       }
     };
-
+    const isReady = (availableBoats: Boat[]) =>
+      availableBoats.filter(a => a.amount > 0).length > 0;
     if (game.playerId === player) {
       decrementAvailable(game.playerAvailableBoats);
+      if (isReady(game.playerAvailableBoats)) {
+        game.playerReady = true;
+      }
     } else {
       decrementAvailable(game.opponentAvailableBoats);
+      if (isReady(game.opponentAvailableBoats)) {
+        game.opponentReady = true;
+      }
     }
 
     return GameModel.updateOne(
@@ -338,11 +344,13 @@ export class GamesService {
       game.playerId === player
         ? {
             playerBoard: newBoard,
-            playerAvailableBoats: game.playerAvailableBoats
+            playerAvailableBoats: game.playerAvailableBoats,
+            playerReady: game.playerReady
           }
         : {
             opponentBoard: newBoard,
-            opponentAvailableBoats: game.opponentAvailableBoats
+            opponentAvailableBoats: game.opponentAvailableBoats,
+            opponentReady: game.opponentReady
           }
     );
   }

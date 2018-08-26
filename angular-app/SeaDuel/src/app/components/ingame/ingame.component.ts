@@ -56,7 +56,9 @@ export class IngameComponent implements OnInit {
 
   ngOnInit() {
     this.currentUser = this.authService.getUserToken();
-    this.usersService.usersByIdIdGet(this.authService.getUserToken().id).subscribe(user => this.currentUser = user);
+    this.usersService
+      .usersByIdIdGet(this.authService.getUserToken().id)
+      .subscribe(user => (this.currentUser = user));
 
     this.route.params.subscribe(params => {
       this.opponentId = params.id;
@@ -89,7 +91,10 @@ export class IngameComponent implements OnInit {
         this.gamesService.usersByIdIdGamePost(this.opponentId).subscribe(_ => {
           this.updateGame();
         });
-      } else if (this.getGameState(game) !== "WaitingForResponse" && this.getGameState(game) !== "HasToRespond") { {
+      } else if (
+        this.getGameState(game) !== "WaitingForResponse" &&
+        this.getGameState(game) !== "HasToRespond"
+      ) {
         this.gamesService
           .usersByIdIdGameDelete(this.opponentId)
           .subscribe(_ => {

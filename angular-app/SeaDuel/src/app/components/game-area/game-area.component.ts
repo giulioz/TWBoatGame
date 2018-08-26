@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { Game, GamesService } from "../../../swagger";
+import { Game, GamesService, Boat } from "../../../swagger";
 import { Observable } from "rxjs";
 
 @Component({
@@ -13,6 +13,18 @@ export class GameAreaComponent implements OnInit {
 
   @Input()
   game: Observable<Game>;
+
+  initialBoats: Boat[] = [
+    { type: "Destroyer" },
+    { type: "Destroyer" },
+    { type: "Destroyer" },
+    { type: "Destroyer" },
+    { type: "Submarine" },
+    { type: "Submarine" },
+    { type: "Battleship" },
+    { type: "Battleship" },
+    { type: "AircraftCarrier" }
+  ];
 
   currentState = (game: Game) => {
     if (!game) {
@@ -54,8 +66,8 @@ export class GameAreaComponent implements OnInit {
       .usersByIdIdGameBoatsPost(this.opponentId, {
         x: $event.x,
         y: $event.y,
-        direction: "Horizontal",
-        type: "Destroyer"
+        direction: "Vertical",
+        type: "Submarine"
       })
       .subscribe({ error: e => console.error(e) });
   };
