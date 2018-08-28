@@ -33,7 +33,7 @@ function isFullBoatDrown(board: GameBoard, x: number, y: number) {
       return 0;
     } else {
       const currentCell = boardXY(x, y, board);
-      if (currentCell.checked && currentCell.type === initialCell.type) {
+      if (currentCell && currentCell.checked && currentCell.type === initialCell.type) {
         if (direction === "Left") {
           return 1 + recurse(x + 1, y, direction);
         } else if (direction === "Down") {
@@ -67,7 +67,7 @@ function hideBoard(board: GameBoard) {
               type:
                 cell.type === BoardElementType.Empty
                   ? "Miss"
-                  : isFullBoatDrown(board, i % board.width, i / board.width)
+                  : isFullBoatDrown(board, i % board.width, Math.floor(i / board.width))
                     ? "Boat"
                     : "Hit"
             }

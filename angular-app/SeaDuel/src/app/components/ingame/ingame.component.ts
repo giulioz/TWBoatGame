@@ -25,6 +25,7 @@ export class IngameComponent implements OnInit {
   messages: Message[];
   game: Game;
 
+  finds: User[];
   friends: User[];
   waiting: User[];
   top: User[];
@@ -134,11 +135,11 @@ export class IngameComponent implements OnInit {
 
   onFind = async (userId: string) => {
     if (userId && userId.length > 0) {
-      this.friends = await this.usersService
+      this.finds = await (this.usersService
         .usersFindIdIdGet(userId)
-        .toPromise();
+        .toPromise());
     } else {
-      this.updateFriends();
+      this.finds = [];
     }
   };
 }

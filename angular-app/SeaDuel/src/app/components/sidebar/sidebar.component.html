@@ -1,7 +1,7 @@
 <div class="container">
   <app-sidebar-tab text="Cerca" icon="search" open="true" [collapse]="false">
     <app-sidebar-friend-search (find)="onFind($event)"></app-sidebar-friend-search>
-    <app-sidebar-friend-element *ngFor="let user of (this.users)" [user]="user"
+    <app-sidebar-friend-element *ngFor="let user of (this.finds)" [user]="user"
       (select)="selectUser(user.id)"></app-sidebar-friend-element>
   </app-sidebar-tab>
 
