@@ -14,7 +14,20 @@ export class GameAreaComponent implements OnInit {
   game: Game;
 
   @Output()
-  needsUpdate: EventEmitter<any> = new EventEmitter();
+  needsGameUpdate: EventEmitter<any> = new EventEmitter();
+  @Output()
+  needsUserUpdate: EventEmitter<any> = new EventEmitter();
+
+  @Input()
+  buttonActive: boolean;
+  @Input()
+  buttonText: string;
+  @Output()
+  button: EventEmitter<any> = new EventEmitter();
+
+  actionActive = (game: Game) =>
+    this.currentState(game) !== "WaitingForResponse" &&
+    this.currentState(game) !== "HasToRespond";
 
   currentState = (game: Game) => {
     if (!game) {
@@ -40,6 +53,26 @@ export class GameAreaComponent implements OnInit {
     }
   };
 
+  onHeaderAction = () => {
+    if (this.actionActive) {
+      if (this.game.state === "Ended") {
+        this.gamesService.usersByIdIdGamePost(this.opponentId).subscribe(_ => {
+          this.needsGameUpdate.emit();
+        });
+      } else if (
+        this.game.state !== "WaitingForResponse" &&
+        this.game.state !== "HasToRespond"
+      ) {
+        this.gamesService
+          .usersByIdIdGameDelete(this.opponentId)
+          .subscribe(_ => {
+            this.needsGameUpdate.emit();
+            this.needsUserUpdate.emit();
+          });
+      }
+    }
+  };
+
   playerBoard = (game: Game) => (game ? game.playerBoard : null);
   opponentBoard = (game: Game) => (game ? game.opponentBoard : null);
 
@@ -50,13 +83,13 @@ export class GameAreaComponent implements OnInit {
   acceptGameRequest = () => {
     this.gamesService
       .usersByIdIdGamePut(this.opponentId)
-      .subscribe(_ => this.needsUpdate.emit(), e => console.error(e));
+      .subscribe(_ => this.needsGameUpdate.emit(), e => console.error(e));
   };
 
   rejectGameRequest = () => {
     this.gamesService
       .usersByIdIdGameDelete(this.opponentId)
-      .subscribe(_ => this.needsUpdate.emit(), e => console.error(e));
+      .subscribe(_ => this.needsGameUpdate.emit(), e => console.error(e));
   };
 
   positionAction = $event => {
@@ -70,7 +103,7 @@ export class GameAreaComponent implements OnInit {
         direction: "Vertical",
         type: nextBoat
       })
-      .subscribe(_ => this.needsUpdate.emit(), e => console.error(e));
+      .subscribe(_ => this.needsGameUpdate.emit(), e => console.error(e));
   };
 
   moveAction = $event => {
@@ -79,6 +112,6 @@ export class GameAreaComponent implements OnInit {
         x: $event.x,
         y: $event.y
       })
-      .subscribe(_ => this.needsUpdate.emit(), e => console.error(e));
+      .subscribe(_ => this.needsGameUpdate.emit(), e => console.error(e));
   };
 }

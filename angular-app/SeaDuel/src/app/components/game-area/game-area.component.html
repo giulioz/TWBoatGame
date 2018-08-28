@@ -22,8 +22,11 @@
     <button class="button" (click)="rejectGameRequest()">Rifiuta</button>
   </div>
 
-  <div class="center message" *ngIf="currentState(game) == 'PlayerToPosition'">
-    Posiziona le tue Navi
+  <div class="top-bar message" *ngIf="currentState(game) == 'PlayerToPosition'">
+    <div class="spacer">Posiziona le tue Navi</div>
+    <button class="button" [disabled]="!actionActive(game)" [ngClass]="{'show': actionActive(game)}" (click)="onHeaderAction()">
+      Abbandona partita
+    </button>
   </div>
   <div class="center" *ngIf="currentState(game) == 'PlayerToPosition'">
     <app-board-view [board]="playerBoard(game)" (action)="positionAction($event)"></app-board-view>
@@ -36,24 +39,38 @@
     Attendi, il tuo avversario sta ancora posizionando le sue navi...
   </div>
 
-  <div class="center message" *ngIf="currentState(game) == 'PlayerTurn'">
-    È il tuo turno! Seleziona una casella avversaria da colpire
+  <div class="top-bar" *ngIf="currentState(game) == 'PlayerTurn'">
+    <div class="spacer">È il tuo turno! Seleziona una casella avversaria da colpire</div>
+    <button class="button" [disabled]="!actionActive(game)" [ngClass]="{'show': actionActive(game)}" (click)="onHeaderAction()">
+      {{currentState(game) === 'Ended' ? 'Sfida' : 'Abbandona partita'}}
+    </button>
   </div>
   <div class="center" *ngIf="currentState(game) == 'PlayerTurn'">
-    Campo avversario:
-    <app-board-view [board]="opponentBoard(game)" (action)="moveAction($event)"></app-board-view>
-    Il tuo campo:
-    <app-board-view [board]="playerBoard(game)"></app-board-view>
+    <div>
+      Campo avversario:
+      <app-board-view [board]="opponentBoard(game)" (action)="moveAction($event)"></app-board-view>
+    </div>
+    <div>
+      Il tuo campo:
+      <app-board-view [board]="playerBoard(game)"></app-board-view>
+    </div>
   </div>
 
-  <div class="center message" *ngIf="currentState(game) == 'OpponentTurn'">
-    Attendi il turno del tuo avversario...
+  <div class="top-bar message" *ngIf="currentState(game) == 'OpponentTurn'">
+    <div class="spacer">Attendi il turno del tuo avversario...</div>
+    <button class="button" [disabled]="!actionActive(game)" [ngClass]="{'show': actionActive(game)}" (click)="onHeaderAction()">
+      {{currentState(game) === 'Ended' ? 'Sfida' : 'Abbandona partita'}}
+    </button>
   </div>
   <div class="center" *ngIf="currentState(game) == 'OpponentTurn'">
-    Campo avversario:
-    <app-board-view [board]="opponentBoard(game)"></app-board-view>
-    Il tuo campo:
-    <app-board-view [board]="playerBoard(game)"></app-board-view>
+    <div>
+      Campo avversario:
+      <app-board-view [board]="opponentBoard(game)"></app-board-view>
+    </div>
+    <div>
+      Il tuo campo:
+      <app-board-view [board]="playerBoard(game)"></app-board-view>
+    </div>
   </div>
 
   <div class="material-icons center icon" *ngIf="currentState(game) == 'Won'">

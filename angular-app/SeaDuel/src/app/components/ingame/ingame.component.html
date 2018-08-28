@@ -8,13 +8,14 @@
   <div class="background">
     <div class="header">
       <div class="logo">
-        <div class="logo-placeholder"></div>SeaDuel</div>
+        <div class="logo-placeholder"></div>SeaDuel
+      </div>
       <div class="spacer"></div>
       <div class="right">
         <div class="username">Benvenuto,
           <b>
             <i> {{currentUser.id}}</i>
-            <div class="position">{{currentUser.wonGames + " / " + currentUser.lostGames}}</div>
+            <div class="position">{{currentUser.wonGames + " vinte / " + currentUser.lostGames + " perse"}}</div>
           </b>
         </div>
         <div class="material-icons account">
@@ -42,11 +43,12 @@
     <div class="body-container">
       <div class="body-background">
         <div class="spacer column" *ngIf="opponentId">
-          <app-account-header class="ztop" [user]="opponent" [actionActive]="actionActive(game)" (action)="onHeaderAction()"
-            actionText="{{getGameState(game) === 'Ended' ? 'Sfida' : 'Abbandona partita'}}"></app-account-header>
           <div class="spacerFlex">
-            <app-chat [opponentId]="opponentId" [messages]="messages"></app-chat>
-            <app-game-area [opponentId]="opponentId" [game]="game" (needsUpdate)="updateGame()"></app-game-area>
+            <div class="column spacer">
+              <app-account-header class="ztop" [user]="opponent"></app-account-header>
+              <app-chat [opponentId]="opponentId" [messages]="messages"></app-chat>
+            </div>
+            <app-game-area [opponentId]="opponentId" [game]="game" (needsUserUpdate)="updateUser()" (needsGameUpdate)="updateGame()"></app-game-area>
           </div>
         </div>
         <div class="spacer nouser-container" *ngIf="!opponentId">

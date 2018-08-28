@@ -6,6 +6,6 @@
     <div class="username">{{this.user.id}}</div>
     <div class="position" *ngIf="showPosition">{{user.wonGames + " / " + user.lostGames}}</div>
     <div class="material-icons unread" *ngIf="user.hasUnreadMessages">chat_bubble</div>
-    <div class="material-icons unread" *ngIf="user.hasUnreadGames">refresh</div>
+    <div class="material-icons unread green" *ngIf="user.hasUnreadGames">play_arrow</div>
   </div>
 </div>

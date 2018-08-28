@@ -128,12 +128,11 @@
 
 app-chat {
   flex-grow: 1;
-  width: 400px;
   display: flex;
 }
 
 app-game-area {
-  flex-grow: 4;
+  flex-grow: 1;
   display: flex;
 }
 

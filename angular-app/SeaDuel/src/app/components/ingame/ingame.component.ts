@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Observable } from "rxjs";
 
 import {
   User,
@@ -39,11 +38,6 @@ export class IngameComponent implements OnInit {
     private messaggingService: MessagingService,
     private eventsService: EventsService
   ) {}
-
-  getGameState = (game: Game) => (game ? game.state : "");
-  actionActive = (game: Game) =>
-    this.getGameState(game) !== "WaitingForResponse" &&
-    this.getGameState(game) !== "HasToRespond";
 
   updateUser = async () => {
     if (this.opponentId) {
@@ -117,27 +111,9 @@ export class IngameComponent implements OnInit {
     this.router.navigate(["/"]);
   }
 
-  onHeaderAction = () => {
-    if (this.getGameState(this.game) === "Ended") {
-      this.gamesService.usersByIdIdGamePost(this.opponentId).subscribe(_ => {
-        this.updateGame();
-      });
-    } else if (
-      this.getGameState(this.game) !== "WaitingForResponse" &&
-      this.getGameState(this.game) !== "HasToRespond"
-    ) {
-      this.gamesService.usersByIdIdGameDelete(this.opponentId).subscribe(_ => {
-        this.updateGame();
-        this.updateUser();
-      });
-    }
-  };
-
   onFind = async (userId: string) => {
     if (userId && userId.length > 0) {
-      this.finds = await (this.usersService
-        .usersFindIdIdGet(userId)
-        .toPromise());
+      this.finds = await this.usersService.usersFindIdIdGet(userId).toPromise();
     } else {
       this.finds = [];
     }

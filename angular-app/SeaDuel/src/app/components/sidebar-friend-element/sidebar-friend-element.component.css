@@ -59,5 +59,9 @@
   color: #00B1FF;
   margin-right: 8px;
   font-size: 22px;
-  width: 22px;
+}
+
+.green {
+  color: rgb(66, 196, 66);
+  font-size: 24px;
 }

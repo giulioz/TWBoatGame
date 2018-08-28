@@ -20,39 +20,17 @@
 
 .username {
   font-size: 30px;
-  margin-right: 8px;
 }
 
 .badge {
   font-size: 18px;
   font-style: italic;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+.sub {
+  font-size: 15px;
   font-weight: normal;
-}
-
-.stats {
-  text-align: right;
-  margin-right: 8px;
-}
-
-.button {
-  font-size: 15pt;
-  padding-left: 32px;
-  padding-right: 32px;
-  margin-left: 10px;
-  margin-right: 22px;
-  background: linear-gradient(#2a3c9f3a, #3463913a);
-  border: 3px solid #00b3ff02;
-}
-
-.button:hover {
-  background: linear-gradient(#2a3c9f3a, #3463913a);
-}
-
-.show {
-  background: linear-gradient(#2a3c9f, #346391);
-  border: 3px solid #00b1ff;
-}
-
-.show:hover {
-  background: linear-gradient(rgb(43, 66, 196), #346391);
+  margin-left: 2px;
 }

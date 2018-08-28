@@ -10,18 +10,5 @@ export class AccountHeaderComponent implements OnInit {
   @Input()
   user: User;
 
-  @Input()
-  actionActive: boolean;
-  @Input()
-  actionText: string;
-  @Output()
-  action: EventEmitter<any> = new EventEmitter();
-
   ngOnInit() {}
-
-  onAction = () => {
-    if (this.actionActive) {
-      this.action.emit();
-    }
-  };
 }
