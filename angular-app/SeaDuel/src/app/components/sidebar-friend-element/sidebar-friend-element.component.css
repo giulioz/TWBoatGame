@@ -38,14 +38,6 @@
   flex-grow: 1;
 }
 
-.unread {
-  width: 14px;
-  height: 14px;
-  border-radius: 7px;
-  background: #00B1FF;
-  margin-right: 16px;
-}
-
 .position {
   margin-right: 16px;
   font-size: 14px;
@@ -61,4 +53,11 @@
   padding-top: 5px;
   padding-bottom: 5px;
   background: #ffffff;
+}
+
+.unread {
+  color: #00B1FF;
+  margin-right: 8px;
+  font-size: 22px;
+  width: 22px;
 }

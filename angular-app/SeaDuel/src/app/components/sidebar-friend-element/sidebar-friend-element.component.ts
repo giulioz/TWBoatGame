@@ -16,10 +16,6 @@ export class SidebarFriendElementComponent implements OnInit {
   @Output()
   select: EventEmitter<any> = new EventEmitter();
 
-  get hasUnread() {
-    return false;
-  }
-
   onSelect(): void {
     this.select.emit();
   }

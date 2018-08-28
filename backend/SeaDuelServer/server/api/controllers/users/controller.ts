@@ -31,7 +31,7 @@ export class Controller {
 
   findId = async (req: Request, res: Response): Promise<void> => {
     const auth = await authCheck(this.authService, req);
-    const users = await this.usersService.findId(req.params.id);
+    const users = await this.usersService.findId(req.params.id, auth.id);
 
     if (auth && (auth.id === req.params.id || auth.role === "administrator")) {
       res.json(users.map(u => ({ ...u, password: "" })));
@@ -45,7 +45,7 @@ export class Controller {
   byId = async (req: Request, res: Response): Promise<void> => {
     try {
       const auth = await authCheck(this.authService, req);
-      const user = await this.usersService.byId(req.params.id);
+      const user = await this.usersService.byId(req.params.id, auth.id);
 
       if (
         auth &&
@@ -126,7 +126,7 @@ export class Controller {
     const auth = await authCheck(this.authService, req);
 
     if (auth) {
-      const users = await this.usersService.contacts(auth.id);
+      const users = await this.usersService.contacts(auth.id, auth.id);
       const usersStriped = users.map(u => ({ ...u, password: "", email: "" }));
 
       res.json(usersStriped);
@@ -139,7 +139,7 @@ export class Controller {
     const auth = await authCheck(this.authService, req);
 
     if (auth) {
-      const users = await this.usersService.waiting();
+      const users = await this.usersService.waiting(auth.id);
       const usersStriped = users
         .map(u => ({ ...u, password: "", email: "" }))
         .filter(u => u.id != auth.id);
@@ -154,7 +154,7 @@ export class Controller {
     const auth = await authCheck(this.authService, req);
 
     if (auth) {
-      const users = await this.usersService.all();
+      const users = await this.usersService.all(auth.id);
       const usersStriped = users
         .slice(0, 10)
         .map(u => ({ ...u, password: "", email: "" }));

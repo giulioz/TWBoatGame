@@ -1,6 +1,6 @@
 import { DateTime, Duration } from "luxon";
 import { hashPassword } from "./auth.service";
-import { User, UserModel } from "./db.service";
+import { User, UserModel, GameStateType } from "./db.service";
 import { MessagesService } from "./messages.service";
 import { GamesService } from "./games.service";
 
@@ -22,11 +22,44 @@ const state = (u: User): "offline" | "online" => {
   return isOnline ? "online" : "offline";
 };
 
-function calculateUsersStats(users: User[]) {
+const hasMessages = async (
+  usr: string,
+  b: string,
+  messagesService: MessagesService
+) => {
+  const messages = await messagesService.conversation(usr, b);
+  return messages && messages.filter(msg => msg.senderId === usr && !msg.readt).length > 0;
+};
+
+const hasGames = async (usr: string, b: string, gamesService: GamesService) => {
+  const game = await gamesService.fromPlayers(usr, b);
+  return game && game.state !== GameStateType.Ended;
+};
+
+function calculateUsersStats(
+  users: User[],
+  asUser?: string,
+  messagesService?: MessagesService,
+  gamesService?: GamesService
+) {
   // FIXME
-  return users
-    .sort((a, b) => kd(a) - kd(b))
-    .map((u, i) => ({ ...(u as any)._doc, position: i + 1, state: state(u) }));
+  return Promise.all(
+    users.sort((a, b) => kd(a) - kd(b)).map(async (u, i) => {
+      const hasUnreadMessages = asUser
+        ? await hasMessages(u.id, asUser, messagesService)
+        : false;
+      const hasUnreadGames = asUser
+        ? await hasGames(u.id, asUser, gamesService)
+        : false;
+      return {
+        ...(u as any)._doc,
+        position: i + 1,
+        state: state(u),
+        hasUnreadMessages,
+        hasUnreadGames
+      };
+    })
+  );
 }
 
 export class UsersService {
@@ -38,26 +71,31 @@ export class UsersService {
     this.gamesService = gamesService;
   }
 
-  async all(): Promise<User[]> {
+  async all(asUser?: string): Promise<User[]> {
     const query = UserModel.find();
     const users = await query.exec();
-    return calculateUsersStats(users);
+    return calculateUsersStats(
+      users,
+      asUser,
+      this.messagesService,
+      this.gamesService
+    );
   }
 
-  async findId(id: string): Promise<User[]> {
-    const users = await this.all();
+  async findId(id: string, asUser: string): Promise<User[]> {
+    const users = await this.all(asUser);
     return users.filter(u => u.id.startsWith(id));
   }
 
-  async byId(id: string): Promise<User> {
-    const users = await this.all();
+  async byId(id: string, asUser?: string): Promise<User> {
+    const users = await this.all(asUser);
     const user = users.filter(u => u.id === id)[0];
     if (user) return user;
     else throw Errors.UserNotFound;
   }
 
-  async fetchIds(ids: string[]): Promise<User[]> {
-    const all = await this.all();
+  async fetchIds(ids: string[], asUser: string): Promise<User[]> {
+    const all = await this.all(asUser);
     return all.filter(u => ids.indexOf(u.id) !== -1);
   }
 
@@ -99,7 +137,7 @@ export class UsersService {
     return UserModel.deleteOne({ id }).exec();
   }
 
-  async contacts(id: string): Promise<User[]> {
+  async contacts(id: string, asUser: string): Promise<User[]> {
     const messages = await this.messagesService.fromUser(id);
     const messagesUsers = [
       ...new Set(
@@ -113,11 +151,11 @@ export class UsersService {
       )
     ];
     const userIds = [...new Set([...gamesUsers, ...messagesUsers])];
-    return this.fetchIds(userIds);
+    return this.fetchIds(userIds, asUser);
   }
 
-  async waiting(): Promise<User[]> {
-    const users = await this.all();
+  async waiting(asUser: string): Promise<User[]> {
+    const users = await this.all(asUser);
     return users.filter(u => !u.playing && u.state === "online").sort(
       (a, b) =>
         // FIXME

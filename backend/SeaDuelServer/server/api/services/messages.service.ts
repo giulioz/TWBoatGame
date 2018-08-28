@@ -32,9 +32,10 @@ export class MessagesService {
   }
 
   async conversationSetRead(a: string, b: string): Promise<void> {
-    const query = MessageModel.update(
+    const query = MessageModel.updateMany(
       {
-        $or: [{ senderId: a, recipientId: b }, { senderId: b, recipientId: a }]
+        $or: [{ senderId: a, recipientId: b }, { senderId: b, recipientId: a }],
+        readt: false
       },
       { readt: true }
     );

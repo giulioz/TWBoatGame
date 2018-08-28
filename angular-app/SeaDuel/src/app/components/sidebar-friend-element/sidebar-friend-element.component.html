@@ -5,6 +5,7 @@
     <div class="badge" style.background-color="{{this.user | userstatusColor}}"></div>
     <div class="username">{{this.user.id}}</div>
     <div class="position" *ngIf="showPosition">{{user.wonGames + " / " + user.lostGames}}</div>
-    <div class="unread" *ngIf="hasUnread"></div>
+    <div class="material-icons unread" *ngIf="user.hasUnreadMessages">chat_bubble</div>
+    <div class="material-icons unread" *ngIf="user.hasUnreadGames">refresh</div>
   </div>
 </div>

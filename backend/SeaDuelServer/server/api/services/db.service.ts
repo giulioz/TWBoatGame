@@ -25,6 +25,8 @@ export class User extends Typegoose {
   // Calculated
   position: number;
   state: "offline" | "online";
+  hasUnreadMessages: boolean;
+  hasUnreadGames: boolean;
 }
 
 export class Message extends Typegoose {
