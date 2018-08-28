@@ -49,7 +49,7 @@ import { environment } from "../environments/environment";
 
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
-    apiKeys: {}
+    apiKeys: { Authorization: localStorage.getItem("currentUser") }
   };
   return new Configuration(params);
 }

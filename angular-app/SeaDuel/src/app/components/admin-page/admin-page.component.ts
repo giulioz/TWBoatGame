@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { UsersService, User } from "../../../swagger";
-import { Observable } from "../../../../node_modules/rxjs";
 
 @Component({
   selector: "app-admin-page",
@@ -8,24 +7,24 @@ import { Observable } from "../../../../node_modules/rxjs";
   styleUrls: ["./admin-page.component.css"]
 })
 export class AdminPageComponent implements OnInit {
-  users: Observable<User[]>;
+  users: User[];
 
   constructor(private usersService: UsersService) {}
 
-  ngOnInit() {
-    this.users = this.usersService.usersGet();
+  async ngOnInit() {
+    this.users = await this.usersService.usersGet().toPromise();
   }
 
   toggleAdmin(userId: string, admin: boolean) {
     const role = admin ? "user" : "administrator";
-    this.usersService.usersByIdIdPut(userId, { role }).subscribe(_ => {
-      this.users = this.usersService.usersGet();
+    this.usersService.usersByIdIdPut(userId, { role }).subscribe(async _ => {
+      this.users = await this.usersService.usersGet().toPromise();
     });
   }
 
   delete(userId: string) {
-    this.usersService.usersByIdIdDelete(userId).subscribe(_ => {
-      this.users = this.usersService.usersGet();
+    this.usersService.usersByIdIdDelete(userId).subscribe(async _ => {
+      this.users = await this.usersService.usersGet().toPromise();
     });
   }
 }

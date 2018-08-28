@@ -11,7 +11,7 @@ export class ChatComponent implements OnInit {
   @Input()
   opponentId: string;
   @Input()
-  messages: Observable<Message[]>;
+  messages: Message[];
 
   messageBoxContent: string;
 
@@ -23,7 +23,9 @@ export class ChatComponent implements OnInit {
 
   messageSend() {
     this.messaggingService
-      .usersByIdIdMessagesPost(this.opponentId, { content: this.messageBoxContent })
+      .usersByIdIdMessagesPost(this.opponentId, {
+        content: this.messageBoxContent
+      })
       .subscribe(_ => {
         this.messageBoxContent = "";
       });

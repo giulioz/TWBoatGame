@@ -21,9 +21,13 @@ import { EventsService, EventType } from "../../services/events.service";
 export class IngameComponent implements OnInit {
   currentUser: User;
   opponentId?: string;
-  opponent: Observable<User>;
-  messages: Observable<Message[]>;
-  game: Observable<Game>;
+  opponent: User;
+  messages: Message[];
+  game: Game;
+
+  friends: User[];
+  waiting: User[];
+  top: User[];
 
   constructor(
     private router: Router,
@@ -40,25 +44,47 @@ export class IngameComponent implements OnInit {
     this.getGameState(game) !== "WaitingForResponse" &&
     this.getGameState(game) !== "HasToRespond";
 
-  updateUser = () => {
-    this.opponent = this.usersService.usersByIdIdGet(this.opponentId);
+  updateUser = async () => {
+    if (this.opponentId) {
+      this.opponent = await this.usersService
+        .usersByIdIdGet(this.opponentId)
+        .toPromise();
+    }
   };
 
-  updateMessages = () => {
-    this.messages = this.messaggingService.usersByIdIdMessagesGet(
-      this.opponentId
-    );
+  updateMessages = async () => {
+    if (this.opponentId) {
+      this.messages = await this.messaggingService
+        .usersByIdIdMessagesGet(this.opponentId)
+        .toPromise();
+    }
   };
 
-  updateGame = () => {
-    this.game = this.gamesService.usersByIdIdGameGet(this.opponentId);
+  updateGame = async () => {
+    if (this.opponentId) {
+      this.game = await this.gamesService
+        .usersByIdIdGameGet(this.opponentId)
+        .toPromise();
+    }
   };
 
-  ngOnInit() {
+  updateFriends = async () => {
+    this.friends = await this.usersService.usersContactsGet().toPromise();
+  };
+
+  poolUserStats = async () => {
+    this.waiting = await this.usersService.usersWaitingGet().toPromise();
+    this.top = await this.usersService.usersTopGet().toPromise();
+  };
+
+  async ngOnInit() {
     this.currentUser = this.authService.getUserToken();
-    this.usersService
+    this.currentUser = await this.usersService
       .usersByIdIdGet(this.authService.getUserToken().id)
-      .subscribe(user => (this.currentUser = user));
+      .toPromise();
+
+    this.updateFriends();
+    this.poolUserStats();
 
     this.route.params.subscribe(params => {
       this.opponentId = params.id;
@@ -74,8 +100,13 @@ export class IngameComponent implements OnInit {
     eventStream.subscribe(event => {
       if (event.type === EventType.GameChanged) {
         this.updateGame();
+        this.updateFriends();
       } else if (event.type === EventType.IncomingMessage) {
         this.updateMessages();
+        this.updateFriends();
+      } else if (event.type === EventType.UserUpdate) {
+        this.poolUserStats();
+        this.updateUser();
       }
     });
   }
@@ -86,22 +117,28 @@ export class IngameComponent implements OnInit {
   }
 
   onHeaderAction = () => {
-    this.game.subscribe(game => {
-      if (this.getGameState(game) === "Ended") {
-        this.gamesService.usersByIdIdGamePost(this.opponentId).subscribe(_ => {
-          this.updateGame();
-        });
-      } else if (
-        this.getGameState(game) !== "WaitingForResponse" &&
-        this.getGameState(game) !== "HasToRespond"
-      ) {
-        this.gamesService
-          .usersByIdIdGameDelete(this.opponentId)
-          .subscribe(_ => {
-            this.updateGame();
-            this.updateUser();
-          });
-      }
-    });
+    if (this.getGameState(this.game) === "Ended") {
+      this.gamesService.usersByIdIdGamePost(this.opponentId).subscribe(_ => {
+        this.updateGame();
+      });
+    } else if (
+      this.getGameState(this.game) !== "WaitingForResponse" &&
+      this.getGameState(this.game) !== "HasToRespond"
+    ) {
+      this.gamesService.usersByIdIdGameDelete(this.opponentId).subscribe(_ => {
+        this.updateGame();
+        this.updateUser();
+      });
+    }
+  };
+
+  onFind = async (userId: string) => {
+    if (userId && userId.length > 0) {
+      this.friends = await this.usersService
+        .usersFindIdIdGet(userId)
+        .toPromise();
+    } else {
+      this.updateFriends();
+    }
   };
 }

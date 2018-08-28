@@ -1,7 +1,7 @@
 <div class="root">
   <div class="scroller">
     <div>
-      <div class="row" [ngClass]="{'user': isUser(message), 'opponent': !isUser(message)}" *ngFor="let message of (this.messages | async)">
+      <div class="row" [ngClass]="{'user': isUser(message), 'opponent': !isUser(message)}" *ngFor="let message of (this.messages)">
         <div class="message">{{message.content}}</div>
       </div>
     </div>

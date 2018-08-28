@@ -1,8 +1,6 @@
-import { Component, OnInit, ViewChild, Input } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { timer, Observable } from "rxjs";
-import { switchMap } from "rxjs/operators";
-import { User, UsersService } from "../../../swagger";
+import { Component, OnInit, ViewChild, Input, EventEmitter, Output } from "@angular/core";
+import { Router } from "@angular/router";
+import { User } from "../../../swagger";
 import { AuthService } from "../../services/auth.service";
 
 @Component({
@@ -20,14 +18,18 @@ export class SidebarComponent implements OnInit {
 
   userId: string;
 
-  friends: Observable<User[]>;
-  waiting: Observable<User[]>;
-  top: Observable<User[]>;
+  @Input()
+  friends: User[];
+  @Input()
+  waiting: User[];
+  @Input()
+  top: User[];
+
+  @Output()
+  find: EventEmitter<string> = new EventEmitter();
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
-    private usersService: UsersService,
     private authService: AuthService
   ) {}
 
@@ -61,6 +63,10 @@ export class SidebarComponent implements OnInit {
     }
   };
 
+  onFind = (userId: string) => {
+    this.find.emit(userId);
+  }
+
   // ************************************
   //  Waiting bar
 
@@ -87,17 +93,5 @@ export class SidebarComponent implements OnInit {
     this.friendsTab.open = true;
     this.scoreTab.open = true;
     this.userId = this.authService.getUserToken().id;
-
-    this.friends = timer(0, 3000).pipe(
-      switchMap(() => this.usersService.usersContactsGet())
-    );
-
-    this.waiting = timer(0, 3000).pipe(
-      switchMap(() => this.usersService.usersWaitingGet())
-    );
-
-    this.top = timer(0, 3000).pipe(
-      switchMap(() => this.usersService.usersTopGet())
-    );
   }
 }

@@ -42,8 +42,8 @@
     <div class="body-container">
       <div class="body-background">
         <div class="spacer column" *ngIf="opponentId">
-          <app-account-header class="ztop" [user]="opponent | async" [actionActive]="actionActive(game | async)" (action)="onHeaderAction()"
-            actionText="{{getGameState(game | async) === 'Ended' ? 'Sfida' : 'Abbandona partita'}}"></app-account-header>
+          <app-account-header class="ztop" [user]="opponent" [actionActive]="actionActive(game)" (action)="onHeaderAction()"
+            actionText="{{getGameState(game) === 'Ended' ? 'Sfida' : 'Abbandona partita'}}"></app-account-header>
           <div class="spacerFlex">
             <app-chat [opponentId]="opponentId" [messages]="messages"></app-chat>
             <app-game-area [opponentId]="opponentId" [game]="game" (needsUpdate)="updateGame()"></app-game-area>
@@ -55,7 +55,7 @@
           <p>Puoi cercare un utente se conosci il suo nome oppure selezionarne uno in attesa per giocare.</p>
         </div>
       </div>
-      <app-sidebar class="sidebar"></app-sidebar>
+      <app-sidebar class="sidebar" [friends]="friends" [waiting]="waiting" [top]="top" (find)="onFind($event)"></app-sidebar>
     </div>
   </div>
 </div>

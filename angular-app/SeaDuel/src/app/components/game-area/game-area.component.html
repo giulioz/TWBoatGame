@@ -1,78 +1,78 @@
 <div class="root">
-  <div class="material-icons center icon" *ngIf="currentState(game | async) == 'Ended'">
+  <div class="material-icons center icon" *ngIf="currentState(game) == 'Ended'">
     arrow_upward
   </div>
-  <div class="center message" *ngIf="currentState(game | async) == 'Ended'">
+  <div class="center message" *ngIf="currentState(game) == 'Ended'">
     Premi
     <strong>Sfida</strong> per cominciare la partita
   </div>
 
-  <div class="material-icons center icon" *ngIf="currentState(game | async) == 'WaitingForResponse'">
+  <div class="material-icons center icon" *ngIf="currentState(game) == 'WaitingForResponse'">
     watch_later
   </div>
-  <div class="center message" *ngIf="currentState(game | async) == 'WaitingForResponse'">
+  <div class="center message" *ngIf="currentState(game) == 'WaitingForResponse'">
     Sfida inviata. Risposta in attesa...
   </div>
 
-  <div class="center message" *ngIf="currentState(game | async) == 'HasToRespond'">
+  <div class="center message" *ngIf="currentState(game) == 'HasToRespond'">
     Ti ha invitato a giocare. Accetti?
   </div>
-  <div class="center" *ngIf="currentState(game | async) == 'HasToRespond'">
+  <div class="center" *ngIf="currentState(game) == 'HasToRespond'">
     <button class="button" (click)="acceptGameRequest()">Accetta</button>
     <button class="button" (click)="rejectGameRequest()">Rifiuta</button>
   </div>
 
-  <div class="center message" *ngIf="currentState(game | async) == 'PlayerToPosition'">
+  <div class="center message" *ngIf="currentState(game) == 'PlayerToPosition'">
     Posiziona le tue Navi
   </div>
-  <div class="center" *ngIf="currentState(game | async) == 'PlayerToPosition'">
-    <app-board-view [board]="playerBoard(game | async)" (action)="positionAction($event)"></app-board-view>
+  <div class="center" *ngIf="currentState(game) == 'PlayerToPosition'">
+    <app-board-view [board]="playerBoard(game)" (action)="positionAction($event)"></app-board-view>
   </div>
 
-  <div class="material-icons center icon" *ngIf="currentState(game | async) == 'OpponentToPosition'">
+  <div class="material-icons center icon" *ngIf="currentState(game) == 'OpponentToPosition'">
     watch_later
   </div>
-  <div class="center message" *ngIf="currentState(game | async) == 'OpponentToPosition'">
+  <div class="center message" *ngIf="currentState(game) == 'OpponentToPosition'">
     Attendi, il tuo avversario sta ancora posizionando le sue navi...
   </div>
 
-  <div class="center message" *ngIf="currentState(game | async) == 'PlayerTurn'">
+  <div class="center message" *ngIf="currentState(game) == 'PlayerTurn'">
     È il tuo turno! Seleziona una casella avversaria da colpire
   </div>
-  <div class="center" *ngIf="currentState(game | async) == 'PlayerTurn'">
+  <div class="center" *ngIf="currentState(game) == 'PlayerTurn'">
     Campo avversario:
-    <app-board-view [board]="opponentBoard(game | async)" (action)="moveAction($event)"></app-board-view>
+    <app-board-view [board]="opponentBoard(game)" (action)="moveAction($event)"></app-board-view>
     Il tuo campo:
-    <app-board-view [board]="playerBoard(game | async)"></app-board-view>
+    <app-board-view [board]="playerBoard(game)"></app-board-view>
   </div>
 
-  <div class="center message" *ngIf="currentState(game | async) == 'OpponentTurn'">
+  <div class="center message" *ngIf="currentState(game) == 'OpponentTurn'">
     Attendi il turno del tuo avversario...
   </div>
-  <div class="center" *ngIf="currentState(game | async) == 'OpponentTurn'">
+  <div class="center" *ngIf="currentState(game) == 'OpponentTurn'">
     Campo avversario:
-    <app-board-view [board]="opponentBoard(game | async)"></app-board-view>
+    <app-board-view [board]="opponentBoard(game)"></app-board-view>
     Il tuo campo:
-    <app-board-view [board]="playerBoard(game | async)"></app-board-view>
+    <app-board-view [board]="playerBoard(game)"></app-board-view>
   </div>
 
-  <div class="material-icons center icon" *ngIf="currentState(game | async) == 'Won'">
+  <div class="material-icons center icon" *ngIf="currentState(game) == 'Won'">
     arrow_upward
   </div>
-  <div class="center message" *ngIf="currentState(game | async) == 'Won'">
+  <div class="center message" *ngIf="currentState(game) == 'Won'">
     <strong>Hai vinto!</strong>
   </div>
-  <div class="center message" *ngIf="currentState(game | async) == 'Won'">
+  <div class="center message" *ngIf="currentState(game) == 'Won'">
     Vuoi la rivincita? Gioca di nuovo!
   </div>
 
-  <div class="material-icons center icon" *ngIf="currentState(game | async) == 'Lost'">
+  <div class="material-icons center icon" *ngIf="currentState(game) == 'Lost'">
     arrow_upward
   </div>
-  <div class="center message" *ngIf="currentState(game | async) == 'Lost'">
+  <div class="center message" *ngIf="currentState(game) == 'Lost'">
     <strong>Hai perso!</strong>
   </div>
-  <div class="center message" *ngIf="currentState(game | async) == 'Lost'">
+  <div class="center message" *ngIf="currentState(game) == 'Lost'">
     Vuoi la rivincita? Gioca di nuovo!
   </div>
 </div>

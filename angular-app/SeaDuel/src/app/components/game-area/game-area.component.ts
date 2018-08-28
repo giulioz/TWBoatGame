@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from "@angular/core";
 import { Game, GamesService } from "../../../swagger";
-import { Observable } from "rxjs";
 
 @Component({
   selector: "app-game-area",
@@ -12,7 +11,7 @@ export class GameAreaComponent implements OnInit {
   opponentId: string;
 
   @Input()
-  game: Observable<Game>;
+  game: Game;
 
   @Output()
   needsUpdate: EventEmitter<any> = new EventEmitter();
@@ -61,19 +60,17 @@ export class GameAreaComponent implements OnInit {
   };
 
   positionAction = $event => {
-    this.game.subscribe(game => {
-      const nextBoat = game.availableBoats.filter(boat => boat.amount > 0)[0]
-        .type;
+    const nextBoat = this.game.availableBoats.filter(boat => boat.amount > 0)[0]
+      .type;
 
-      this.gamesService
-        .usersByIdIdGameBoatsPost(this.opponentId, {
-          x: $event.x,
-          y: $event.y,
-          direction: "Vertical",
-          type: nextBoat
-        })
-        .subscribe(_ => this.needsUpdate.emit(), e => console.error(e));
-    });
+    this.gamesService
+      .usersByIdIdGameBoatsPost(this.opponentId, {
+        x: $event.x,
+        y: $event.y,
+        direction: "Vertical",
+        type: nextBoat
+      })
+      .subscribe(_ => this.needsUpdate.emit(), e => console.error(e));
   };
 
   moveAction = $event => {
