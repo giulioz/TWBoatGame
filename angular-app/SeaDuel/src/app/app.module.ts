@@ -49,7 +49,7 @@ import { environment } from "../environments/environment";
 
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
-    // set configuration parameters here.
+    apiKeys: {}
   };
   return new Configuration(params);
 }

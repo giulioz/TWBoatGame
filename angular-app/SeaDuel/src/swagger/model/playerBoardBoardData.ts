@@ -11,16 +11,17 @@
  */
 
 
-export interface GameAvailableBoats {
-    type: GameAvailableBoats.TypeEnum;
+export interface PlayerBoardBoardData {
+    type: PlayerBoardBoardData.TypeEnum;
     /**
-     * Numbers of boats of that kind available
+     * True if that cell was attacked by the opponent
      */
-    amount: number;
+    checked: boolean;
 }
-export namespace GameAvailableBoats {
-    export type TypeEnum = 'Destroyer' | 'Submarine' | 'Battleship' | 'AircraftCarrier';
+export namespace PlayerBoardBoardData {
+    export type TypeEnum = 'Empty' | 'Destroyer' | 'Submarine' | 'Battleship' | 'AircraftCarrier';
     export const TypeEnum = {
+        Empty: 'Empty' as TypeEnum,
         Destroyer: 'Destroyer' as TypeEnum,
         Submarine: 'Submarine' as TypeEnum,
         Battleship: 'Battleship' as TypeEnum,

@@ -57,7 +57,7 @@ export class UsersService {
    */
   private canConsumeForm(consumes: string[]): boolean {
     const form = "multipart/form-data";
-    for (const consume of consumes) {
+    for (let consume of consumes) {
       if (form === consume) {
         return true;
       }
@@ -67,7 +67,7 @@ export class UsersService {
 
   /**
    *
-   * Delete an user
+   * Delete an user, requires admin privileges
    * @param id The id of the user to delete
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
@@ -109,16 +109,16 @@ export class UsersService {
     }
 
     // to determine the Accept header
-    const httpHeaderAccepts: string[] = ["application/json"];
-    const httpHeaderAcceptSelected:
+    let httpHeaderAccepts: string[] = ["application/json"];
+    let httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected !== undefined) {
+    if (httpHeaderAcceptSelected != undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ["application/json"];
+    let consumes: string[] = ["application/json"];
 
     return this.httpClient.delete<any>(
       `${this.basePath}/users/byId/${encodeURIComponent(String(id))}`,
@@ -175,16 +175,16 @@ export class UsersService {
     }
 
     // to determine the Accept header
-    const httpHeaderAccepts: string[] = ["application/json"];
-    const httpHeaderAcceptSelected:
+    let httpHeaderAccepts: string[] = ["application/json"];
+    let httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected !== undefined) {
+    if (httpHeaderAcceptSelected != undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ["application/json"];
+    let consumes: string[] = ["application/json"];
 
     return this.httpClient.get<User>(
       `${this.basePath}/users/byId/${encodeURIComponent(String(id))}`,
@@ -199,7 +199,7 @@ export class UsersService {
 
   /**
    *
-   * Update user info
+   * Update user info, requires admin privileges or to be the same user
    * @param id The id of the user to update
    * @param body The fields to update, leave password empty to not edit
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -251,20 +251,20 @@ export class UsersService {
     }
 
     // to determine the Accept header
-    const httpHeaderAccepts: string[] = ["application/json"];
-    const httpHeaderAcceptSelected:
+    let httpHeaderAccepts: string[] = ["application/json"];
+    let httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected !== undefined) {
+    if (httpHeaderAcceptSelected != undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ["application/json"];
-    const httpContentTypeSelected:
+    let consumes: string[] = ["application/json"];
+    let httpContentTypeSelected:
       | string
       | undefined = this.configuration.selectHeaderContentType(consumes);
-    if (httpContentTypeSelected !== undefined) {
+    if (httpContentTypeSelected != undefined) {
       headers = headers.set("Content-Type", httpContentTypeSelected);
     }
 
@@ -313,16 +313,16 @@ export class UsersService {
     }
 
     // to determine the Accept header
-    const httpHeaderAccepts: string[] = ["application/json"];
-    const httpHeaderAcceptSelected:
+    let httpHeaderAccepts: string[] = ["application/json"];
+    let httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected !== undefined) {
+    if (httpHeaderAcceptSelected != undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ["application/json"];
+    let consumes: string[] = ["application/json"];
 
     return this.httpClient.get<Array<User>>(`${this.basePath}/users/contacts`, {
       withCredentials: this.configuration.withCredentials,
@@ -334,8 +334,8 @@ export class UsersService {
 
   /**
    *
-   * Find user by the start of user id
-   * @param id The start of the user id to find
+   * Find user by user id
+   * @param id The first characters of the user id to find
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
@@ -376,16 +376,16 @@ export class UsersService {
     }
 
     // to determine the Accept header
-    const httpHeaderAccepts: string[] = ["application/json"];
-    const httpHeaderAcceptSelected:
+    let httpHeaderAccepts: string[] = ["application/json"];
+    let httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected !== undefined) {
+    if (httpHeaderAcceptSelected != undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ["application/json"];
+    let consumes: string[] = ["application/json"];
 
     return this.httpClient.get<Array<User>>(
       `${this.basePath}/users/findId/${encodeURIComponent(String(id))}`,
@@ -400,7 +400,7 @@ export class UsersService {
 
   /**
    *
-   * Get the list of all the users
+   * Get the list of all the registered users, requires admin privileges
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
@@ -431,16 +431,16 @@ export class UsersService {
     }
 
     // to determine the Accept header
-    const httpHeaderAccepts: string[] = ["application/json"];
-    const httpHeaderAcceptSelected:
+    let httpHeaderAccepts: string[] = ["application/json"];
+    let httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected !== undefined) {
+    if (httpHeaderAcceptSelected != undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ["application/json"];
+    let consumes: string[] = ["application/json"];
 
     return this.httpClient.get<Array<User>>(`${this.basePath}/users`, {
       withCredentials: this.configuration.withCredentials,
@@ -486,20 +486,20 @@ export class UsersService {
     let headers = this.defaultHeaders;
 
     // to determine the Accept header
-    const httpHeaderAccepts: string[] = ["application/json"];
-    const httpHeaderAcceptSelected:
+    let httpHeaderAccepts: string[] = ["application/json"];
+    let httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected !== undefined) {
+    if (httpHeaderAcceptSelected != undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ["application/json"];
-    const httpContentTypeSelected:
+    let consumes: string[] = ["application/json"];
+    let httpContentTypeSelected:
       | string
       | undefined = this.configuration.selectHeaderContentType(consumes);
-    if (httpContentTypeSelected !== undefined) {
+    if (httpContentTypeSelected != undefined) {
       headers = headers.set("Content-Type", httpContentTypeSelected);
     }
 
@@ -513,7 +513,7 @@ export class UsersService {
 
   /**
    *
-   * Get the top 10 users
+   * Get the ranking top 10 users
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
@@ -544,16 +544,16 @@ export class UsersService {
     }
 
     // to determine the Accept header
-    const httpHeaderAccepts: string[] = ["application/json"];
-    const httpHeaderAcceptSelected:
+    let httpHeaderAccepts: string[] = ["application/json"];
+    let httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected !== undefined) {
+    if (httpHeaderAcceptSelected != undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ["application/json"];
+    let consumes: string[] = ["application/json"];
 
     return this.httpClient.get<Array<User>>(`${this.basePath}/users/top`, {
       withCredentials: this.configuration.withCredentials,
@@ -596,16 +596,16 @@ export class UsersService {
     }
 
     // to determine the Accept header
-    const httpHeaderAccepts: string[] = ["application/json"];
-    const httpHeaderAcceptSelected:
+    let httpHeaderAccepts: string[] = ["application/json"];
+    let httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected !== undefined) {
+    if (httpHeaderAcceptSelected != undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ["application/json"];
+    let consumes: string[] = ["application/json"];
 
     return this.httpClient.get<Array<User>>(`${this.basePath}/users/waiting`, {
       withCredentials: this.configuration.withCredentials,

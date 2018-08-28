@@ -5,7 +5,6 @@ import MessagesService from "../../services/messages.service";
 import GamesService from "../../services/games.service";
 import AuthService, { authCheck } from "../../services/auth.service";
 import EventsService, { EventType } from "../../services/events.service";
-import { GameStateType } from "../../services/db.service";
 
 import { Request, Response } from "express";
 import l from "../../../common/logger";

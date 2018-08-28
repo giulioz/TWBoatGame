@@ -19,19 +19,8 @@ export class AuthService {
   async isLoggedIn() {
     return new Promise(resolve => {
       this.authService
-        .authCheckTokenPost({
-          token: localStorage.getItem("currentUser") || ""
-        })
-        .subscribe(
-          () => {
-            this.configuration.apiKeys = {};
-            this.configuration.apiKeys["Authorization"] = localStorage.getItem(
-              "currentUser"
-            );
-            resolve(true);
-          },
-          () => resolve(false)
-        );
+        .authLoginGet()
+        .subscribe(() => resolve(true), () => resolve(false));
     });
   }
 

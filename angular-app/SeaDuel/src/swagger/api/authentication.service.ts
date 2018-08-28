@@ -23,7 +23,6 @@ import { CustomHttpUrlEncodingCodec } from "../encoder";
 
 import { Observable } from "rxjs";
 
-import { AuthObject } from "../model/authObject";
 import { Login } from "../model/login";
 
 import { BASE_PATH, COLLECTION_FORMATS } from "../variables";
@@ -57,7 +56,7 @@ export class AuthenticationService {
    */
   private canConsumeForm(consumes: string[]): boolean {
     const form = "multipart/form-data";
-    for (const consume of consumes) {
+    for (let consume of consumes) {
       if (form === consume) {
         return true;
       }
@@ -68,57 +67,48 @@ export class AuthenticationService {
   /**
    *
    * Checks a token validity
-   * @param body Auth token
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public authCheckTokenPost(
-    body: AuthObject,
+  public authLoginGet(
     observe?: "body",
     reportProgress?: boolean
   ): Observable<any>;
-  public authCheckTokenPost(
-    body: AuthObject,
+  public authLoginGet(
     observe?: "response",
     reportProgress?: boolean
   ): Observable<HttpResponse<any>>;
-  public authCheckTokenPost(
-    body: AuthObject,
+  public authLoginGet(
     observe?: "events",
     reportProgress?: boolean
   ): Observable<HttpEvent<any>>;
-  public authCheckTokenPost(
-    body: AuthObject,
+  public authLoginGet(
     observe: any = "body",
     reportProgress: boolean = false
   ): Observable<any> {
-    if (body === null || body === undefined) {
-      throw new Error(
-        "Required parameter body was null or undefined when calling authCheckTokenPost."
+    let headers = this.defaultHeaders;
+
+    // authentication (Bearer) required
+    if (this.configuration.apiKeys["Authorization"]) {
+      headers = headers.set(
+        "Authorization",
+        this.configuration.apiKeys["Authorization"]
       );
     }
 
-    let headers = this.defaultHeaders;
-
     // to determine the Accept header
-    const httpHeaderAccepts: string[] = ["application/json"];
-    const httpHeaderAcceptSelected:
+    let httpHeaderAccepts: string[] = ["application/json"];
+    let httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected !== undefined) {
+    if (httpHeaderAcceptSelected != undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ["application/json"];
-    const httpContentTypeSelected:
-      | string
-      | undefined = this.configuration.selectHeaderContentType(consumes);
-    if (httpContentTypeSelected !== undefined) {
-      headers = headers.set("Content-Type", httpContentTypeSelected);
-    }
+    let consumes: string[] = ["application/json"];
 
-    return this.httpClient.post<any>(`${this.basePath}/auth/checkToken`, body, {
+    return this.httpClient.get<any>(`${this.basePath}/auth/login`, {
       withCredentials: this.configuration.withCredentials,
       headers: headers,
       observe: observe,
@@ -128,7 +118,7 @@ export class AuthenticationService {
 
   /**
    *
-   * Gets a token from username and password
+   * Gets a new signed token from username and password
    * @param body Login credentials
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
@@ -162,20 +152,20 @@ export class AuthenticationService {
     let headers = this.defaultHeaders;
 
     // to determine the Accept header
-    const httpHeaderAccepts: string[] = ["application/json"];
-    const httpHeaderAcceptSelected:
+    let httpHeaderAccepts: string[] = ["application/json"];
+    let httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected !== undefined) {
+    if (httpHeaderAcceptSelected != undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ["application/json"];
-    const httpContentTypeSelected:
+    let consumes: string[] = ["application/json"];
+    let httpContentTypeSelected:
       | string
       | undefined = this.configuration.selectHeaderContentType(consumes);
-    if (httpContentTypeSelected !== undefined) {
+    if (httpContentTypeSelected != undefined) {
       headers = headers.set("Content-Type", httpContentTypeSelected);
     }
 

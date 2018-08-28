@@ -58,7 +58,7 @@ export class GamesService {
    */
   private canConsumeForm(consumes: string[]): boolean {
     const form = "multipart/form-data";
-    for (const consume of consumes) {
+    for (let consume of consumes) {
       if (form === consume) {
         return true;
       }
@@ -120,20 +120,20 @@ export class GamesService {
     }
 
     // to determine the Accept header
-    const httpHeaderAccepts: string[] = ["application/json"];
-    const httpHeaderAcceptSelected:
+    let httpHeaderAccepts: string[] = ["application/json"];
+    let httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected !== undefined) {
+    if (httpHeaderAcceptSelected != undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ["application/json"];
-    const httpContentTypeSelected:
+    let consumes: string[] = ["application/json"];
+    let httpContentTypeSelected:
       | string
       | undefined = this.configuration.selectHeaderContentType(consumes);
-    if (httpContentTypeSelected !== undefined) {
+    if (httpContentTypeSelected != undefined) {
       headers = headers.set("Content-Type", httpContentTypeSelected);
     }
 
@@ -153,7 +153,7 @@ export class GamesService {
 
   /**
    *
-   * Resign from a game
+   * Resign from a game, that game will be counted as lost for the user and won for the opponent
    * @param id The user id of the opponent
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
@@ -195,16 +195,16 @@ export class GamesService {
     }
 
     // to determine the Accept header
-    const httpHeaderAccepts: string[] = ["application/json"];
-    const httpHeaderAcceptSelected:
+    let httpHeaderAccepts: string[] = ["application/json"];
+    let httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected !== undefined) {
+    if (httpHeaderAcceptSelected != undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ["application/json"];
+    let consumes: string[] = ["application/json"];
 
     return this.httpClient.delete<any>(
       `${this.basePath}/users/byId/${encodeURIComponent(String(id))}/game`,
@@ -219,7 +219,7 @@ export class GamesService {
 
   /**
    *
-   * Get the game coming from an user
+   * Get the game status with the specified opponent
    * @param id The user id of the opponent
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
@@ -261,16 +261,16 @@ export class GamesService {
     }
 
     // to determine the Accept header
-    const httpHeaderAccepts: string[] = ["application/json"];
-    const httpHeaderAcceptSelected:
+    let httpHeaderAccepts: string[] = ["application/json"];
+    let httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected !== undefined) {
+    if (httpHeaderAcceptSelected != undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ["application/json"];
+    let consumes: string[] = ["application/json"];
 
     return this.httpClient.get<Game>(
       `${this.basePath}/users/byId/${encodeURIComponent(String(id))}/game`,
@@ -287,7 +287,7 @@ export class GamesService {
    *
    * Fires a shot into the opponent board
    * @param id The user id of the opponent
-   * @param body The boat to add
+   * @param body
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
@@ -337,20 +337,20 @@ export class GamesService {
     }
 
     // to determine the Accept header
-    const httpHeaderAccepts: string[] = ["application/json"];
-    const httpHeaderAcceptSelected:
+    let httpHeaderAccepts: string[] = ["application/json"];
+    let httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected !== undefined) {
+    if (httpHeaderAcceptSelected != undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ["application/json"];
-    const httpContentTypeSelected:
+    let consumes: string[] = ["application/json"];
+    let httpContentTypeSelected:
       | string
       | undefined = this.configuration.selectHeaderContentType(consumes);
-    if (httpContentTypeSelected !== undefined) {
+    if (httpContentTypeSelected != undefined) {
       headers = headers.set("Content-Type", httpContentTypeSelected);
     }
 
@@ -379,17 +379,17 @@ export class GamesService {
     id: string,
     observe?: "body",
     reportProgress?: boolean
-  ): Observable<Game>;
+  ): Observable<any>;
   public usersByIdIdGamePost(
     id: string,
     observe?: "response",
     reportProgress?: boolean
-  ): Observable<HttpResponse<Game>>;
+  ): Observable<HttpResponse<any>>;
   public usersByIdIdGamePost(
     id: string,
     observe?: "events",
     reportProgress?: boolean
-  ): Observable<HttpEvent<Game>>;
+  ): Observable<HttpEvent<any>>;
   public usersByIdIdGamePost(
     id: string,
     observe: any = "body",
@@ -412,18 +412,18 @@ export class GamesService {
     }
 
     // to determine the Accept header
-    const httpHeaderAccepts: string[] = ["application/json"];
-    const httpHeaderAcceptSelected:
+    let httpHeaderAccepts: string[] = ["application/json"];
+    let httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected !== undefined) {
+    if (httpHeaderAcceptSelected != undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ["application/json"];
+    let consumes: string[] = ["application/json"];
 
-    return this.httpClient.post<Game>(
+    return this.httpClient.post<any>(
       `${this.basePath}/users/byId/${encodeURIComponent(String(id))}/game`,
       null,
       {
@@ -437,7 +437,7 @@ export class GamesService {
 
   /**
    *
-   * Accept a game request
+   * Accept a game request from an user
    * @param id The user id of the opponent
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
@@ -479,16 +479,16 @@ export class GamesService {
     }
 
     // to determine the Accept header
-    const httpHeaderAccepts: string[] = ["application/json"];
-    const httpHeaderAcceptSelected:
+    let httpHeaderAccepts: string[] = ["application/json"];
+    let httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected !== undefined) {
+    if (httpHeaderAcceptSelected != undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ["application/json"];
+    let consumes: string[] = ["application/json"];
 
     return this.httpClient.put<any>(
       `${this.basePath}/users/byId/${encodeURIComponent(String(id))}/game`,

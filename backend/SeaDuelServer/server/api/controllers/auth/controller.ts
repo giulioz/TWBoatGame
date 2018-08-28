@@ -1,4 +1,4 @@
-import AuthService from "../../services/auth.service";
+import AuthService, { authCheck } from "../../services/auth.service";
 
 import { Request, Response } from "express";
 
@@ -17,7 +17,7 @@ export class Controller {
 
   checkToken = async (req: Request, res: Response): Promise<void> => {
     try {
-      await this.authService.checkToken(req.body.token);
+      await authCheck(this.authService, req);
       res.status(200).end();
     } catch (err) {
       res.status(403).end();

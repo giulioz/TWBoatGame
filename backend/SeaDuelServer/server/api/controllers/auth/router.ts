@@ -6,6 +6,6 @@ export default (authService: AuthService) => {
   const controller = new AuthController(authService);
   return express
     .Router()
-    .post("/checkToken", controller.checkToken)
+    .get("/login", controller.checkToken)
     .post("/login", controller.login);
 };
