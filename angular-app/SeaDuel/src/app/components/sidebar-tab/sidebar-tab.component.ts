@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 
 @Component({
   selector: "app-sidebar-tab",
@@ -6,16 +6,17 @@ import { Component, OnInit, Input, EventEmitter, Output } from "@angular/core";
   styleUrls: ["./sidebar-tab.component.css"]
 })
 export class SidebarTabComponent implements OnInit {
-  @Input() text: string;
+  @Input()
+  collapse: boolean;
+  @Input()
+  text: string;
+  @Input()
+  icon: string;
 
-  @Input() icon: string;
-
-  open = false;
-
-  @Output() select: EventEmitter<any> = new EventEmitter();
+  open = true;
 
   onSelect(): void {
-    this.select.emit();
+    this.open = !this.open;
   }
 
   ngOnInit() {}

@@ -4,7 +4,7 @@
       {{icon}}
     </div>
     <div class="text">{{text}}</div>
-    <div class="material-icons chevron">
+    <div class="material-icons chevron" *ngIf="collapse">
       {{open ? "keyboard_arrow_up" : "keyboard_arrow_down"}}
     </div>
   </div>
