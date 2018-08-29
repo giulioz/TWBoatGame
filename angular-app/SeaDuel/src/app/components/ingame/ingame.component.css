@@ -34,7 +34,6 @@ app-wave-background {
 .spacerFlex {
   flex-grow: 1;
   display: flex;
-  flex-wrap: wrap;
 }
 
 .column {
@@ -51,6 +50,7 @@ app-wave-background {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  flex-shrink: 0;
 }
 
 .header .logo {
@@ -97,12 +97,6 @@ app-wave-background {
   margin-bottom: 32px;
   border-radius: 10px;
   box-shadow: 8px 8px 8px 0px rgba(0, 0, 0, 0.15);
-}
-
-@media screen and (max-width: 1124px) {
-  .body-container {
-    margin: 8px;
-  }
 }
 
 .body-background {
@@ -190,7 +184,16 @@ app-game-area {
 }
 
 @media screen and (max-width: 1124px) {
+  .body-container {
+    margin: 8px;
+  }
   .ordered {
     order: 2;
+  }
+  .container {
+    height: 100%;
+  }
+  .spacerFlex {
+    flex-direction: column;
   }
 }

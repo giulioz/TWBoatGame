@@ -4,11 +4,13 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  margin-left: 8px;
 }
 
 @media screen and (max-width: 1124px) {
   .root {
     border-top-left-radius: 10px;
+    margin-left: 0px;
   }
 }
 

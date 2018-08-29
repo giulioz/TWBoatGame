@@ -1,23 +1,25 @@
-<div class="container" [ngClass]="{'open': open}">
-  <div class="material-icons responsive-buttons" (click)="doOpen()">{{open ? "keyboard_arrow_right" : "keyboard_arrow_left"}}</div>
+<div class="root">
+  <div class="container" [ngClass]="{'open': open}">
+    <div class="material-icons responsive-buttons" (click)="doOpen()">{{open ? "keyboard_arrow_right" : "keyboard_arrow_left"}}</div>
 
-  <app-sidebar-tab text="Cerca" icon="search" open="true" [collapse]="false">
-    <app-sidebar-friend-search (find)="onFind($event)"></app-sidebar-friend-search>
-    <app-sidebar-friend-element *ngFor="let user of (this.finds)" [user]="user" (select)="selectUser(user.id)"></app-sidebar-friend-element>
-  </app-sidebar-tab>
+    <app-sidebar-tab text="Cerca" icon="search" open="true" [collapse]="false">
+      <app-sidebar-friend-search (find)="onFind($event)"></app-sidebar-friend-search>
+      <app-sidebar-friend-element *ngFor="let user of (this.finds)" [user]="user" (select)="selectUser(user.id)"></app-sidebar-friend-element>
+    </app-sidebar-tab>
 
-  <app-sidebar-tab text="Amici" icon="people" [collapse]="true">
-    <app-sidebar-friend-element *ngFor="let friend of (this.friends)" [user]="friend" [selected]="friend.id === selectedUser"
-      (select)="selectUser(friend.id)"></app-sidebar-friend-element>
-  </app-sidebar-tab>
+    <app-sidebar-tab text="Amici" icon="people" [collapse]="true">
+      <app-sidebar-friend-element *ngFor="let friend of (this.friends)" [user]="friend" [selected]="friend.id === selectedUser"
+        (select)="selectUser(friend.id)"></app-sidebar-friend-element>
+    </app-sidebar-tab>
 
-  <app-sidebar-tab text="In Attesa" icon="explore" [collapse]="true">
-    <app-sidebar-friend-element *ngFor="let user of (this.waiting)" [user]="user" [selected]="user.id === selectedUser" (select)="selectUser(user.id)"></app-sidebar-friend-element>
-  </app-sidebar-tab>
+    <app-sidebar-tab text="In Attesa" icon="explore" [collapse]="true">
+      <app-sidebar-friend-element *ngFor="let user of (this.waiting)" [user]="user" [selected]="user.id === selectedUser" (select)="selectUser(user.id)"></app-sidebar-friend-element>
+    </app-sidebar-tab>
 
-  <app-sidebar-tab text="Classifica" icon="timeline" [collapse]="true">
-    <app-sidebar-friend-element *ngFor="let user of (this.top)" showPosition="true" [user]="user" [selected]="user.id === selectedUser"
-      (select)="selectUser(user.id)"></app-sidebar-friend-element>
-  </app-sidebar-tab>
+    <app-sidebar-tab text="Classifica" icon="timeline" [collapse]="true">
+      <app-sidebar-friend-element *ngFor="let user of (this.top)" showPosition="true" [user]="user" [selected]="user.id === selectedUser"
+        (select)="selectUser(user.id)"></app-sidebar-friend-element>
+    </app-sidebar-tab>
+  </div>
 </div>
 <div class="spacer"></div>

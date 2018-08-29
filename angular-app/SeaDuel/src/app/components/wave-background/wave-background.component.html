@@ -7,13 +7,13 @@
   </symbol>
 </svg>
 
-<div class="water-jar">
+<div class="water-jar" [ngClass]="{'strong-back': strong}">
   <div id="water" class="water">
-    <svg viewBox="0 0 560 20" class="water_wave water_wave_back">
+    <svg viewBox="0 0 560 20" class="water_wave water_wave_back" [ngClass]="{strong: strong}">
       <use xlink:href="#wave"></use>
     </svg>
 
-    <svg viewBox="0 0 560 20" class="water_wave water_wave_front">
+    <svg viewBox="0 0 560 20" class="water_wave water_wave_front" [ngClass]="{front: strong}">
       <use xlink:href="#wave"></use>
     </svg>
   </div>

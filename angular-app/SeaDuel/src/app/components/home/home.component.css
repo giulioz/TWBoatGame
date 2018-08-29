@@ -60,7 +60,7 @@ a {
 }
 
 .splash-container .logo {
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
   width: 360px;
   height: 200px;
   height: 300px;
@@ -68,20 +68,21 @@ a {
   padding: 8px;
   margin: auto;
   margin-bottom: 2vh;
+  z-index: -1;
 }
 
 .swing {
-  animation: swing ease-in-out 1s infinite alternate;
+  animation: swing ease-in-out 4s infinite alternate;
   transform-origin: center 500px;
   float: left;
 }
 
 @keyframes swing {
   0% {
-    transform: rotate(3deg);
+    transform: translate(0px, 8px);
   }
   100% {
-    transform: rotate(-3deg);
+    transform: translate(0px, -8px);
   }
 }
 

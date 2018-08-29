@@ -1,3 +1,7 @@
+.root {
+  display: flex;
+}
+
 .container {
   width: 256px;
   display: flex;
@@ -29,11 +33,16 @@
 }
 
 @media screen and (max-width: 1124px) {
+  .root {
+    position: relative;
+  }
+
   .container {
     padding: 0;
     position: absolute;
-    right: 8px;
+    right: -45px;
     background: rgba(105, 112, 155);
+    height: 100%;
   }
   .spacer {
     display: block;
