@@ -8,6 +8,12 @@
   align-items: center;
 }
 
+@media screen and (max-width: 1124px) {
+  .root {
+    border-top-left-radius: 0px;
+  }
+}
+
 .spacer {
   flex-grow: 1;
 }

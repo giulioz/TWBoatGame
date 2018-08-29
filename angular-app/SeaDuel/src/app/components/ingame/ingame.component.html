@@ -43,7 +43,7 @@
       <div class="body-background">
         <div class="spacer column" *ngIf="opponentId">
           <div class="spacerFlex">
-            <div class="column spacer">
+            <div class="column spacer ordered">
               <app-account-header class="ztop" [user]="opponent"></app-account-header>
               <app-chat [opponentId]="opponentId" [messages]="messages"></app-chat>
             </div>
