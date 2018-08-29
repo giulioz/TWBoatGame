@@ -9,6 +9,7 @@
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   transition: width 1s;
+  z-index: 9;
 }
 
 .responsive-buttons {
@@ -23,9 +24,20 @@
   border-radius: 8px;
 }
 
+.spacer {
+  display: none;
+}
+
 @media screen and (max-width: 1124px) {
   .container {
     padding: 0;
+    position: absolute;
+    right: 8px;
+    background: rgba(105, 112, 155);
+  }
+  .spacer {
+    display: block;
+    width: 45px;
   }
   .container:not(.open) {
     width: 45px;

@@ -1,7 +1,6 @@
 .container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
   color: #ffffff;
 }
 
@@ -19,6 +18,10 @@
   background: rgba(44, 53, 108, 0.4);
   flex-grow: 1;
   z-index: 1;
+}
+
+app-wave-background {
+  flex-grow: 1;
 }
 
 .spacer {
@@ -91,7 +94,14 @@
   margin-bottom: 32px;
   border-radius: 10px;
   box-shadow: 8px 8px 8px 0px rgba(0, 0, 0, 0.15);
-  overflow: auto;
+}
+
+@media screen and (max-width: 1124px) {
+  .body-container {
+    margin-bottom: 0;
+    margin-left: 8px;
+    margin-right: 8px;
+  }
 }
 
 .body-background {
