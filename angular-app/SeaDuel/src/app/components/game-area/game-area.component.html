@@ -34,6 +34,9 @@
       open_with
     </div>
     <div class="spacer">Posiziona le tue Navi</div>
+    <button class="button show rotate-button" (click)="turnBoat()">
+      <span class="material-icons rotate-icon">refresh</span>
+    </button>
     <button class="button show" (click)="resignGame()">
       Abbandona partita
     </button>
@@ -58,8 +61,8 @@
   <div class="top-bar" *ngIf="currentState(game) == 'PlayerTurn'">
     <div class="spacer">È il tuo turno! Seleziona una casella avversaria da colpire</div>
     <button class="button show" (click)="resignGame()">
-        Abbandona partita
-      </button>
+      Abbandona partita
+    </button>
   </div>
   <div class="center" *ngIf="currentState(game) == 'PlayerTurn'">
     <div>
@@ -77,8 +80,8 @@
   <div class="top-bar message" *ngIf="currentState(game) == 'OpponentTurn'">
     <div class="spacer">Attendi il turno del tuo avversario...</div>
     <button class="button show" (click)="resignGame()">
-        Abbandona partita
-      </button>
+      Abbandona partita
+    </button>
   </div>
   <div class="center" *ngIf="currentState(game) == 'OpponentTurn'">
     <div>

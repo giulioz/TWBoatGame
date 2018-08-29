@@ -25,7 +25,7 @@ export class GameAreaComponent implements OnInit {
   @Output()
   button: EventEmitter<any> = new EventEmitter();
 
-  expectedBoats?: Boat[];
+  boatOrientation: "Horizontal" | "Vertical" = "Horizontal";
 
   currentState = (game: Game) => {
     if (!game) {
@@ -53,12 +53,18 @@ export class GameAreaComponent implements OnInit {
 
   playerBoard = (game: Game) => (game ? game.playerBoard : null);
   opponentBoard = (game: Game) => (game ? game.opponentBoard : null);
-  currentBoat = () =>
-    this.game.availableBoats.filter(boat => boat.amount > 0)[0];
+  currentBoat = () => ({
+    ...this.game.availableBoats.filter(boat => boat.amount > 0)[0],
+    direction: this.boatOrientation
+  });
 
   constructor(private gamesService: GamesService) {}
 
   ngOnInit() {}
+
+  turnBoat = () =>
+    (this.boatOrientation =
+      this.boatOrientation === "Vertical" ? "Horizontal" : "Vertical");
 
   newGame = () => {
     this.gamesService.usersByIdIdGamePost(this.opponentId).subscribe(_ => {
@@ -92,7 +98,7 @@ export class GameAreaComponent implements OnInit {
       .usersByIdIdGameBoatsPost(this.opponentId, {
         x: $event.x,
         y: $event.y,
-        direction: "Vertical",
+        direction: this.boatOrientation,
         type: nextBoat
       })
       .subscribe(_ => this.needsGameUpdate.emit(), e => console.error(e));

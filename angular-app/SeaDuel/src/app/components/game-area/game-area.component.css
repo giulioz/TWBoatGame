@@ -32,6 +32,18 @@
   padding-bottom: 16px;
 }
 
+.rotate-button {
+  padding: 3px !important;
+  margin-right: 0px !important;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.rotate-icon {
+  font-size: 25px;
+}
+
 .bigger {
   font-size: 40px;
 }
