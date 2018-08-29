@@ -1,26 +1,26 @@
 .root {
-    display: flex;
-    flex-direction: column;
-    color: #ffffff;
-    margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  margin-bottom: 32px;
 }
 
 .header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
 }
 
 .icon {
-    margin-right: 16px;
-    font-size: 32px;
+  margin-right: 16px;
+  font-size: 32px;
 }
 
 .chevron {
-    font-size: 32px;
+  font-size: 32px;
 }
 
 .text {
-    font-size: 33px;
-    flex-grow: 1;
+  font-size: 33px;
+  flex-grow: 1;
 }

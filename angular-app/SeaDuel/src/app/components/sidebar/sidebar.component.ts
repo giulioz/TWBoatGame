@@ -16,6 +16,7 @@ import { AuthService } from "../../services/auth.service";
   styleUrls: ["./sidebar.component.css"]
 })
 export class SidebarComponent implements OnInit {
+  open = false;
   userId: string;
 
   @Input()
@@ -44,5 +45,9 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     this.userId = this.authService.getUserToken().id;
+  }
+
+  doOpen = () => {
+    this.open = !this.open;
   }
 }

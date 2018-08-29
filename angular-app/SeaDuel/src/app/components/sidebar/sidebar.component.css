@@ -4,5 +4,40 @@
   flex-direction: column;
   padding: 32px;
   overflow: auto;
-  box-shadow: 5px 0px 5px 0px rgba(0,0,0,0.05) inset;
+  box-shadow: 5px 0px 5px 0px rgba(0, 0, 0, 0.05) inset;
+  background: rgba(105, 112, 155, 0.8);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  transition: width 1s;
+}
+
+.responsive-buttons {
+  background: #fff;
+  color: #2c356c;
+  display: none;
+  text-align: center;
+  margin: 8px;
+  width: 29px;
+  height: 29px;
+  line-height: 29px;
+  border-radius: 8px;
+}
+
+@media screen and (max-width: 1124px) {
+  .container {
+    padding: 0;
+  }
+  .container:not(.open) {
+    width: 45px;
+  }
+  .container:not(.open) *:not(:first-child) {
+    display: none;
+  }
+  .container *:not(:first-child) {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+  .container .responsive-buttons {
+    display: block;
+  }
 }
