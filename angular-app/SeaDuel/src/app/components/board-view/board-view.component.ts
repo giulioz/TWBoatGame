@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { PlayerBoard, OpponentBoard } from "../../../swagger";
+import { PlayerBoard, OpponentBoard, Boat } from "../../../swagger";
 
 @Component({
   selector: "app-board-view",
@@ -10,8 +10,15 @@ export class BoardViewComponent implements OnInit {
   @Input()
   board: PlayerBoard | OpponentBoard;
 
+  @Input()
+  currentBoat?: Boat;
+
   @Output()
-  action: EventEmitter<{ x: number; y: number; i: number }> = new EventEmitter();
+  action: EventEmitter<{
+    x: number;
+    y: number;
+    i: number;
+  }> = new EventEmitter();
 
   isBoat(type) {
     return (

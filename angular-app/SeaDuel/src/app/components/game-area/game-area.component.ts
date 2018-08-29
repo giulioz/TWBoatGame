@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from "@angular/core";
-import { Game, GamesService } from "../../../swagger";
+import { Game, GamesService, Boat } from "../../../swagger";
 
 @Component({
   selector: "app-game-area",
@@ -25,9 +25,7 @@ export class GameAreaComponent implements OnInit {
   @Output()
   button: EventEmitter<any> = new EventEmitter();
 
-  actionActive = (game: Game) =>
-    this.currentState(game) !== "WaitingForResponse" &&
-    this.currentState(game) !== "HasToRespond";
+  expectedBoats?: Boat[];
 
   currentState = (game: Game) => {
     if (!game) {
@@ -53,32 +51,27 @@ export class GameAreaComponent implements OnInit {
     }
   };
 
-  onHeaderAction = () => {
-    if (this.actionActive) {
-      if (this.game.state === "Ended") {
-        this.gamesService.usersByIdIdGamePost(this.opponentId).subscribe(_ => {
-          this.needsGameUpdate.emit();
-        });
-      } else if (
-        this.game.state !== "WaitingForResponse" &&
-        this.game.state !== "HasToRespond"
-      ) {
-        this.gamesService
-          .usersByIdIdGameDelete(this.opponentId)
-          .subscribe(_ => {
-            this.needsGameUpdate.emit();
-            this.needsUserUpdate.emit();
-          });
-      }
-    }
-  };
-
   playerBoard = (game: Game) => (game ? game.playerBoard : null);
   opponentBoard = (game: Game) => (game ? game.opponentBoard : null);
+  currentBoat = () =>
+    this.game.availableBoats.filter(boat => boat.amount > 0)[0];
 
   constructor(private gamesService: GamesService) {}
 
   ngOnInit() {}
+
+  newGame = () => {
+    this.gamesService.usersByIdIdGamePost(this.opponentId).subscribe(_ => {
+      this.needsGameUpdate.emit();
+    });
+  };
+
+  resignGame = () => {
+    this.gamesService.usersByIdIdGameDelete(this.opponentId).subscribe(_ => {
+      this.needsGameUpdate.emit();
+      this.needsUserUpdate.emit();
+    });
+  };
 
   acceptGameRequest = () => {
     this.gamesService
@@ -93,8 +86,7 @@ export class GameAreaComponent implements OnInit {
   };
 
   positionAction = $event => {
-    const nextBoat = this.game.availableBoats.filter(boat => boat.amount > 0)[0]
-      .type;
+    const nextBoat = this.currentBoat().type;
 
     this.gamesService
       .usersByIdIdGameBoatsPost(this.opponentId, {

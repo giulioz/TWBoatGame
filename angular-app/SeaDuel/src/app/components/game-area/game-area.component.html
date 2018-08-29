@@ -1,95 +1,134 @@
 <div class="root">
-  <div class="material-icons center icon" *ngIf="currentState(game) == 'Ended'">
-    arrow_upward
-  </div>
-  <div class="center message" *ngIf="currentState(game) == 'Ended'">
-    Premi
-    <strong>Sfida</strong> per cominciare la partita
-  </div>
-
-  <div class="material-icons center icon" *ngIf="currentState(game) == 'WaitingForResponse'">
-    watch_later
-  </div>
-  <div class="center message" *ngIf="currentState(game) == 'WaitingForResponse'">
-    Sfida inviata. Risposta in attesa...
+  <div class="top-bar message" *ngIf="currentState(game) == 'Ended'">
+    <div class="material-icons bigger">play_arrow</div>
+    <div class="spacer">Premi <strong>Sfida</strong> per cominciare la partita</div>
+    <div class="material-icons bigger">
+      arrow_forward
+    </div>
+    <button class="button show" (click)="newGame()">
+      Sfida
+    </button>
   </div>
 
-  <div class="center message" *ngIf="currentState(game) == 'HasToRespond'">
-    Ti ha invitato a giocare. Accetti?
+  <div class="top-bar message" *ngIf="currentState(game) == 'WaitingForResponse'">
+    <div class="material-icons bigger">
+      watch_later
+    </div>
+    <div class="spacer">Sfida inviata. Risposta in attesa...</div>
+    <button class="button show" (click)="resignGame()">
+      Abbandona partita
+    </button>
   </div>
-  <div class="center" *ngIf="currentState(game) == 'HasToRespond'">
-    <button class="button" (click)="acceptGameRequest()">Accetta</button>
-    <button class="button" (click)="rejectGameRequest()">Rifiuta</button>
+
+  <div class="top-bar message" *ngIf="currentState(game) == 'HasToRespond'">
+    <div class="material-icons bigger">
+      watch_later
+    </div>
+    <div class="spacer">Ti ha invitato a giocare. Accetti?</div>
+    <button class="button show" (click)="acceptGameRequest()">Accetta</button>
+    <button class="button show" (click)="rejectGameRequest()">Rifiuta</button>
   </div>
 
   <div class="top-bar message" *ngIf="currentState(game) == 'PlayerToPosition'">
+    <div class="material-icons bigger">
+      open_with
+    </div>
     <div class="spacer">Posiziona le tue Navi</div>
-    <button class="button" [disabled]="!actionActive(game)" [ngClass]="{'show': actionActive(game)}" (click)="onHeaderAction()">
+    <button class="button show" (click)="resignGame()">
       Abbandona partita
     </button>
   </div>
   <div class="center" *ngIf="currentState(game) == 'PlayerToPosition'">
-    <app-board-view [board]="playerBoard(game)" (action)="positionAction($event)"></app-board-view>
+    <div>
+      <app-board-view [board]="playerBoard(game)" (action)="positionAction($event)" [currentBoat]="currentBoat"></app-board-view>
+      <app-boats-view [game]="game" mode="positioning"></app-boats-view>
+    </div>
   </div>
 
-  <div class="material-icons center icon" *ngIf="currentState(game) == 'OpponentToPosition'">
-    watch_later
-  </div>
-  <div class="center message" *ngIf="currentState(game) == 'OpponentToPosition'">
-    Attendi, il tuo avversario sta ancora posizionando le sue navi...
+  <div class="top-bar message" *ngIf="currentState(game) == 'OpponentToPosition'">
+    <div class="material-icons bigger">
+      watch_later
+    </div>
+    <div class="spacer">Attendi, il tuo avversario sta ancora posizionando le sue navi...</div>
+    <button class="button show" (click)="resignGame()">
+      Abbandona partita
+    </button>
   </div>
 
   <div class="top-bar" *ngIf="currentState(game) == 'PlayerTurn'">
     <div class="spacer">È il tuo turno! Seleziona una casella avversaria da colpire</div>
-    <button class="button" [disabled]="!actionActive(game)" [ngClass]="{'show': actionActive(game)}" (click)="onHeaderAction()">
-      {{currentState(game) === 'Ended' ? 'Sfida' : 'Abbandona partita'}}
-    </button>
+    <button class="button show" (click)="resignGame()">
+        Abbandona partita
+      </button>
   </div>
   <div class="center" *ngIf="currentState(game) == 'PlayerTurn'">
     <div>
       Il tuo campo:
       <app-board-view [board]="playerBoard(game)"></app-board-view>
+      <app-boats-view [game]="game" [board]="playerBoard(game)"></app-boats-view>
     </div>
     <div>
       Campo avversario:
       <app-board-view [board]="opponentBoard(game)" (action)="moveAction($event)"></app-board-view>
+      <app-boats-view [game]="game" [board]="opponentBoard(game)"></app-boats-view>
     </div>
   </div>
 
   <div class="top-bar message" *ngIf="currentState(game) == 'OpponentTurn'">
     <div class="spacer">Attendi il turno del tuo avversario...</div>
-    <button class="button" [disabled]="!actionActive(game)" [ngClass]="{'show': actionActive(game)}" (click)="onHeaderAction()">
-      {{currentState(game) === 'Ended' ? 'Sfida' : 'Abbandona partita'}}
-    </button>
+    <button class="button show" (click)="resignGame()">
+        Abbandona partita
+      </button>
   </div>
   <div class="center" *ngIf="currentState(game) == 'OpponentTurn'">
     <div>
       Il tuo campo:
       <app-board-view [board]="playerBoard(game)"></app-board-view>
+      <app-boats-view [game]="game" [board]="playerBoard(game)"></app-boats-view>
     </div>
     <div>
       Campo avversario:
       <app-board-view [board]="opponentBoard(game)"></app-board-view>
+      <app-boats-view [game]="game" [board]="opponentBoard(game)"></app-boats-view>
     </div>
   </div>
 
-  <div class="material-icons center icon" *ngIf="currentState(game) == 'Won'">
-    arrow_upward
+  <div class="top-bar message" *ngIf="currentState(game) == 'Won'">
+    <div class="material-icons bigger">play_arrow</div>
+    <div class="spacer">Premi <strong>Sfida</strong> per cominciare la partita</div>
+    <div class="material-icons bigger">
+      arrow_forward
+    </div>
+    <button class="button show" (click)="newGame()">
+      Sfida
+    </button>
   </div>
-  <div class="center message" *ngIf="currentState(game) == 'Won'">
-    <strong>Hai vinto!</strong>
-  </div>
-  <div class="center message" *ngIf="currentState(game) == 'Won'">
-    Vuoi la rivincita? Gioca di nuovo!
+  <div class="center" *ngIf="currentState(game) == 'Won'">
+    <div class="message">
+      <div class="material-icons icon">
+        done
+      </div><br />
+      <strong>Hai vinto!</strong><br /> Vuoi la rivincita? Gioca di nuovo!
+    </div>
   </div>
 
-  <div class="material-icons center icon" *ngIf="currentState(game) == 'Lost'">
-    arrow_upward
+
+  <div class="top-bar message" *ngIf="currentState(game) == 'Lost'">
+    <div class="material-icons bigger">play_arrow</div>
+    <div class="spacer">Premi <strong>Sfida</strong> per cominciare la partita</div>
+    <div class="material-icons bigger">
+      arrow_forward
+    </div>
+    <button class="button show" (click)="newGame()">
+      Sfida
+    </button>
   </div>
-  <div class="center message" *ngIf="currentState(game) == 'Lost'">
-    <strong>Hai perso!</strong>
-  </div>
-  <div class="center message" *ngIf="currentState(game) == 'Lost'">
-    Vuoi la rivincita? Gioca di nuovo!
+  <div class="center" *ngIf="currentState(game) == 'Lost'">
+    <div class="message">
+      <div class="material-icons icon">
+        warning
+      </div><br />
+      <strong>Hai perso!</strong><br /> Vuoi la rivincita? Gioca di nuovo!
+    </div>
   </div>
 </div>

@@ -16,17 +16,17 @@
     - [x] Interazioni utenti
         - [x] Messaggistica, social
         - [x] Classifiche
-    - [ ] Gestione gioco
+    - [x] Gestione gioco
 
-- [ ] Sviluppo Frontend
-    - [ ] Rivedere wireframe con grafica
-    - [ ] Definizione tecnologica
-    - [ ] Sviluppo asset
-    - [ ] Sviluppo HTML e JS
+- [x] Sviluppo Frontend
+    - [x] Rivedere wireframe con grafica
+    - [x] Definizione tecnologica
+    - [x] Sviluppo asset
+    - [x] Sviluppo HTML e JS
 
 - [ ] Testing
 
-- [ ] Sviluppo app desktop
+- [x] Sviluppo app desktop
     - [ ] Funzionalità aggiuntive
 
 - [ ] Sviluppo app mobile

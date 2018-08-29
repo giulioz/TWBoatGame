@@ -1,3 +1,6 @@
-<p>
-  boats-view works!
-</p>
+<div class="root">
+  <span class="title">Navi:</span>
+  <div class="boat" *ngFor="let boat of getBoats()">
+    <div class="boat-point" *ngFor="let point of range(boat.length, boat)" [ngClass]="{sunken: point.sunken && !isOpponentBoard(board), 'sunken-o': point.sunken && isOpponentBoard(board)}"></div>
+  </div>
+</div>

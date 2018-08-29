@@ -184,7 +184,10 @@ definitions:
                     - Unknown
                     - Hit
                     - Miss
-                    - Boat
+                    - Destroyer
+                    - Submarine
+                    - Battleship
+                    - AircraftCarrier
       playerReady:
         type: boolean
         description: "If the player has positioned his boats"

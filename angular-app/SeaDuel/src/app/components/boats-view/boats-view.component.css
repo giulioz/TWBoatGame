@@ -1,0 +1,25 @@
+.root {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 200px;
+}
+
+.boat-point {
+  width: 8px;
+  height: 8px;
+  margin: 1px;
+  background: #36648F;
+}
+
+.sunken {
+  background: #FF5555;
+}
+
+.sunken-o {
+  background: #55BB55;
+}
+
+.boat {
+  margin: 4px;
+  display: flex;
+}

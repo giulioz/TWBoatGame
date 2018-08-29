@@ -59,6 +59,7 @@ export function apiConfigFactory(): Configuration {
   declarations: [
     AppComponent,
     HomeComponent,
+    BoatsViewComponent,
     IngameComponent,
     RegisterFormComponent,
     LoginComponent,
@@ -74,8 +75,7 @@ export function apiConfigFactory(): Configuration {
     AdminPageComponent,
     AccountPageComponent,
     WaveBackgroundComponent,
-    BoardViewComponent,
-    BoatsViewComponent
+    BoardViewComponent
   ],
   imports: [
     BrowserModule,

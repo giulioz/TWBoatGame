@@ -19,6 +19,12 @@ const boatSizes = {
   Battleship: 4,
   AircraftCarrier: 5
 };
+const initialBoats: Boat[] = [
+  { type: BoardElementType.Destroyer, amount: 4 },
+  { type: BoardElementType.Submarine, amount: 2 },
+  { type: BoardElementType.Battleship, amount: 2 },
+  { type: BoardElementType.AircraftCarrier, amount: 1 }
+];
 
 function isFullBoatDrown(board: GameBoard, x: number, y: number) {
   const boardXY = (x: number, y: number, board: GameBoard) =>
@@ -33,7 +39,11 @@ function isFullBoatDrown(board: GameBoard, x: number, y: number) {
       return 0;
     } else {
       const currentCell = boardXY(x, y, board);
-      if (currentCell && currentCell.checked && currentCell.type === initialCell.type) {
+      if (
+        currentCell &&
+        currentCell.checked &&
+        currentCell.type === initialCell.type
+      ) {
         if (direction === "Left") {
           return 1 + recurse(x + 1, y, direction);
         } else if (direction === "Down") {
@@ -67,8 +77,12 @@ function hideBoard(board: GameBoard) {
               type:
                 cell.type === BoardElementType.Empty
                   ? "Miss"
-                  : isFullBoatDrown(board, i % board.width, Math.floor(i / board.width))
-                    ? "Boat"
+                  : isFullBoatDrown(
+                      board,
+                      i % board.width,
+                      Math.floor(i / board.width)
+                    )
+                    ? cell.type
                     : "Hit"
             }
           : { type: "Unknown" }
@@ -121,13 +135,6 @@ const emptyGameBoard = (width: number, height: number): GameBoard => ({
     .fill(0)
     .map(_ => ({ type: BoardElementType.Empty, checked: false }))
 });
-
-const initialBoats: Boat[] = [
-  { type: BoardElementType.Destroyer, amount: 4 },
-  { type: BoardElementType.Submarine, amount: 2 },
-  { type: BoardElementType.Battleship, amount: 2 },
-  { type: BoardElementType.AircraftCarrier, amount: 1 }
-];
 
 const emptyGame = (playerA: string, playerB: string) => ({
   state: GameStateType.Ended,
@@ -400,6 +407,9 @@ export class GamesService {
       game.state = randomTurn
         ? GameStateType.PlayerTurn
         : GameStateType.OpponentTurn;
+
+      game.playerAvailableBoats = [...initialBoats];
+      game.opponentAvailableBoats = [...initialBoats];
     }
 
     return GameModel.updateOne(
@@ -413,11 +423,13 @@ export class GamesService {
         ? {
             playerBoard: newBoard,
             playerAvailableBoats: game.playerAvailableBoats,
+            opponentAvailableBoats: game.opponentAvailableBoats,
             playerReady: game.playerReady,
             state: game.state
           }
         : {
             opponentBoard: newBoard,
+            playerAvailableBoats: game.playerAvailableBoats,
             opponentAvailableBoats: game.opponentAvailableBoats,
             opponentReady: game.opponentReady,
             state: game.state
