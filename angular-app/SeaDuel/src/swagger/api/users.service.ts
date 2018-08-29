@@ -57,7 +57,7 @@ export class UsersService {
    */
   private canConsumeForm(consumes: string[]): boolean {
     const form = "multipart/form-data";
-    for (let consume of consumes) {
+    for (const consume of consumes) {
       if (form === consume) {
         return true;
       }
@@ -109,16 +109,16 @@ export class UsersService {
     }
 
     // to determine the Accept header
-    let httpHeaderAccepts: string[] = ["application/json"];
-    let httpHeaderAcceptSelected:
+    const httpHeaderAccepts: string[] = ["application/json"];
+    const httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected != undefined) {
+    if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    let consumes: string[] = ["application/json"];
+    const consumes: string[] = ["application/json"];
 
     return this.httpClient.delete<any>(
       `${this.basePath}/users/byId/${encodeURIComponent(String(id))}`,
@@ -175,16 +175,16 @@ export class UsersService {
     }
 
     // to determine the Accept header
-    let httpHeaderAccepts: string[] = ["application/json"];
-    let httpHeaderAcceptSelected:
+    const httpHeaderAccepts: string[] = ["application/json"];
+    const httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected != undefined) {
+    if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    let consumes: string[] = ["application/json"];
+    const consumes: string[] = ["application/json"];
 
     return this.httpClient.get<User>(
       `${this.basePath}/users/byId/${encodeURIComponent(String(id))}`,
@@ -251,20 +251,20 @@ export class UsersService {
     }
 
     // to determine the Accept header
-    let httpHeaderAccepts: string[] = ["application/json"];
-    let httpHeaderAcceptSelected:
+    const httpHeaderAccepts: string[] = ["application/json"];
+    const httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected != undefined) {
+    if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    let consumes: string[] = ["application/json"];
-    let httpContentTypeSelected:
+    const consumes: string[] = ["application/json"];
+    const httpContentTypeSelected:
       | string
       | undefined = this.configuration.selectHeaderContentType(consumes);
-    if (httpContentTypeSelected != undefined) {
+    if (httpContentTypeSelected !== undefined) {
       headers = headers.set("Content-Type", httpContentTypeSelected);
     }
 
@@ -313,16 +313,16 @@ export class UsersService {
     }
 
     // to determine the Accept header
-    let httpHeaderAccepts: string[] = ["application/json"];
-    let httpHeaderAcceptSelected:
+    const httpHeaderAccepts: string[] = ["application/json"];
+    const httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected != undefined) {
+    if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    let consumes: string[] = ["application/json"];
+    const consumes: string[] = ["application/json"];
 
     return this.httpClient.get<Array<User>>(`${this.basePath}/users/contacts`, {
       withCredentials: this.configuration.withCredentials,
@@ -376,16 +376,16 @@ export class UsersService {
     }
 
     // to determine the Accept header
-    let httpHeaderAccepts: string[] = ["application/json"];
-    let httpHeaderAcceptSelected:
+    const httpHeaderAccepts: string[] = ["application/json"];
+    const httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected != undefined) {
+    if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    let consumes: string[] = ["application/json"];
+    const consumes: string[] = ["application/json"];
 
     return this.httpClient.get<Array<User>>(
       `${this.basePath}/users/findId/${encodeURIComponent(String(id))}`,
@@ -431,16 +431,16 @@ export class UsersService {
     }
 
     // to determine the Accept header
-    let httpHeaderAccepts: string[] = ["application/json"];
-    let httpHeaderAcceptSelected:
+    const httpHeaderAccepts: string[] = ["application/json"];
+    const httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected != undefined) {
+    if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    let consumes: string[] = ["application/json"];
+    const consumes: string[] = ["application/json"];
 
     return this.httpClient.get<Array<User>>(`${this.basePath}/users`, {
       withCredentials: this.configuration.withCredentials,
@@ -486,20 +486,20 @@ export class UsersService {
     let headers = this.defaultHeaders;
 
     // to determine the Accept header
-    let httpHeaderAccepts: string[] = ["application/json"];
-    let httpHeaderAcceptSelected:
+    const httpHeaderAccepts: string[] = ["application/json"];
+    const httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected != undefined) {
+    if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    let consumes: string[] = ["application/json"];
-    let httpContentTypeSelected:
+    const consumes: string[] = ["application/json"];
+    const httpContentTypeSelected:
       | string
       | undefined = this.configuration.selectHeaderContentType(consumes);
-    if (httpContentTypeSelected != undefined) {
+    if (httpContentTypeSelected !== undefined) {
       headers = headers.set("Content-Type", httpContentTypeSelected);
     }
 
@@ -544,16 +544,16 @@ export class UsersService {
     }
 
     // to determine the Accept header
-    let httpHeaderAccepts: string[] = ["application/json"];
-    let httpHeaderAcceptSelected:
+    const httpHeaderAccepts: string[] = ["application/json"];
+    const httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected != undefined) {
+    if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    let consumes: string[] = ["application/json"];
+    const consumes: string[] = ["application/json"];
 
     return this.httpClient.get<Array<User>>(`${this.basePath}/users/top`, {
       withCredentials: this.configuration.withCredentials,
@@ -596,16 +596,16 @@ export class UsersService {
     }
 
     // to determine the Accept header
-    let httpHeaderAccepts: string[] = ["application/json"];
-    let httpHeaderAcceptSelected:
+    const httpHeaderAccepts: string[] = ["application/json"];
+    const httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected != undefined) {
+    if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    let consumes: string[] = ["application/json"];
+    const consumes: string[] = ["application/json"];
 
     return this.httpClient.get<Array<User>>(`${this.basePath}/users/waiting`, {
       withCredentials: this.configuration.withCredentials,

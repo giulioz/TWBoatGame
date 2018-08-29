@@ -6,8 +6,6 @@ export const environment = {
   production: false,
   apiUrl: "http://localhost:4201/api/v1",
   socketUrl: "http://localhost:4201"
-  // apiUrl: "http://172.16.0.105:4201/api/v1",
-  // socketUrl: "http://172.16.0.105:4201"
 };
 
 /*

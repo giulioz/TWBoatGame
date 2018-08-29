@@ -58,7 +58,7 @@ export class GamesService {
    */
   private canConsumeForm(consumes: string[]): boolean {
     const form = "multipart/form-data";
-    for (let consume of consumes) {
+    for (const consume of consumes) {
       if (form === consume) {
         return true;
       }
@@ -120,20 +120,20 @@ export class GamesService {
     }
 
     // to determine the Accept header
-    let httpHeaderAccepts: string[] = ["application/json"];
-    let httpHeaderAcceptSelected:
+    const httpHeaderAccepts: string[] = ["application/json"];
+    const httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected != undefined) {
+    if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    let consumes: string[] = ["application/json"];
-    let httpContentTypeSelected:
+    const consumes: string[] = ["application/json"];
+    const httpContentTypeSelected:
       | string
       | undefined = this.configuration.selectHeaderContentType(consumes);
-    if (httpContentTypeSelected != undefined) {
+    if (httpContentTypeSelected !== undefined) {
       headers = headers.set("Content-Type", httpContentTypeSelected);
     }
 
@@ -195,16 +195,16 @@ export class GamesService {
     }
 
     // to determine the Accept header
-    let httpHeaderAccepts: string[] = ["application/json"];
-    let httpHeaderAcceptSelected:
+    const httpHeaderAccepts: string[] = ["application/json"];
+    const httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected != undefined) {
+    if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    let consumes: string[] = ["application/json"];
+    const consumes: string[] = ["application/json"];
 
     return this.httpClient.delete<any>(
       `${this.basePath}/users/byId/${encodeURIComponent(String(id))}/game`,
@@ -261,16 +261,16 @@ export class GamesService {
     }
 
     // to determine the Accept header
-    let httpHeaderAccepts: string[] = ["application/json"];
-    let httpHeaderAcceptSelected:
+    const httpHeaderAccepts: string[] = ["application/json"];
+    const httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected != undefined) {
+    if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    let consumes: string[] = ["application/json"];
+    const consumes: string[] = ["application/json"];
 
     return this.httpClient.get<Game>(
       `${this.basePath}/users/byId/${encodeURIComponent(String(id))}/game`,
@@ -337,20 +337,20 @@ export class GamesService {
     }
 
     // to determine the Accept header
-    let httpHeaderAccepts: string[] = ["application/json"];
-    let httpHeaderAcceptSelected:
+    const httpHeaderAccepts: string[] = ["application/json"];
+    const httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected != undefined) {
+    if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    let consumes: string[] = ["application/json"];
-    let httpContentTypeSelected:
+    const consumes: string[] = ["application/json"];
+    const httpContentTypeSelected:
       | string
       | undefined = this.configuration.selectHeaderContentType(consumes);
-    if (httpContentTypeSelected != undefined) {
+    if (httpContentTypeSelected !== undefined) {
       headers = headers.set("Content-Type", httpContentTypeSelected);
     }
 
@@ -412,16 +412,16 @@ export class GamesService {
     }
 
     // to determine the Accept header
-    let httpHeaderAccepts: string[] = ["application/json"];
-    let httpHeaderAcceptSelected:
+    const httpHeaderAccepts: string[] = ["application/json"];
+    const httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected != undefined) {
+    if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    let consumes: string[] = ["application/json"];
+    const consumes: string[] = ["application/json"];
 
     return this.httpClient.post<any>(
       `${this.basePath}/users/byId/${encodeURIComponent(String(id))}/game`,
@@ -479,16 +479,16 @@ export class GamesService {
     }
 
     // to determine the Accept header
-    let httpHeaderAccepts: string[] = ["application/json"];
-    let httpHeaderAcceptSelected:
+    const httpHeaderAccepts: string[] = ["application/json"];
+    const httpHeaderAcceptSelected:
       | string
       | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected != undefined) {
+    if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set("Accept", httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
-    let consumes: string[] = ["application/json"];
+    const consumes: string[] = ["application/json"];
 
     return this.httpClient.put<any>(
       `${this.basePath}/users/byId/${encodeURIComponent(String(id))}/game`,

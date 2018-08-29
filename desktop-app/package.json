@@ -1,0 +1,45 @@
+{
+  "name": "desktop-app",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "build-angular": "pushd ../angular-app/SeaDuel/ && ng build -c electron --output-path ../../desktop-app/build && popd && rm -rf assets && mv build/assets .",
+    "build-electron": "electron-packager . SeaDuel --overwrite",
+    "build": "npm run build-angular && npm run build-electron",
+    "start": "electron ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^2.0.8",
+    "electron-packager": "^12.1.1",
+    "webpack-command": "^0.4.1"
+  },
+  "build": {
+    "appId": "seaduel",
+    "category": "game",
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "squirrel",
+      "icon": "build/favicon.ico"
+    }
+  }
+}
