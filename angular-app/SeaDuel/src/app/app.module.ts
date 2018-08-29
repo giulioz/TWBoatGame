@@ -34,6 +34,7 @@ import { AdminPageComponent } from "./components/admin-page/admin-page.component
 import { AccountPageComponent } from "./components/account-page/account-page.component";
 import { WaveBackgroundComponent } from "./components/wave-background/wave-background.component";
 import { BoardViewComponent } from "./components/board-view/board-view.component";
+import { BoatsViewComponent } from './components/boats-view/boats-view.component';
 
 // Services
 import { AuthService } from "./services/auth.service";
@@ -73,7 +74,8 @@ export function apiConfigFactory(): Configuration {
     AdminPageComponent,
     AccountPageComponent,
     WaveBackgroundComponent,
-    BoardViewComponent
+    BoardViewComponent,
+    BoatsViewComponent
   ],
   imports: [
     BrowserModule,

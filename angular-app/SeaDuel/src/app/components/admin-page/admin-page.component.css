@@ -29,16 +29,16 @@
 
 .header .logo {
   display: flex;
-  align-items: center;
   font-size: 45px;
+  align-items: center;
 }
 
-.header .logo .logo-placeholder {
-  width: 64px;
-  height: 64px;
-  background: #ffffff;
+.header .logo img {
   margin-right: 18px;
-  border-radius: 32px;
+  background: #ffffff;
+  border-radius: 100%;
+  padding: 4px;
+  width: 64px;
 }
 
 .header .right {

@@ -47,12 +47,12 @@
   </div>
   <div class="center" *ngIf="currentState(game) == 'PlayerTurn'">
     <div>
-      Campo avversario:
-      <app-board-view [board]="opponentBoard(game)" (action)="moveAction($event)"></app-board-view>
-    </div>
-    <div>
       Il tuo campo:
       <app-board-view [board]="playerBoard(game)"></app-board-view>
+    </div>
+    <div>
+      Campo avversario:
+      <app-board-view [board]="opponentBoard(game)" (action)="moveAction($event)"></app-board-view>
     </div>
   </div>
 
@@ -64,12 +64,12 @@
   </div>
   <div class="center" *ngIf="currentState(game) == 'OpponentTurn'">
     <div>
-      Campo avversario:
-      <app-board-view [board]="opponentBoard(game)"></app-board-view>
-    </div>
-    <div>
       Il tuo campo:
       <app-board-view [board]="playerBoard(game)"></app-board-view>
+    </div>
+    <div>
+      Campo avversario:
+      <app-board-view [board]="opponentBoard(game)"></app-board-view>
     </div>
   </div>
 

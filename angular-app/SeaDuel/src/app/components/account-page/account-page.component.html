@@ -1,3 +1,42 @@
-<p>
-  account-page works!
-</p>
+<div class="container">
+  <app-wave-background></app-wave-background>
+  <div class="background">
+    <div class="header">
+      <div class="logo">
+        <img src="/assets/boat.svg" height="64px" />Il tuo Account
+      </div>
+      <div class="spacer"></div>
+      <div class="right">
+        <a href="/ingame" class="username">Torna al gioco
+          <div class="material-icons account">
+            exit_to_app
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="body-container">
+      <div class="spacer"></div>
+      <form class="user" *ngIf="user" (ngSubmit)="onSubmit()">
+        <h1>
+          <span class="material-icons">perm_contact_calendar</span>
+          {{user.id}}
+        </h1>
+        E-Mail:
+        <div class="row">
+          <input type="email" id="email" placeholder="e-mail" required [(ngModel)]="user.email" name="email" />
+        </div>
+        Password:
+        <div class="row">
+          <input type="password" id="password" placeholder="(invariata)" required [(ngModel)]="user.password" name="password" />
+        </div>
+        <div class="row btn-padding">
+          <button type="submit" class="button">Salva Modifiche</button>
+        </div>
+        <div class="row btn-padding">
+          <button class="button red" (click)="onDelete()">Cancella il tuo account</button>
+        </div>
+      </form>
+      <div class="spacer"></div>
+    </div>
+  </div>
+</div>

@@ -60,10 +60,12 @@ a {
 }
 
 .splash-container .logo {
-  /* background-color: #ffffff; */
-  /* width: 360px; */
-  /* height: 200px; */
+  background-color: #ffffff;
+  width: 360px;
+  height: 200px;
   height: 300px;
+  border-radius: 50px;
+  padding: 8px;
   margin: auto;
   margin-bottom: 2vh;
 }

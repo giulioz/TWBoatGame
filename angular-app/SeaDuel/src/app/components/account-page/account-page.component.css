@@ -1,0 +1,150 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  color: #ffffff;
+}
+
+.background {
+  background: rgba(44, 53, 108, 0.4);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+}
+
+.header {
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-top: 18px;
+  margin-bottom: 18px;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.header .logo {
+  display: flex;
+  font-size: 45px;
+  align-items: center;
+}
+
+.header .logo img {
+  margin-right: 18px;
+  background: #ffffff;
+  border-radius: 100%;
+  padding: 4px;
+  width: 64px;
+}
+
+.header .right {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.header .right .username {
+  font-size: 20px;
+  margin-right: 16px;
+  color: #ffffff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.header .right .account {
+  margin-left: 12px;
+  font-size: 30px;
+}
+
+.body-container {
+  background: rgb(105, 112, 155);
+  color: #ffffff;
+  flex-grow: 1;
+  margin-left: 32px;
+  margin-right: 32px;
+  margin-bottom: 32px;
+  border-radius: 10px;
+  box-shadow: 8px 8px 8px 0px rgba(0, 0, 0, 0.15);
+  padding: 32px;
+  display: flex;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.user {
+  flex-grow: 1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+}
+
+h1 {
+  margin: 0;
+  margin-bottom: 16px;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+h1 .material-icons {
+  font-size: 50px;
+  margin-right: 16px;
+}
+
+input {
+  border: 1px solid #a6aac4;
+  border-radius: 3px;
+  height: 32px;
+  flex-grow: 1;
+  margin: auto;
+  display: block;
+  margin-bottom: 22px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 11pt;
+}
+
+input::placeholder {
+  color: #9599b5;
+  font-style: italic;
+}
+
+.button {
+  font-size: 13pt;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.red {
+  background: linear-gradient(#9f2a2a, #913434);
+  border: 2px solid #ff4800;
+  margin-right: 0;
+}
+
+.red:hover {
+  background: linear-gradient(rgb(196, 43, 43), #913434);
+}
+
+.btn-padding {
+  margin: 8px;
+}
+
+.btn-padding .button {
+  flex-grow: 1;
+}
