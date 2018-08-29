@@ -13,6 +13,14 @@ export class BoardViewComponent implements OnInit {
   @Input()
   currentBoat?: Boat;
 
+  // TODO: move
+  private boatSizes = {
+    Destroyer: 2,
+    Submarine: 3,
+    Battleship: 4,
+    AircraftCarrier: 5
+  };
+
   @Output()
   action: EventEmitter<{
     x: number;
@@ -49,7 +57,23 @@ export class BoardViewComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.currentBoat) {
+      document.addEventListener("mousemove", ev => {
+        const element = document.getElementById("current-boat");
+        element.style.width =
+          this.currentBoat.direction === "Horizontal"
+            ? 22 * this.boatSizes[this.currentBoat.type] + "px"
+            : "22px";
+        element.style.height =
+          this.currentBoat.direction === "Horizontal"
+            ? "22px"
+            : 22 * this.boatSizes[this.currentBoat.type] + "px";
+        element.style.top = ev.pageY - 11 + "px";
+        element.style.left = ev.pageX - 11 + "px";
+      });
+    }
+  }
 
   onAction(x, y) {
     this.action.emit({ x, y, i: x + y * this.board.width });

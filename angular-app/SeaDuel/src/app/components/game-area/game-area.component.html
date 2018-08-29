@@ -43,7 +43,7 @@
   </div>
   <div class="center" *ngIf="currentState(game) == 'PlayerToPosition'">
     <div>
-      <app-board-view [board]="playerBoard(game)" (action)="positionAction($event)" [currentBoat]="currentBoat"></app-board-view>
+      <app-board-view [board]="playerBoard(game)" (action)="positionAction($event)" [currentBoat]="currentBoat()"></app-board-view>
       <app-boats-view [game]="game" mode="positioning"></app-boats-view>
     </div>
   </div>

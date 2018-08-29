@@ -1,9 +1,12 @@
 <div class="container" *ngIf="board">
   <div class="column">
     <div class="row" *ngFor="let row of getRows(board.boardData, board.width); let y = index">
-      <div class="cell" *ngFor="let cell of row; let x = index" [ngClass]="{'boat': isBoat(cell.type), 'hit': cell.type === 'Hit', 'miss': cell.type === 'Miss'}" (click)="onAction(x, y)">
+      <div class="cell" *ngFor="let cell of row; let x = index" [ngClass]="{'boat': isBoat(cell.type), 'hit': cell.type === 'Hit', 'miss': cell.type === 'Miss'}"
+        (click)="onAction(x, y)">
         {{cell.checked ? 'x' : ' '}}
       </div>
     </div>
   </div>
 </div>
+
+<div id="current-boat" *ngIf="currentBoat"></div>
