@@ -20,6 +20,6 @@ body {
 }
 
 /* Firefox fix */
-.fire-fix {
+* {
   min-height: 0;
 }

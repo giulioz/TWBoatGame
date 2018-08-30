@@ -1,4 +1,10 @@
-import { Component, OnInit, Input } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  OnChanges,
+  SimpleChanges
+} from "@angular/core";
 import { MessagingService, Message } from "../../../swagger";
 import { Observable } from "rxjs";
 
@@ -7,7 +13,7 @@ import { Observable } from "rxjs";
   templateUrl: "./chat.component.html",
   styleUrls: ["./chat.component.css"]
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnChanges {
   @Input()
   opponentId: string;
   @Input()
@@ -19,6 +25,11 @@ export class ChatComponent implements OnInit {
 
   isUser(message: Message) {
     return message.recipientId === this.opponentId;
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    const element = document.getElementById("scroller");
+    element.scrollTop = element.scrollHeight - element.clientHeight;
   }
 
   messageSend() {

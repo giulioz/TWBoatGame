@@ -1,0 +1,13 @@
+{
+  "name": "SeaDuel",
+  "private": true,
+  "scripts": {
+    "start-db": "pushd backend/SeaDuelServer && npm run db && popd",
+    "start-backend": "pushd backend/SeaDuelServer && npm run dev && popd",
+    "start-db-admin": "pushd backend/SeaDuelServer/node_modules/admin-mongo && npm start && popd",
+    "start-webserver": "pushd angular-app/SeaDuel && ng serve --host 0.0.0.0 && popd",
+    "start": "npm run start-db | npm run start-db-admin | npm run start-backend | npm run start-webserver"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

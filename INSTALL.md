@@ -1,19 +1,16 @@
-# Backend
+# SeaDuel
 
 ## Dependencies
 
 ```
 mongodb
 npm
+node 8.*
 ```
 
 ## Instructions
 
-```
-cd backend/SeaDuelServer
-```
-
-create a .env file containing
+create the .env file in backend/SeaDuelServer containing
 
 ```
 APP_ID=SeaDuelServer
@@ -30,28 +27,10 @@ WARN=off
 SWAGGER_API_SPEC=/spec
 ```
 
-```
-npm install
-npm run db &
-npm run compile
-npm start &
-```
-
-# Frontend
-
-## Dependencies
+## Start Server
 
 ```
-angular-cli
-npm
-```
-
-## Instructions
-
-```
-cd angular-app/SeaDuel 
-npm install
-ng serve &
+npm start
 ```
 
 Navigate to http://localhost:4200 after ng serve has finished compiling
