@@ -8,6 +8,7 @@ import {
   Boat
 } from "../../../swagger";
 
+// TODO: move
 const boatSizes = {
   Destroyer: 2,
   Submarine: 3,
@@ -47,11 +48,14 @@ function isFullBoatDrown(board, px: number, py: number, checkChecked: boolean) {
       }
     }
   };
+  const initialValid = initialCell && (!checkChecked || initialCell.checked);
+  const recHorizontal =
+    recurse(px + 1, py, "Left") + recurse(px - 1, py, "Right");
+  const recVertical = recurse(px, py + 1, "Down") + recurse(px, py - 1, "Up");
   return (
-    recurse(px, py, "Left") === boatSizes[initialCell.type] ||
-    recurse(px, py, "Down") === boatSizes[initialCell.type] ||
-    recurse(px, py, "Right") === boatSizes[initialCell.type] ||
-    recurse(px, py, "Up") === boatSizes[initialCell.type]
+    initialValid &&
+    (recHorizontal + 1 === boatSizes[initialCell.type] ||
+      recVertical + 1 === boatSizes[initialCell.type])
   );
 }
 
@@ -115,29 +119,33 @@ export class BoatsViewComponent implements OnInit {
       .filter(
         cell =>
           isBoat(cell) && isFullBoatDrown(board, cell.x, cell.y, !opponentBoard)
-      )
-      .reduce(
-        (run, current) =>
-          isNext(current, run[run.length - 1]) ? run : [...run, ...current],
-        []
       );
 
     return game.availableBoats
       .map(avBoat => ({
         expected: avBoat.amount,
-        sunken: sunken.filter(b => b.type === avBoat.type).length,
-        length: boatSizes[avBoat.type]
+        sunken: sunken.filter(b => b.type === avBoat.type).length / boatSizes[avBoat.type],
+        length: boatSizes[avBoat.type],
+        type: avBoat.type
       }))
-      .map(boatType => [
-        ...new Array(boatType.sunken).fill(null).map(_ => ({
-          length: boatType.length,
-          sunken: true
-        })),
-        ...new Array(boatType.expected - boatType.sunken).fill(null).map(_ => ({
-          length: boatType.length,
-          sunken: false
-        }))
-      ])
+      .map(boatType => {
+        if (boatType.expected - boatType.sunken < 0) {
+          throw new Error(JSON.stringify(boatType));
+        }
+
+        return [
+          ...new Array(boatType.sunken).fill(null).map(_ => ({
+            length: boatType.length,
+            sunken: true
+          })),
+          ...new Array(boatType.expected - boatType.sunken)
+            .fill(null)
+            .map(_ => ({
+              length: boatType.length,
+              sunken: false
+            }))
+        ];
+      })
       .reduce((run, current) => [...run, ...current]);
   };
 

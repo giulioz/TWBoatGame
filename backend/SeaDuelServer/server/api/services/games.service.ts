@@ -26,10 +26,10 @@ const initialBoats: Boat[] = [
   { type: BoardElementType.AircraftCarrier, amount: 1 }
 ];
 
-function isFullBoatDrown(board: GameBoard, x: number, y: number) {
-  const boardXY = (x: number, y: number, board: GameBoard) =>
+function isFullBoatDrown(board, px: number, py: number) {
+  const boardXY = (x: number, y: number) =>
     board.boardData[x + y * board.width];
-  const initialCell = boardXY(x, y, board);
+  const initialCell = boardXY(px, py);
   const recurse = (
     x: number,
     y: number,
@@ -38,7 +38,7 @@ function isFullBoatDrown(board: GameBoard, x: number, y: number) {
     if (x < 0 || x >= board.width || y < 0 || y >= board.height) {
       return 0;
     } else {
-      const currentCell = boardXY(x, y, board);
+      const currentCell = boardXY(x, y);
       if (
         currentCell &&
         currentCell.checked &&
@@ -58,11 +58,14 @@ function isFullBoatDrown(board: GameBoard, x: number, y: number) {
       }
     }
   };
+  const initialValid = initialCell && initialCell.checked;
+  const recHorizontal =
+    recurse(px + 1, py, "Left") + recurse(px - 1, py, "Right");
+  const recVertical = recurse(px, py + 1, "Down") + recurse(px, py - 1, "Up");
   return (
-    recurse(x, y, "Left") === boatSizes[initialCell.type] ||
-    recurse(x, y, "Down") === boatSizes[initialCell.type] ||
-    recurse(x, y, "Right") === boatSizes[initialCell.type] ||
-    recurse(x, y, "Up") === boatSizes[initialCell.type]
+    initialValid &&
+    (recHorizontal + 1 === boatSizes[initialCell.type] ||
+      recVertical + 1 === boatSizes[initialCell.type])
   );
 }
 
@@ -124,7 +127,9 @@ function transformGamePlayer(game: Game, playerId: string) {
     playerReady: swapped.playerReady,
     opponentReady: swapped.opponentReady,
     startTime: game.startTime,
-    availableBoats: swapped.playerAvailableBoats
+    availableBoats: swapped.playerAvailableBoats,
+    playerId: swapped.playerId,
+    opponentId: swapped.opponentId
   };
 }
 
