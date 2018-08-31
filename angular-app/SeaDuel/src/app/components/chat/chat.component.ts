@@ -2,18 +2,17 @@ import {
   Component,
   OnInit,
   Input,
-  OnChanges,
-  SimpleChanges
+  AfterViewInit,
+  OnChanges
 } from "@angular/core";
 import { MessagingService, Message } from "../../../swagger";
-import { Observable } from "rxjs";
 
 @Component({
   selector: "app-chat",
   templateUrl: "./chat.component.html",
   styleUrls: ["./chat.component.css"]
 })
-export class ChatComponent implements OnInit, OnChanges {
+export class ChatComponent implements AfterViewInit, OnChanges, OnInit {
   @Input()
   opponentId: string;
   @Input()
@@ -27,7 +26,7 @@ export class ChatComponent implements OnInit, OnChanges {
     return message.recipientId === this.opponentId;
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  scrollToTop() {
     const element = document.getElementById("scroller");
     element.scrollTop = element.scrollHeight - element.clientHeight;
   }
@@ -42,5 +41,16 @@ export class ChatComponent implements OnInit, OnChanges {
       });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    // UGLY HACK
+    setTimeout(this.scrollToTop, 100);
+  }
+
+  ngOnChanges() {
+    setTimeout(this.scrollToTop, 100);
+  }
+
+  ngAfterViewInit() {
+    setTimeout(this.scrollToTop, 100);
+  }
 }
