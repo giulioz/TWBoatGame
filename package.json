@@ -2,11 +2,18 @@
   "name": "SeaDuel",
   "private": true,
   "scripts": {
+    "install": "pushd backend/SeaDuelServer && npm install && popd && pushd angular-app/SeaDuel && npm install && popd && pushd desktop-app && npm install && popd && pushd mobile-app/SeaDuelMobile && npm install && popd",
+    "build-web": "pushd backend/SeaDuelServer && npm run build && popd",
+    "build-android": "pushd mobile-app/SeaDuelMobile && npm run build-android && popd",
+    "build-ios": "pushd mobile-app/SeaDuelMobile && npm run build-ios && popd",
+    "build-desktop": "pushd desktop-app && npm run build && popd",
     "start-db": "pushd backend/SeaDuelServer && npm run db && popd",
     "start-backend": "pushd backend/SeaDuelServer && npm run dev && popd",
     "start-db-admin": "pushd backend/SeaDuelServer/node_modules/admin-mongo && npm start && popd",
     "start-webserver": "pushd angular-app/SeaDuel && ng serve --host 0.0.0.0 && popd",
-    "start": "npm run start-db | npm run start-db-admin | npm run start-backend | npm run start-webserver"
+    "start": "npm run start-db | npm run start-backend",
+    "android": "npm run start-db | npm run start-backend",
+    "ios": "npm run start-db | npm run start-backend"
   },
   "dependencies": {},
   "devDependencies": {}

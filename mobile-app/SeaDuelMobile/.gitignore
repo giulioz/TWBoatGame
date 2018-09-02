@@ -2,3 +2,6 @@ node_modules
 build
 SeaDuel-*
 assets
+www/assets
+www/build
+.gradle

@@ -8,7 +8,9 @@
     "compile": "node build.js && backpack build",
     "dev": "node build.js && backpack dev | pino -o 'short'",
     "test": "node build.js && mocha test/**/*.ts --exit",
-    "db": "mkdir data;mongod --dbpath data"
+    "db": "mkdir data;mongod --dbpath data",
+    "build-angular": "pushd ../../angular-app/SeaDuel/ && ng build -c electron --output-path ../../backend/SeaDuelServer/angular_build && popd",
+    "build": "npm run build-angular && npm run compile"
   },
   "dependencies": {
     "bluebird": "^3.5.0",

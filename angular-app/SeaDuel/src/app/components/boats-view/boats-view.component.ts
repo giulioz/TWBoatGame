@@ -85,12 +85,12 @@ export class BoatsViewComponent implements OnInit {
   @Input()
   mode?: string;
 
-  private getBoats = () =>
+  getBoats = () =>
     this.mode === "positioning"
       ? this.getPositionedBoats(this.game)
       : this.getSunkenBoats(this.game, this.board);
 
-  private range = <T>(i: number, obj: T) =>
+  range = <T>(i: number, obj: T) =>
     new Array(i).fill(null).map(_ => obj);
 
   private isOpponentBoard = board =>

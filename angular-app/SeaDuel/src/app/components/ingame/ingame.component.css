@@ -118,6 +118,7 @@ app-wave-background {
   padding: 32px;
   color: #ffffff;
   display: flex;
+  flex-grow: 1;
 }
 
 .nouser-container h1 {
@@ -190,10 +191,25 @@ app-game-area {
   .ordered {
     order: 2;
   }
-  .container {
+  .container.full {
     height: 100%;
   }
   .spacerFlex {
     flex-direction: column;
+  }
+  .nouser-container h1 {
+    font-size: 30px;
+  }
+  .big-icon {
+    font-size: 50px;
+  }
+  .header {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 8px;
+    margin-bottom: 0px;
+  }
+  .header .logo {
+    display: none;
   }
 }

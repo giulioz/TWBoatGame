@@ -16,7 +16,8 @@ export default class ExpressServer {
     this.app.set('appPath', root + 'client');
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
-    this.app.use(express.static(`${root}/public`));
+    this.app.use("/doc", express.static(`${root}/public`));
+    this.app.use("/", express.static(`${root}/angular_build`));
   }
 
   router = (routes: (app: Application) => void): ExpressServer => {
