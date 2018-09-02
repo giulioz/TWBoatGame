@@ -13,6 +13,7 @@ export class Controller {
     } catch (err) {
       console.log(err);
       res.status(403).end();
+      res.setHeader("WWW-Authenticate", "");
     }
   };
 
@@ -22,6 +23,7 @@ export class Controller {
       res.status(200).end();
     } catch (err) {
       res.status(403).end();
+      res.setHeader("WWW-Authenticate", "");
     }
   };
 }

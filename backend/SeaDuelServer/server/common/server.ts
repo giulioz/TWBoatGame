@@ -17,7 +17,7 @@ export default class ExpressServer {
       // HACK
       res.setHeader("WWW-Authenticate", "NO DIOCAN");
       next();
-    });
+    }); 
     this.app.set("appPath", root + "client");
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
