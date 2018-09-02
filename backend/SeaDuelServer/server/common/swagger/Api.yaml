@@ -265,8 +265,6 @@ paths:
     get:
       tags:
         - Authentication
-      security:
-        - Bearer: []
       description: "Checks a token validity"
       responses:
         200:
