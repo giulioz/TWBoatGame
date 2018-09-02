@@ -20,12 +20,12 @@ export class AccountPageComponent implements OnInit {
   }
 
   async onSubmit() {
-    await this.usersService.usersByIdIdPut(this.userId, this.user);
+    await this.usersService.usersByIdIdPut(this.userId, this.user).toPromise();
     this.router.navigate(["/ingame"]);
   }
 
   async onDelete() {
-    await this.usersService.usersByIdIdDelete(this.userId);
+    await this.usersService.usersByIdIdDelete(this.userId).toPromise();
     this.router.navigate(["/ingame"]);
   }
 }

@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build-angular": "cd ../../angular-app/SeaDuel/ && ng build -c electron --output-path ../../mobile-app/SeaDuelMobile/www/build && cd - && rm -rf www/assets && mv www/build/assets www",
-    "build-android": "cordova build android",
-    "build-ios": "cordova build ios",
+    "build-android": "npm run build-angular && cordova build android",
+    "build-ios": "npm run build-angular && cordova build ios",
     "build": "npm run build-angular && npm run build-ios && npm run build-android",
     "android": "cordova run android",
     "ios": "cordova run ios"
