@@ -25,9 +25,8 @@ export default class ExpressServer {
     routes.forEach(route => this.app.get(route, handler));
 
     this.app.use(function(req, res, next) {
+      // HACK
       res.setHeader('WWW-Authenticate', 'NO DIOCAN');
-      res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-      res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
       next();
     });
   }
