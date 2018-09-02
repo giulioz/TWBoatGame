@@ -10,8 +10,10 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@angular/cli": "~6.0.8",
     "electron": "^2.0.8",
     "electron-packager": "^12.1.1",
+    "webpack": "^4.17.1",
     "webpack-command": "^0.4.1"
   },
   "build": {
