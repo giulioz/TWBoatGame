@@ -18,7 +18,6 @@ export class Controller {
   };
 
   checkToken = async (req: Request, res: Response): Promise<void> => {
-    console.log("abc");
     try {
       await authCheck(this.authService, req);
       res.status(200).end();

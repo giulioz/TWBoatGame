@@ -31,7 +31,7 @@ function genAuthToken(user: User): AuthToken {
 
 export async function authCheck(authService: AuthService, req: Request) {
   try {
-    return await authService.checkToken(req.headers.authorization);
+    return authService.checkToken(req.headers.authorization);
   } catch {
     return null;
   }
