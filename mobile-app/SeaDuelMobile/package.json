@@ -4,7 +4,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "build-angular": "pushd ../../angular-app/SeaDuel/ && ng build -c electron --output-path ../../mobile-app/SeaDuelMobile/www/build && popd && rm -rf www/assets && mv www/build/assets www",
+    "build-angular": "cd ../../angular-app/SeaDuel/ && ng build -c electron --output-path ../../mobile-app/SeaDuelMobile/www/build && cd - && rm -rf www/assets && mv www/build/assets www",
     "build-android": "cordova build android",
     "build-ios": "cordova build ios",
     "build": "npm run build-angular && npm run build-ios && npm run build-android",

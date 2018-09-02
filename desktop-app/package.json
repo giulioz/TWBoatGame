@@ -3,7 +3,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "build-angular": "pushd ../angular-app/SeaDuel/ && ng build -c electron --output-path ../../desktop-app/build && popd && rm -rf assets && mv build/assets .",
+    "build-angular": "cd ../angular-app/SeaDuel/ && ng build -c electron --output-path ../../desktop-app/build && cd - && rm -rf assets && mv build/assets .",
     "build-electron": "electron-packager . SeaDuel --overwrite",
     "build": "npm run build-angular && npm run build-electron",
     "start": "electron ."
