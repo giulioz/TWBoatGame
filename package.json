@@ -8,12 +8,12 @@
     "build-ios": "cd mobile-app/SeaDuelMobile && npm run build-ios && cd -",
     "build-desktop": "cd desktop-app && npm run build && cd -",
     "start-db": "cd backend/SeaDuelServer && npm run db && cd -",
-    "start-backend": "cd backend/SeaDuelServer && npm run dev && cd -",
+    "start-backend": "cd backend/SeaDuelServer && npm start && cd -",
     "start-db-admin": "cd backend/SeaDuelServer/node_modules/admin-mongo && npm start && cd -",
     "start-webserver": "cd angular-app/SeaDuel && ng serve --host 0.0.0.0 && cd -",
     "start": "npm run start-db | npm run start-backend",
-    "android": "npm run start-db | npm run start-backend",
-    "ios": "npm run start-db | npm run start-backend"
+    "android": "cd mobile-app/SeaDuelMobile && npm run android && cd -",
+    "ios": "cd mobile-app/SeaDuelMobile && npm run ios && cd -"
   },
   "dependencies": {},
   "devDependencies": {}

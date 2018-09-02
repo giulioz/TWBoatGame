@@ -11,6 +11,7 @@ export class Controller {
       const found = await this.authService.auth(id, password);
       res.status(200).json(found);
     } catch (err) {
+      console.log(err);
       res.status(403).end();
     }
   };
