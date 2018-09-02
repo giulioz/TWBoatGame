@@ -1,8 +1,10 @@
 <div class="root">
   <div class="top-bar message" *ngIf="currentState(game) == 'Ended'">
-    <div class="material-icons bigger">play_arrow</div>
-    <div class="spacer">Premi <strong>Sfida</strong> per cominciare la partita</div>
-    <div class="material-icons bigger">
+    <div class="row spacer">
+      <div class="material-icons bigger">play_arrow</div>
+      <div>Premi <strong>Sfida</strong> per cominciare la partita</div>
+    </div>
+    <div class="material-icons bigger optional">
       arrow_forward
     </div>
     <button class="button show" (click)="newGame()">
@@ -11,29 +13,29 @@
   </div>
 
   <div class="top-bar message" *ngIf="currentState(game) == 'WaitingForResponse'">
-    <div class="material-icons bigger">
-      watch_later
+    <div class="row spacer">
+      <div class="material-icons bigger">watch_later</div>
+      <div>Sfida inviata. Risposta in attesa...</div>
     </div>
-    <div class="spacer">Sfida inviata. Risposta in attesa...</div>
     <button class="button show" (click)="resignGame()">
       Abbandona partita
     </button>
   </div>
 
   <div class="top-bar message" *ngIf="currentState(game) == 'HasToRespond'">
-    <div class="material-icons bigger">
-      watch_later
+    <div class="row spacer">
+      <div class="material-icons bigger">watch_later</div>
+      <div>Ti ha invitato a giocare. Accetti?</div>
     </div>
-    <div class="spacer">Ti ha invitato a giocare. Accetti?</div>
     <button class="button show" (click)="acceptGameRequest()">Accetta</button>
     <button class="button show" (click)="rejectGameRequest()">Rifiuta</button>
   </div>
 
   <div class="top-bar message" *ngIf="currentState(game) == 'PlayerToPosition'">
-    <div class="material-icons bigger">
-      open_with
+    <div class="row spacer">
+      <div class="material-icons bigger">open_with</div>
+      <div>Posiziona le tue Navi</div>
     </div>
-    <div class="spacer">Posiziona le tue Navi</div>
     <button class="button show rotate-button" (click)="turnBoat()">
       <span class="material-icons rotate-icon">refresh</span>
     </button>
@@ -49,10 +51,10 @@
   </div>
 
   <div class="top-bar message" *ngIf="currentState(game) == 'OpponentToPosition'">
-    <div class="material-icons bigger">
-      watch_later
+    <div class="row spacer">
+      <div class="material-icons bigger">watch_later</div>
+      <div>Attendi, il tuo avversario sta ancora posizionando le sue navi...</div>
     </div>
-    <div class="spacer">Attendi, il tuo avversario sta ancora posizionando le sue navi...</div>
     <button class="button show" (click)="resignGame()">
       Abbandona partita
     </button>
@@ -97,9 +99,11 @@
   </div>
 
   <div class="top-bar message" *ngIf="currentState(game) == 'Won'">
-    <div class="material-icons bigger">play_arrow</div>
-    <div class="spacer">Premi <strong>Sfida</strong> per cominciare la partita</div>
-    <div class="material-icons bigger">
+    <div class="row spacer">
+      <div class="material-icons bigger">play_arrow</div>
+      <div>Premi <strong>Sfida</strong> per cominciare la partita</div>
+    </div>
+    <div class="material-icons bigger optional">
       arrow_forward
     </div>
     <button class="button show" (click)="newGame()">
@@ -117,9 +121,11 @@
 
 
   <div class="top-bar message" *ngIf="currentState(game) == 'Lost'">
-    <div class="material-icons bigger">play_arrow</div>
-    <div class="spacer">Premi <strong>Sfida</strong> per cominciare la partita</div>
-    <div class="material-icons bigger">
+    <div class="row spacer">
+      <div class="material-icons bigger">play_arrow</div>
+      <div>Premi <strong>Sfida</strong> per cominciare la partita</div>
+    </div>
+    <div class="material-icons bigger optional">
       arrow_forward
     </div>
     <button class="button show" (click)="newGame()">

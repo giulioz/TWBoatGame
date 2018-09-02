@@ -44,3 +44,10 @@
   height: 22px;
   pointer-events: none;
 }
+
+
+@media screen and (max-width: 1124px) {
+  #current-boat {
+    display: none;
+  }
+}

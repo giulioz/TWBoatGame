@@ -84,3 +84,12 @@
     transform: translate(50%, 0);
   }
 }
+
+@media screen and (max-width: 1124px) {
+  .water-jar .water_wave_back {
+    animation: none;
+  }
+  .water-jar .water_wave_front {
+    animation: none;
+  }
+}

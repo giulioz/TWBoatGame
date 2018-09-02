@@ -7,7 +7,7 @@
   /* display: flex; */
   flex-direction: column;
   padding: 32px;
-  overflow: auto;
+  overflow-y: auto;
   box-shadow: 5px 0px 5px 0px rgba(0, 0, 0, 0.05) inset;
   background: rgba(105, 112, 155, 0.8);
   border-top-right-radius: 10px;
@@ -39,6 +39,8 @@
 
   .container {
     padding: 0;
+    padding-left: 8px;
+    padding-right: 8px;
     position: absolute;
     right: -45px;
     background: rgba(105, 112, 155);
@@ -50,6 +52,7 @@
   }
   .container:not(.open) {
     width: 45px;
+    padding: 0;
   }
   .container:not(.open) *:not(:first-child) {
     display: none;

@@ -184,12 +184,23 @@ app-game-area {
   font-size: 100px;
 }
 
+.ordered {
+  width: 30vw;
+  max-width: 360px;
+}
+
 @media screen and (max-width: 1124px) {
+  .spacerFlex {
+    /* width: 100vw; */
+  }
   .body-container {
-    margin: 8px;
+    margin: 0px;
+    margin-top: 8px;
   }
   .ordered {
     order: 2;
+    width: calc(100vw - 48px);
+    max-width: none;
   }
   .container.full {
     height: 100%;
@@ -209,6 +220,16 @@ app-game-area {
     margin-top: 8px;
     margin-bottom: 0px;
   }
+  .background {
+    flex-shrink: 0;
+    min-height: 100vh;
+  }
+  app-chat {
+    max-height: 500px;
+  }
+}
+
+@media screen and (max-width: 570px) {
   .header .logo {
     display: none;
   }

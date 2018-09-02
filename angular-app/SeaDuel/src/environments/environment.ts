@@ -4,8 +4,10 @@
 
 export const environment = {
   production: false,
-  apiUrl: "http://localhost:4201/api/v1",
-  socketUrl: "http://localhost:4201"
+  // apiUrl: "http://localhost:4201/api/v1",
+  // socketUrl: "http://localhost:4201"
+  apiUrl: "http://gcenta.hopto.org/api/v1",
+  socketUrl: "http://gcenta.hopto.org/"
 };
 
 /*
