@@ -11,9 +11,9 @@ export class Controller {
       const found = await this.authService.auth(id, password);
       res.status(200).json(found);
     } catch (err) {
-      console.log(err);
-      res.status(403).end();
+      res.status(403);
       res.setHeader("WWW-Authenticate", "");
+      res.end();
     }
   };
 
@@ -22,8 +22,9 @@ export class Controller {
       await authCheck(this.authService, req);
       res.status(200).end();
     } catch (err) {
-      res.status(403).end();
+      res.status(403);
       res.setHeader("WWW-Authenticate", "");
+      res.end();
     }
   };
 }
