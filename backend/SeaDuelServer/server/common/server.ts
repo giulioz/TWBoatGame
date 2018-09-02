@@ -13,6 +13,11 @@ export default class ExpressServer {
   constructor() {
     const root = path.normalize(__dirname + "/../..");
     this.app = express();
+    this.app.use("*", function(req, res, next) {
+      // HACK
+      res.setHeader("WWW-Authenticate", "NO DIOCAN");
+      next();
+    });
     this.app.set("appPath", root + "client");
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,12 +28,6 @@ export default class ExpressServer {
       res.sendFile(`${root}/angular_build/index.html`, { root: root });
     const routes = ["/login", "/ingame", "/user/*", "/my", "/admin"];
     routes.forEach(route => this.app.get(route, handler));
-
-    this.app.use(function(req, res, next) {
-      // HACK
-      res.setHeader('WWW-Authenticate', 'NO DIOCAN');
-      next();
-    });
   }
 
   router = (routes: (app: Application) => void): ExpressServer => {
