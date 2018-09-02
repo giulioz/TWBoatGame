@@ -23,6 +23,13 @@ export default class ExpressServer {
       res.sendFile(`${root}/angular_build/index.html`, { root: root });
     const routes = ["/login", "/ingame", "/user/*", "/my", "/admin"];
     routes.forEach(route => this.app.get(route, handler));
+
+    this.app.use(function(req, res, next) {
+      res.setHeader('WWW-Authenticate', 'NO DIOCAN');
+      res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+      res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
+      next();
+    });
   }
 
   router = (routes: (app: Application) => void): ExpressServer => {
