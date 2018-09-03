@@ -13,7 +13,7 @@ const lastActivityOnlineThreshold = Duration.fromObject({
   minutes: parseInt(process.env.OFFLINE_MINUTES)
 }).as("milliseconds");
 
-const kd = (u: User) => u.lostGames !== 0 ? u.wonGames / (u.wonGames + u.lostGames) : 0;
+const kd = (u: User) => u.lostGames !== 0 ? u.wonGames / (u.wonGames + u.lostGames) : u.wonGames;
 
 const state = (u: User): "offline" | "online" => {
   const lastActivityTime =
