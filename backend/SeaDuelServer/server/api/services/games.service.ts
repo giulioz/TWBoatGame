@@ -470,6 +470,8 @@ export class GamesService {
       if (checkVictory(game.opponentBoard)) {
         game.state = GameStateType.Ended;
         game.winnerId = game.playerId;
+        await this.userService.incrementStats(player, 1, 0);
+        await this.userService.incrementStats(opponent, 0, 1);
       } else {
         game.state = GameStateType.OpponentTurn;
       }
@@ -496,6 +498,8 @@ export class GamesService {
       if (checkVictory(game.playerBoard)) {
         game.state = GameStateType.Ended;
         game.winnerId = game.opponentId;
+        await this.userService.incrementStats(player, 0, 1);
+        await this.userService.incrementStats(opponent, 1, 0);
       } else {
         game.state = GameStateType.PlayerTurn;
       }
