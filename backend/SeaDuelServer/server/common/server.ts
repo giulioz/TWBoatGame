@@ -15,7 +15,7 @@ export default class ExpressServer {
     this.app = express();
     this.app.use("*", function(req, res, next) {
       // HACK
-      res.setHeader("WWW-Authenticate", "NO DIOCAN");
+      res.setHeader("WWW-Authenticate", "NO EH");
       next();
     }); 
     this.app.set("appPath", root + "client");

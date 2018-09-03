@@ -13,7 +13,7 @@ const lastActivityOnlineThreshold = Duration.fromObject({
   minutes: parseInt(process.env.OFFLINE_MINUTES)
 }).as("milliseconds");
 
-const kd = (u: User) => (u.wonGames + 1) / ((u.wonGames + 1) + (u.lostGames + 1));
+const kd = (u: User) => (u.wonGames + 1) / (u.wonGames + 1 + (u.lostGames + 1));
 
 const state = (u: User): "offline" | "online" => {
   const lastActivityTime =
@@ -28,7 +28,10 @@ const hasMessages = async (
   messagesService: MessagesService
 ) => {
   const messages = await messagesService.conversation(usr, b);
-  return messages && messages.filter(msg => msg.senderId === usr && !msg.readt).length > 0;
+  return (
+    messages &&
+    messages.filter(msg => msg.senderId === usr && !msg.readt).length > 0
+  );
 };
 
 const hasGames = async (usr: string, b: string, gamesService: GamesService) => {
