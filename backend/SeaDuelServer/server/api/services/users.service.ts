@@ -13,7 +13,7 @@ const lastActivityOnlineThreshold = Duration.fromObject({
   minutes: parseInt(process.env.OFFLINE_MINUTES)
 }).as("milliseconds");
 
-const kd = (u: User) => u.wonGames / (u.wonGames + u.lostGames);
+const kd = (u: User) => u.lostGames !== 0 ? u.wonGames / (u.wonGames + u.lostGames) : 0;
 
 const state = (u: User): "offline" | "online" => {
   const lastActivityTime =
@@ -44,7 +44,7 @@ function calculateUsersStats(
 ) {
   // FIXME
   return Promise.all(
-    users.sort((a, b) => kd(a) - kd(b)).map(async (u, i) => {
+    users.sort((a, b) => kd(b) - kd(a)).map(async (u, i) => {
       const hasUnreadMessages = asUser
         ? await hasMessages(u.id, asUser, messagesService)
         : false;
