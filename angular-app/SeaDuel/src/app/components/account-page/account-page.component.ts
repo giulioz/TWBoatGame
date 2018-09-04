@@ -12,15 +12,24 @@ export class AccountPageComponent implements OnInit {
   userId?: string;
   user: User;
 
-  constructor(private router: Router, public usersService: UsersService, public authService: AuthService) {}
+  constructor(
+    private router: Router,
+    public usersService: UsersService,
+    public authService: AuthService
+  ) {}
 
   async ngOnInit() {
     this.userId = this.authService.getUserToken().id;
-    this.user = await (this.usersService.usersByIdIdGet(this.userId).toPromise());
+    this.user = await this.usersService.usersByIdIdGet(this.userId).toPromise();
   }
 
   async onSubmit() {
-    await this.usersService.usersByIdIdPut(this.userId, this.user).toPromise();
+    await this.usersService
+      .usersByIdIdPut(this.userId, {
+        email: this.user.email,
+        password: this.user.password
+      })
+      .toPromise();
     this.router.navigate(["/ingame"]);
   }
 

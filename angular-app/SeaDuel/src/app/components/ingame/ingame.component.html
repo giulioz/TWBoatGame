@@ -21,12 +21,12 @@
           account_circle
         </div>
         <div class="user-modal">
-          <a href="/my">Il mio account
+          <a [routerLink]="['/my']">Il mio account
             <i class="material-icons">
               perm_contact_calendar
             </i>
           </a>
-          <a *ngIf="currentUser.role === 'administrator'" href="/admin">Amministrazione
+          <a *ngIf="currentUser.role === 'administrator'" [routerLink]="['/admin']">Amministrazione
             <i class="material-icons">
               build
             </i>
