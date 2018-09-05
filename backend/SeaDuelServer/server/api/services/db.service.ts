@@ -19,8 +19,6 @@ export class User extends Typegoose {
   lostGames: number;
   @prop()
   lastActivity: string;
-  @prop()
-  playing: boolean;
 
   // Calculated
   position: number;

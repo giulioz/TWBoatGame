@@ -120,7 +120,6 @@ export class UsersService {
       lostGames: 0,
       position: NaN,
       lastActivity: DateTime.local().toISO(),
-      playing: false
     });
 
     return userToSave.save();
@@ -159,7 +158,7 @@ export class UsersService {
 
   async waiting(asUser: string): Promise<User[]> {
     const users = await this.all(asUser);
-    return users.filter(u => !u.playing && u.state === "online").sort(
+    return users.filter(u => !u.hasUnreadGames && u.state === "online").sort(
       (a, b) =>
         // FIXME
         DateTime.fromISO(a.lastActivity).toMillis() -
