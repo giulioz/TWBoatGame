@@ -24,6 +24,8 @@ npm run build-desktop
 
 ## Running
 
+Server runs on http://localhost:4201/
+
 ```bash
 npm start
 

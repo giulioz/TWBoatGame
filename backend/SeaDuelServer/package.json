@@ -9,7 +9,7 @@
     "dev": "node build.js && backpack dev | pino -o 'short'",
     "test": "node build.js && mocha test/**/*.ts --exit",
     "db": "mkdir data;mongod --dbpath data",
-    "build-angular": "cd ../../angular-app/SeaDuel/ && ng build -c electron --output-path ../../backend/SeaDuelServer/angular_build && cd -",
+    "build-angular": "cd ../../angular-app/SeaDuel/ && ng build -c prod --output-path ../../backend/SeaDuelServer/angular_build && cd -",
     "build": "npm run build-angular && npm run compile"
   },
   "dependencies": {
